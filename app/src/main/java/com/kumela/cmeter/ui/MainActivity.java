@@ -49,43 +49,6 @@ public class MainActivity extends BaseActivity {
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow);
         });
-
-        /*Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        Call<NutritionResponse> responseCall = retrofit.create(NutritionXService.class)
-                .getNutritionInfo(
-                        new RequestData(
-                                "eggs",
-                                false,
-                                false,
-                                "Asia/Tbilisi",
-                                false
-                        ));
-
-        Log.d(TAG, "onCreate: enqueue started");
-        responseCall.enqueue(new Callback<NutritionResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<NutritionResponse> call, @NonNull Response<NutritionResponse> response) {
-                if (response.isSuccessful()) {
-                    NutritionResponse nutritionResponse = response.body();
-                    if (nutritionResponse != null) {
-                        Log.d(TAG, "onResponse: nutritionResponse = " + nutritionResponse.toString());
-                    } else {
-                        Log.e(TAG, "onResponse: nutrition response = null", new NullPointerException());
-                        onFailure(call, new Exception());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<NutritionResponse> call, @NonNull Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-                // TODO: 6/21/2020 show error screen
-            }
-        });*/
     }
 
     @Override

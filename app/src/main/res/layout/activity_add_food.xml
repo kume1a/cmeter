@@ -46,7 +46,6 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_marginStart="24dp"
-                android:textColor="@color/colorAccent"
                 android:textSize="18sp"
                 android:text="Search for food"
                 android:layout_height="wrap_content" />

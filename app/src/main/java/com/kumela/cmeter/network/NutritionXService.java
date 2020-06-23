@@ -1,7 +1,10 @@
 package com.kumela.cmeter.network;
 
 import com.kumela.cmeter.common.Constants;
+import com.kumela.cmeter.model.search.SearchResponse;
 import com.kumela.cmeter.model.nutrition.NutritionResponse;
+import com.kumela.cmeter.network.nutrition.NutritionRequest;
+import com.kumela.cmeter.network.search.SearchRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -26,5 +29,5 @@ public interface NutritionXService {
             "x-app-key: " + Constants.API_KEY
     })
     @POST(Constants.URL_PATH_SEARCH_INSTANT)
-    Call<NutritionResponse> getSearchResult(@Body SearchRequest searchRequest);
+    Call<SearchResponse> getSearchResult(@Body SearchRequest searchRequest);
 }

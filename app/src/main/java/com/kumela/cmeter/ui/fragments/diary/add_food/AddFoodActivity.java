@@ -7,11 +7,9 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.ui.common.BaseActivity;
-import com.kumela.cmeter.ui.common.SearchActivity;
 
 public class AddFoodActivity extends BaseActivity {
 
@@ -24,6 +22,16 @@ public class AddFoodActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_food);
 
+        setupToolbar();
+
+        findViewById(R.id.cv_search).setOnClickListener(v -> {
+            startActivityForResult(
+                    new Intent(AddFoodActivity.this, SearchActivity.class),
+                    REQUEST_SEARCH);
+        });
+    }
+
+    private void setupToolbar() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             AddFoodActivityArgs args = AddFoodActivityArgs.fromBundle(bundle);
@@ -36,13 +44,6 @@ public class AddFoodActivity extends BaseActivity {
         } else {
             throw new IllegalArgumentException("Starting " + getClass().getSimpleName() + " requires argument: Title ");
         }
-
-        CardView search = findViewById(R.id.cv_search);
-        search.setOnClickListener(v -> {
-            startActivityForResult(
-                    new Intent(AddFoodActivity.this, SearchActivity.class),
-                    REQUEST_SEARCH);
-        });
     }
 
     @Override

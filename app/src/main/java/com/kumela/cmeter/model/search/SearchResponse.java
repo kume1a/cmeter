@@ -1,4 +1,6 @@
-package com.kumela.cmeter.model.food;
+package com.kumela.cmeter.model.search;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -16,6 +18,7 @@ public class SearchResponse {
 //    public List<BrandedItem> brandedItems;
 
 
+    @NonNull
     @Override
     public String toString() {
         return "SearchResponse{" +

@@ -1,11 +1,13 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     android:layout_height="match_parent"
-    tools:context=".ui.common.SearchActivity">
+    tools:context=".ui.fragments.diary.add_food.SearchActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/apb_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -16,5 +18,12 @@
             android:background="?attr/colorPrimaryDark" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_search"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
