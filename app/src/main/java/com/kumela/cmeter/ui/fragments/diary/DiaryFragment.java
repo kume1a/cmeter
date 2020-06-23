@@ -1,5 +1,7 @@
 package com.kumela.cmeter.ui.fragments.diary;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,34 +68,55 @@ public class DiaryFragment extends Fragment {
 
         mFabMain.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
 
-        mFabBreakfast.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-        mFabDinner.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-        mFabSupper.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-        mFabSnacks.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+        animateMenu(mFabBreakfast);
+        animateMenu(mFabDinner);
+        animateMenu(mFabSupper);
+        animateMenu(mFabSnacks);
 
-        mCvBreakfast.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-        mCvDinner.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-        mCvSupper.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-        mCvSnacks.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+        animateMenu(mCvBreakfast);
+        animateMenu(mCvDinner);
+        animateMenu(mCvSupper);
+        animateMenu(mCvSnacks);
     }
 
     private void closeMenu() {
         isMenuOpen = !isMenuOpen;
 
-        // TODO: 6/22/2020 make view gone on close menu and visible on showMenu
-
         mFabMain.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
 
-        float translationY = 100f;
-        mFabBreakfast.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-        mFabDinner.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-        mFabSupper.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-        mFabSnacks.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+        animateMenu(mFabBreakfast);
+        animateMenu(mFabDinner);
+        animateMenu(mFabSupper);
+        animateMenu(mFabSnacks);
 
-        mCvBreakfast.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-        mCvDinner.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-        mCvSupper.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-        mCvSnacks.animate().translationY(translationY).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+        animateMenu(mCvBreakfast);
+        animateMenu(mCvDinner);
+        animateMenu(mCvSupper);
+        animateMenu(mCvSnacks);
+    }
+
+    private void animateMenu(View v) {
+        float translationY = isMenuOpen ? 0f : 100f;
+        float alpha = isMenuOpen ? 1f : 0f;
+
+        v.animate()
+                .translationY(translationY)
+                .alpha(alpha)
+                .setInterpolator(interpolator)
+                .setDuration(300)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if (!isMenuOpen) v.setVisibility(View.GONE);
+                        super.onAnimationEnd(animation);
+                    }
+
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        if (isMenuOpen) v.setVisibility(View.VISIBLE);
+                        super.onAnimationStart(animation);
+                    }
+                }).start();
     }
 
     private View.OnClickListener mMenuListener = v -> {
