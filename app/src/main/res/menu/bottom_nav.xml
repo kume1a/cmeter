@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_diary"
+        android:icon="@drawable/ic_today"
+        android:title="Diary" />
+
+    <item
+        android:id="@+id/nav_activity"
+        android:icon="@drawable/ic_arrow"
+        android:title="Activity" />
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_avatar_placeholder"
+        android:title="Profile" />
+
+</menu>

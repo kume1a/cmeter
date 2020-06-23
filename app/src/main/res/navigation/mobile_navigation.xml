@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation.xml"
+    app:startDestination="@id/nav_diary">
+
+    <fragment
+        android:id="@+id/nav_activity"
+        android:name="com.kumela.cmeter.ui.fragments.activity.ActivityFragment"
+        android:label="fragment_activity"
+        tools:layout="@layout/fragment_activity" />
+    <fragment
+        android:id="@+id/nav_diary"
+        android:name="com.kumela.cmeter.ui.fragments.diary.DiaryFragment"
+        android:label="fragment_diary"
+        tools:layout="@layout/fragment_diary" >
+        <action
+            android:id="@+id/action_nav_diary_to_addFoodActivity"
+            app:destination="@id/addFoodActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.kumela.cmeter.ui.fragments.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <activity
+        android:id="@+id/addFoodActivity"
+        android:name="com.kumela.cmeter.ui.fragments.diary.add_food.AddFoodActivity"
+        android:label="activity_add_food"
+        tools:layout="@layout/activity_add_food" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </activity>
+</navigation>
