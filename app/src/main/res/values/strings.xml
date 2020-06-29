@@ -1,6 +1,17 @@
 <resources>
-    <string name="app_name">cmeter</string>
-    <string name="title_diary">Today</string>
-    <string name="title_activity">Activity</string>
-    <string name="title_profile">Profile</string>
+    <string name="app_name">TrackIT</string>
+
+    <!-- Toolbar title -->
+    <string name="title_search">Search</string>
+    <string name="title_home">Nutrition</string>
+
+    <!-- add food -->
+    <string name="search_hint">Search for food</string>
+    <string name="fab_snacks">Snacks</string>
+    <string name="fab_supper">Supper</string>
+    <string name="fab_dinner">Dinner</string>
+    <string name="fab_breakfast">Breakfast</string>
+    <string name="kcal">kcal</string>
+
+
 </resources>

@@ -6,14 +6,19 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 
-    <style name="BottomNavigationTheme" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
-        <item name="labelVisibilityMode">selected</item>
-        <item name="backgroundTint">@color/colorPrimaryDark</item>
-        <item name="itemIconTint">@color/colorAccentSecondary</item>
-        <item name="itemTextColor">@color/colorAccentSecondary</item>
+
+    <style name="LargeText" parent="@style/TextAppearance.AppCompat.Large">
+
     </style>
 
+    <style name="MediumText" parent="@style/TextAppearance.AppCompat.Medium">
+
+    </style>
+
+    <style name="SmallText" parent="@style/TextAppearance.AppCompat.Small">
+
+    </style>
 </resources>

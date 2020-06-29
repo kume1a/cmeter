@@ -28,33 +28,12 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = findViewById(R.id.toolbar_main);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.colorText));
-        setSupportActionBar(toolbar);
-
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_diary,
-                R.id.nav_activity,
-                R.id.nav_profile
-        ).build();
-
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
-
-        NavController navController = Navigation.findNavController(this, R.id.fragment_container);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(bottomNav, navController);
-
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow);
-        });
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.fragment_container);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
+//    @Override
+//    public boolean onSupportNavigateUp() {
+//        NavController navController = Navigation.findNavController(this, R.id.fragment_container);
+//        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+//                || super.onSupportNavigateUp();
+//    }
 }
