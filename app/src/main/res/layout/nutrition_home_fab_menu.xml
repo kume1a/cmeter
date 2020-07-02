@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:background="@color/colorPrimary"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_snacks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:alpha="0"
+        android:translationY="100dp"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorAccentSecondary80"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/fab_supper"
+        app:layout_constraintEnd_toEndOf="@id/fab_supper"
+        app:layout_constraintStart_toStartOf="@id/fab_supper"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/ic_snacks"
+        app:tint="@android:color/white"
+        tools:alpha="1"
+        tools:translationY="0dp"
+        tools:visibility="visible" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_supper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:alpha="0"
+        android:translationY="100dp"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorAccentSecondary80"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/fab_dinner"
+        app:layout_constraintEnd_toEndOf="@+id/fab_dinner"
+        app:layout_constraintStart_toStartOf="@+id/fab_dinner"
+        app:layout_constraintTop_toBottomOf="@+id/fab_snacks"
+        app:srcCompat="@drawable/ic_supper"
+        app:tint="@android:color/white"
+        tools:alpha="1"
+        tools:translationY="0dp"
+        tools:visibility="visible" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_dinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:alpha="0"
+        android:translationY="100dp"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorAccentSecondary80"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/fab_breakfast"
+        app:layout_constraintEnd_toEndOf="@id/fab_breakfast"
+        app:layout_constraintStart_toStartOf="@id/fab_breakfast"
+        app:layout_constraintTop_toBottomOf="@+id/fab_supper"
+        app:srcCompat="@drawable/ic_dinner"
+        app:tint="@color/colorWhite"
+        tools:alpha="1"
+        tools:translationY="0dp"
+        tools:visibility="visible" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_breakfast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        android:alpha="0"
+        android:translationY="100dp"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorAccentSecondary80"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/fab_main"
+        app:layout_constraintEnd_toEndOf="@+id/fab_main"
+        app:layout_constraintStart_toStartOf="@+id/fab_main"
+        app:layout_constraintTop_toBottomOf="@+id/fab_dinner"
+        app:srcCompat="@drawable/ic_breakfast"
+        app:tint="@color/colorWhite"
+        tools:alpha="1"
+        tools:translationY="0dp"
+        tools:visibility="visible" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:backgroundTint="@color/colorAccentSecondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fab_breakfast"
+        app:srcCompat="@drawable/ic_add"
+        app:tint="@color/colorPrimaryDark" />
+
+    <include
+        android:id="@+id/cv_home_breakfast"
+        layout="@layout/nutrition_home_fab_menu_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/fab_breakfast"
+        app:layout_constraintEnd_toStartOf="@id/fab_breakfast"
+        app:layout_constraintTop_toTopOf="@id/fab_breakfast" />
+
+    <include
+        android:id="@+id/cv_home_dinner"
+        layout="@layout/nutrition_home_fab_menu_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/fab_dinner"
+        app:layout_constraintEnd_toStartOf="@+id/fab_dinner"
+        app:layout_constraintTop_toTopOf="@id/fab_dinner" />
+
+    <include
+        android:id="@+id/cv_home_supper"
+        layout="@layout/nutrition_home_fab_menu_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/fab_supper"
+        app:layout_constraintEnd_toStartOf="@+id/fab_supper"
+        app:layout_constraintTop_toTopOf="@id/fab_supper" />
+
+    <include
+        android:id="@+id/cv_home_snacks"
+        layout="@layout/nutrition_home_fab_menu_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/fab_snacks"
+        app:layout_constraintEnd_toStartOf="@+id/fab_snacks"
+        app:layout_constraintTop_toTopOf="@id/fab_snacks" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

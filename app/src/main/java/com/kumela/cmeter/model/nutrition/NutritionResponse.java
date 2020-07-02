@@ -9,15 +9,15 @@ import java.util.List;
  **/
 
 public class NutritionResponse {
-    public List<Foods> foods;
-    public Errors errors;
+    public List<Food> foods;
+    public List<Error> errors;
 
     @NonNull
     @Override
     public String toString() {
         return "NutritionResponse{" +
-                "foods=" + foods +
-                ", errors=" + errors +
+                "food=" + foods +
+                ", error=" + errors +
                 '}';
     }
 }

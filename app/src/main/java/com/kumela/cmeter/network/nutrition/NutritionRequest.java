@@ -10,9 +10,6 @@ public class NutritionRequest {
     @SerializedName("query")
     public String query;
 
-    @SerializedName("num_servings")
-    public int servings;
-
     @SerializedName("line_delimited")
     public boolean lineDelimited;
 
@@ -22,27 +19,15 @@ public class NutritionRequest {
     @SerializedName("timezone")
     public String timeZone;
 
-    @SerializedName("consumed_at")
-    public String consumedAt;
-
     @SerializedName("use_branded_foods")
     public boolean useBrandedFoods;
 
-    public NutritionRequest(
-            String query,
-            int servings,
-            boolean lineDelimited,
-            boolean useRawFoods,
-            String timeZone,
-            String consumedAt,
-            boolean useBrandedFoods
-    ) {
+    public NutritionRequest(String query) {
         this.query = query;
-        this.servings = servings;
-        this.lineDelimited = lineDelimited;
-        this.useRawFoods = useRawFoods;
-        this.timeZone = timeZone;
-        this.consumedAt = consumedAt;
-        this.useBrandedFoods = useBrandedFoods;
+
+        this.lineDelimited = false;
+        this.useRawFoods = false;
+        this.useBrandedFoods = false;
+        this.timeZone = "Asia/Tbilisi";
     }
 }

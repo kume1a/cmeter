@@ -11,10 +11,10 @@ public class SearchRequest {
     public boolean common;
     public boolean branded;
 
-    public SearchRequest(String query, boolean common, boolean branded) {
+    public SearchRequest(String query) {
         this.query = query;
-        this.common = common;
-        this.branded = branded;
+        this.common = true;
+        this.branded = false;
     }
 
     @NonNull

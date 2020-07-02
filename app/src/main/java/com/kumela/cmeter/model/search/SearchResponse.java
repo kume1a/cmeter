@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Toko on 21,June,2020
@@ -12,11 +13,10 @@ import java.util.List;
 
 public class SearchResponse {
     @SerializedName("common")
-    public List<SearchItem> searchItems;
+    public Set<SearchItem> searchItems;
 
 //    @SerializedName("branded")
 //    public List<BrandedItem> brandedItems;
-
 
     @NonNull
     @Override

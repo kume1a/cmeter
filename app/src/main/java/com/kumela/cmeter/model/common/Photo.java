@@ -1,6 +1,7 @@
 package com.kumela.cmeter.model.common;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -14,11 +15,9 @@ public class Photo {
     @SerializedName("thumb")
     public String thumbnail;
 
+    @Nullable
     @SerializedName("highres")
     public String highRes;
-
-    @SerializedName("is_user_uploaded")
-    public boolean isUserUploaded;
 
     @NonNull
     @Override
@@ -26,7 +25,6 @@ public class Photo {
         return "Photo{" +
                 "thumbnail='" + thumbnail + '\'' +
                 ", highRes='" + highRes + '\'' +
-                ", isUserUploaded=" + isUserUploaded +
                 '}';
     }
 
@@ -35,13 +33,12 @@ public class Photo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Photo photo = (Photo) o;
-        return isUserUploaded == photo.isUserUploaded &&
-                Objects.equals(thumbnail, photo.thumbnail) &&
+        return Objects.equals(thumbnail, photo.thumbnail) &&
                 Objects.equals(highRes, photo.highRes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(thumbnail, highRes, isUserUploaded);
+        return Objects.hash(thumbnail, highRes);
     }
 }

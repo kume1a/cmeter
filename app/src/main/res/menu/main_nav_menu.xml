@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_nav_nutrition"
+            android:icon="@drawable/ic_nutrition"
+            android:title="@string/nav_menu_nutrition" />
+
+        <item
+            android:id="@+id/menu_nav_water"
+            android:icon="@drawable/ic_water"
+            android:title="@string/nav_menu_water" />
+
+        <item
+            android:id="@+id/menu_nav_activity"
+            android:icon="@drawable/ic_actviity"
+            android:title="@string/nav_menu_activity" />
+    </group>
+
+</menu>

@@ -7,18 +7,47 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:textColor">@color/colorWhite</item>
+
+        <item name="android:windowAnimationStyle">@style/CustomActivityTransition</item>
+    </style>
+
+    <style name="CustomActivityTransition" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/bottom_up</item>
+        <item name="android:activityOpenExitAnimation">@anim/bottom_down</item>
+        <item name="android:activityCloseEnterAnimation">@anim/bottom_up</item>
+        <item name="android:activityCloseExitAnimation">@anim/bottom_down</item>
     </style>
 
 
-    <style name="LargeText" parent="@style/TextAppearance.AppCompat.Large">
+    <style name="Header" parent="@style/TextAppearance.MaterialComponents.Headline5" />
 
+    <style name="Header.Small" parent="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+    <style name="SubTitle" parent="@style/TextAppearance.MaterialComponents.Subtitle2" />
+
+    <style name="SubTitle.Small" parent="@style/TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="MediumText" parent="@style/TextAppearance.AppCompat.Medium">
-
+    <style name="Tabs" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="tabIconTint">@color/colorAccent</item>
+        <item name="tabBackground">@color/colorPrimaryDark</item>
+        <item name="tabTextColor">@color/colorWhite</item>
+        <item name="elevation">8dp</item>
     </style>
 
-    <style name="SmallText" parent="@style/TextAppearance.AppCompat.Small">
+    <style name="AppTheme.Search" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
 
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
+
+
 </resources>

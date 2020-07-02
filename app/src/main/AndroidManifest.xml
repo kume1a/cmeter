@@ -12,19 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ui.SplashActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.screens.activity.ActivityHomeActivity" />
+
+        <activity android:name=".ui.screens.water.WaterHomeActivity" />
+
+        <activity android:name=".ui.screens.nutrition.home.NutritionHomeActivity" />
+        <activity android:name=".ui.screens.nutrition.food_details.FoodDetailsActivity" />
+        <activity android:name=".ui.screens.nutrition.add_food.AddFoodActivity" />
         <activity
-            android:name=".ui.fragments.search.SearchActivity"
+            android:name=".ui.screens.nutrition.search.SearchActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait">
+            android:theme="@style/AppTheme.Search">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -36,9 +35,16 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
         <activity
-            android:name=".ui.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:name=".ui.screens.splash.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

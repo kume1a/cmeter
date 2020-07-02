@@ -4,14 +4,44 @@
     <!-- Toolbar title -->
     <string name="title_search">Search</string>
     <string name="title_home">Nutrition</string>
+    <string name="title_water">Water</string>
+    <string name="title_activity">Activity</string>
+
+    <!-- General -->
+    <string name="kcal">kcal</string>
+    <string name="carbs">Carbs</string>
+    <string name="fats">Fats</string>
+    <string name="protein">Protein</string>
+    <string name="calories">Calories</string>
 
     <!-- add food -->
     <string name="search_hint">Search for food</string>
+
+    <!-- Nutrition -->
     <string name="fab_snacks">Snacks</string>
     <string name="fab_supper">Supper</string>
     <string name="fab_dinner">Dinner</string>
     <string name="fab_breakfast">Breakfast</string>
-    <string name="kcal">kcal</string>
 
+    <string name="header_weight">Weight</string>
+    <string name="menu_nutrition_statistics">Statistics</string>
+    <string name="title_nutrition">Nutrition</string>
 
+    <!-- nav menu -->
+    <string name="nav_menu_nutrition">Nutrition</string>
+    <string name="nav_menu_water">Water</string>
+    <string name="nav_menu_activity">Activity</string>
+
+    <!-- Food details -->
+    <string name="details_card_header">Nutrition Facts</string>
+
+    <string name="details_card_carbs_dietary_fiber">Dietary Fiber</string>
+    <string name="details_card_carbs_sugars">Sugars</string>
+
+    <string name="details_card_fats_saturated">Saturated</string>
+    <string name="details_card_fats_unsaturated">Unsaturated</string>
+    <string name="details_card_fats_trans_fat">Trans fat</string>
+
+    <!-- Search item -->
+    <string name="item_search_desc">%.1f %s</string>
 </resources>

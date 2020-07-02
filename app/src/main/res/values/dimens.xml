@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="home_dashboard_calorie_pie">100dp</dimen>
+    <dimen name="pb_height_calorie_dashboard">5dp</dimen>
+    <dimen name="height_collapsing_toolbar">192dp</dimen>
+    <dimen name="card_default_radius">12dp</dimen>
+    <dimen name="card_radius_small">6dp</dimen>
+    <dimen name="food_details_card_header_space">20dp</dimen>
+    <dimen name="food_details_card_sub_header_to_header_margin">4dp</dimen>
+</resources>

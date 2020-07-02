@@ -21,10 +21,11 @@ public class SearchItem {
     @SerializedName("serving_qty")
     public float servingQuantity;
 
-//    @SerializedName("tag_id")
-//    public int tagId;
+    @SerializedName("tag_id")
+    public int tagId;
 
     public Photo photo;
+//    public String locale;
 
     @NonNull
     @Override
@@ -33,6 +34,7 @@ public class SearchItem {
                 "foodName='" + foodName + '\'' +
                 ", servingUnit='" + servingUnit + '\'' +
                 ", servingQuantity=" + servingQuantity +
+                ", tagId=" + tagId +
                 ", photo=" + photo +
                 '}';
     }
@@ -42,14 +44,11 @@ public class SearchItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SearchItem that = (SearchItem) o;
-        return servingQuantity == that.servingQuantity &&
-                Objects.equals(foodName, that.foodName) &&
-                Objects.equals(servingUnit, that.servingUnit) &&
-                Objects.equals(photo, that.photo);
+        return tagId == that.tagId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(foodName, servingUnit, servingQuantity, photo);
+        return Objects.hash(tagId);
     }
 }
