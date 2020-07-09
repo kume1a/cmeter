@@ -1,4 +1,4 @@
-package com.kumela.cmeter.network.nutrition;
+package com.kumela.cmeter.network.api.nutrition;
 
 import com.google.gson.annotations.SerializedName;
 

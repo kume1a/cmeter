@@ -24,7 +24,7 @@ public class SearchItem {
     @SerializedName("tag_id")
     public int tagId;
 
-    public Photo photo;
+//    public Photo photo;
 //    public String locale;
 
     @NonNull
@@ -35,7 +35,6 @@ public class SearchItem {
                 ", servingUnit='" + servingUnit + '\'' +
                 ", servingQuantity=" + servingQuantity +
                 ", tagId=" + tagId +
-                ", photo=" + photo +
                 '}';
     }
 

@@ -1,7 +1,7 @@
 package com.kumela.cmeter.common.di.application;
 
 import com.kumela.cmeter.common.Constants;
-import com.kumela.cmeter.network.NutritionXService;
+import com.kumela.cmeter.network.api.NutritionXService;
 
 import javax.inject.Singleton;
 
@@ -15,11 +15,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  **/
 
 @Module
-public class NetworkingModule {
+public abstract class NetworkingModule {
 
     @Singleton
     @Provides
-    Retrofit providesRetrofit() {
+    static Retrofit providesRetrofit() {
         return new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -28,7 +28,7 @@ public class NetworkingModule {
 
     @Singleton
     @Provides
-    NutritionXService providesNutritionXService(Retrofit retrofit) {
+    static NutritionXService providesNutritionXService(Retrofit retrofit) {
         return retrofit.create(NutritionXService.class);
     }
 

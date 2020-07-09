@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kumela.cmeter.common.di.ViewMvcFactory;
+import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
 import com.kumela.cmeter.model.search.SearchItem;
 
 /**
  * Created by Toko on 23,June,2020
  **/
 
-public class SearchItemAdapter extends ListAdapter<SearchItem, SearchItemAdapter.SearchItemViewHolder>
+public class SearchAdapter extends ListAdapter<SearchItem, SearchAdapter.SearchItemViewHolder>
         implements SearchItemMvc.Listener {
 
     public interface Listener {
@@ -25,7 +25,7 @@ public class SearchItemAdapter extends ListAdapter<SearchItem, SearchItemAdapter
     private final Listener mListener;
     private final ViewMvcFactory mViewMvcFactory;
 
-    public SearchItemAdapter(Listener listener, ViewMvcFactory viewMvcFactory) {
+    public SearchAdapter(Listener listener, ViewMvcFactory viewMvcFactory) {
         super(DIFF_CALLBACK);
 
         this.mListener = listener;
@@ -42,8 +42,7 @@ public class SearchItemAdapter extends ListAdapter<SearchItem, SearchItemAdapter
         public boolean areContentsTheSame(@NonNull SearchItem oldItem, @NonNull SearchItem newItem) {
             return oldItem.foodName.equals(newItem.foodName) &&
                     oldItem.servingUnit.equals(newItem.servingUnit) &&
-                    oldItem.servingQuantity == newItem.servingQuantity &&
-                    oldItem.photo.equals(newItem.photo);
+                    oldItem.servingQuantity == newItem.servingQuantity;
         }
     };
 

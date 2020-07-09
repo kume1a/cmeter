@@ -2,7 +2,10 @@ package com.kumela.cmeter.ui.screens.activity;
 
 import android.os.Bundle;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.kumela.cmeter.R;
+import com.kumela.cmeter.model.BaseNutrition;
 import com.kumela.cmeter.ui.common.activity.BaseDrawerActivity;
 
 /**

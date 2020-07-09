@@ -1,10 +1,10 @@
-package com.kumela.cmeter.network;
+package com.kumela.cmeter.network.api;
 
 import com.kumela.cmeter.common.Constants;
 import com.kumela.cmeter.model.nutrition.NutritionResponse;
 import com.kumela.cmeter.model.search.SearchResponse;
-import com.kumela.cmeter.network.nutrition.NutritionRequest;
-import com.kumela.cmeter.network.search.SearchRequest;
+import com.kumela.cmeter.network.api.nutrition.NutritionRequest;
+import com.kumela.cmeter.network.api.search.SearchRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

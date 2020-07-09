@@ -1,4 +1,4 @@
-package com.kumela.cmeter.common.di;
+package com.kumela.cmeter.common.di.factory;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;

@@ -12,7 +12,11 @@ import dagger.Component;
  **/
 
 @Singleton
-@Component(modules = {ApplicationModule.class, NetworkingModule.class})
+@Component(modules = {
+        ApplicationModule.class,
+        NetworkingModule.class,
+        FirebaseModule.class
+})
 public interface ApplicationComponent {
     PresentationComponent newPresentationComponent(PresentationModule presentationModule);
 }

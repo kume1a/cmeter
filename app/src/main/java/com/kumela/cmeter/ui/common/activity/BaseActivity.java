@@ -6,8 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.common.App;
-import com.kumela.cmeter.common.di.NavControllerFactory;
-import com.kumela.cmeter.common.di.ViewMvcFactory;
+import com.kumela.cmeter.common.di.factory.NavControllerFactory;
+import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
 import com.kumela.cmeter.common.di.application.ApplicationComponent;
 import com.kumela.cmeter.common.di.presentation.PresentationComponent;
 import com.kumela.cmeter.common.di.presentation.PresentationModule;

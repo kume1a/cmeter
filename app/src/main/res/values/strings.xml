@@ -13,15 +13,18 @@
     <string name="fats">Fats</string>
     <string name="protein">Protein</string>
     <string name="calories">Calories</string>
+    <string name="value_unit">%s %s</string>
+    <string name="value">%.1f</string>
+    <string name="value_g">%sg</string>
 
     <!-- add food -->
     <string name="search_hint">Search for food</string>
 
-    <!-- Nutrition -->
-    <string name="fab_snacks">Snacks</string>
-    <string name="fab_supper">Supper</string>
-    <string name="fab_dinner">Dinner</string>
-    <string name="fab_breakfast">Breakfast</string>
+    <!-- nutrition home -->
+    <string name="snacks">Snacks</string>
+    <string name="supper">Supper</string>
+    <string name="dinner">Dinner</string>
+    <string name="breakfast">Breakfast</string>
 
     <string name="header_weight">Weight</string>
     <string name="menu_nutrition_statistics">Statistics</string>
@@ -32,16 +35,28 @@
     <string name="nav_menu_water">Water</string>
     <string name="nav_menu_activity">Activity</string>
 
-    <!-- Food details -->
+    <!-- nutrition details -->
     <string name="details_card_header">Nutrition Facts</string>
 
-    <string name="details_card_carbs_dietary_fiber">Dietary Fiber</string>
-    <string name="details_card_carbs_sugars">Sugars</string>
+    <!-- Login -->
+    <string name="login_header">Login Account</string>
+    <string name="hint_email">Email Address</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_forgot_password">Forgot password?</string>
+    <string name="login">Login</string>
+    <string name="login_or">OR</string>
+    <string name="login_don_t_have_an_account">Don\'t have an account ?</string>
+    <string name="login_btn_register"><u>REGISTER</u></string>
 
-    <string name="details_card_fats_saturated">Saturated</string>
-    <string name="details_card_fats_unsaturated">Unsaturated</string>
-    <string name="details_card_fats_trans_fat">Trans fat</string>
+    <!-- Register -->
+    <string name="register_header">Register Account</string>
+    <string name="hint_username">Username</string>
+    <string name="register">Register</string>
 
-    <!-- Search item -->
-    <string name="item_search_desc">%.1f %s</string>
+    <!-- Auth error messages -->
+    <string name="error_username_length">username must be 4–15 characters long</string>
+    <string name="error_username_invalid">username contains invalid characters</string>
+    <string name="error_email_invalid">invalid email address</string>
+    <string name="error_password_invalid">password contains invalid characters</string>
+    <string name="error_password_weak">password is too weak</string>
 </resources>

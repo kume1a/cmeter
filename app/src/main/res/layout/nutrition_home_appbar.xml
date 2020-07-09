@@ -30,6 +30,15 @@
 
     <include layout="@layout/nutrition_home_content" />
 
+    <View
+        android:id="@+id/view_dim_nutrition_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#45000000"
+        android:translationZ="8dp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
     <include layout="@layout/nutrition_home_fab_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

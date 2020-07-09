@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.kumela.cmeter.model.search.SearchItem;
-import com.kumela.cmeter.network.search.FetchSearchResultsUseCase;
+import com.kumela.cmeter.network.api.search.FetchSearchResultsUseCase;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -52,6 +52,10 @@ public class SearchViewModel extends ViewModel implements FetchSearchResultsUseC
 
     String getQuery() {
         return mQuery;
+    }
+
+    public Set<SearchItem> getSearchItems() {
+        return mSearchItems;
     }
 
     @Override

@@ -6,7 +6,6 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -23,9 +22,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.common.di.ViewMvcFactory;
+import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
 import com.kumela.cmeter.model.search.SearchItem;
-import com.kumela.cmeter.ui.adapters.search.SearchItemAdapter;
+import com.kumela.cmeter.ui.adapters.search.SearchAdapter;
 import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvcImpl;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ import java.util.Set;
 
 public class SearchMvcImpl extends BaseObservableViewMvcImpl<SearchMvc.Listener> implements SearchMvc {
 
-    private SearchItemAdapter mAdapter;
+    private SearchAdapter mAdapter;
     private ViewMvcFactory mViewMvcFactory;
 
     public SearchMvcImpl(LayoutInflater inflater, @Nullable ViewGroup parent, ViewMvcFactory viewMvcFactory) {
@@ -51,6 +50,8 @@ public class SearchMvcImpl extends BaseObservableViewMvcImpl<SearchMvc.Listener>
     @Override
     public void animateActivity(int x, int y) {
         View root = findViewById(R.id.root_search);
+
+        root.setVisibility(View.INVISIBLE);
 
         ViewTreeObserver viewTreeObserver = root.getViewTreeObserver();
         if (viewTreeObserver.isAlive()) {
@@ -74,7 +75,7 @@ public class SearchMvcImpl extends BaseObservableViewMvcImpl<SearchMvc.Listener>
 
     @Override
     public void onSearchItemClicked(SearchItem searchItem) {
-        Log.d(getClass().getSimpleName(), "onSearchItemClicked: called, searchItem = " + searchItem);
+        for (Listener listener : getListeners()) listener.onSearchItemClicked(searchItem);
     }
 
     @Override
@@ -84,7 +85,7 @@ public class SearchMvcImpl extends BaseObservableViewMvcImpl<SearchMvc.Listener>
 
     @Override
     public void setupRecyclerView() {
-        mAdapter = new SearchItemAdapter(this, mViewMvcFactory);
+        mAdapter = new SearchAdapter(this, mViewMvcFactory);
 
         RecyclerView recyclerView = findViewById(R.id.rv_search);
         recyclerView.setHasFixedSize(true);
@@ -135,7 +136,6 @@ public class SearchMvcImpl extends BaseObservableViewMvcImpl<SearchMvc.Listener>
             mSearchView.clearFocus();
             removeCallback();
 
-            for (Listener listener : getListeners()) listener.finish();
             return true;
         }
 
@@ -149,7 +149,7 @@ public class SearchMvcImpl extends BaseObservableViewMvcImpl<SearchMvc.Listener>
                     for (Listener listener : getListeners()) listener.onRequestFetch(newText);
                 };
 
-                mTextChangeHandler.postDelayed(mTextChangeRunnable, 500);
+                mTextChangeHandler.postDelayed(mTextChangeRunnable, 450);
             } else mAdapter.submitList(new ArrayList<>());
 
             return false;

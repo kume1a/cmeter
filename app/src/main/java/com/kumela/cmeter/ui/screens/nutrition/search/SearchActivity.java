@@ -18,25 +18,28 @@ public class SearchActivity extends BaseActivity implements SearchViewModel.List
     public static final String EXTRA_SEARCH_X = "EXTRA_SEARCH_X";
     public static final String EXTRA_SEARCH_Y = "EXTRA_SEARCH_Y";
 
-    private SearchMvc mController;
+    private SearchMvc mViewMvc;
     private SearchViewModel mViewModel;
+    private SearchNavController mNavController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = getViewMvcFactory().newInstance(SearchMvc.class, null);
+        mNavController = getNavControllerFactory().newInstance(SearchNavController.class, this);
+        mViewMvc = getViewMvcFactory().newInstance(SearchMvc.class, null);
         mViewModel = new ViewModelProvider(
                 this,
                 getPresentationComponent().getViewModelFactory()
         ).get(SearchViewModel.class);
+        onSearchItemsFetched(mViewModel.getSearchItems());
 
         overridePendingTransition(R.anim.dont_move, R.anim.dont_move);
         if (savedInstanceState == null) {
-            mController.animateActivity(getExtra(EXTRA_SEARCH_X), getExtra(EXTRA_SEARCH_Y));
+            mViewMvc.animateActivity(getExtra(EXTRA_SEARCH_X), getExtra(EXTRA_SEARCH_Y));
         }
 
-        setContentView(mController.getRootView());
+        setContentView(mViewMvc.getRootView());
         setupToolbar(R.id.toolbar_search, R.string.title_search);
     }
 
@@ -56,27 +59,27 @@ public class SearchActivity extends BaseActivity implements SearchViewModel.List
     protected void onStart() {
         super.onStart();
         mViewModel.registerListener(this);
-        mController.registerListener(this);
+        mViewMvc.registerListener(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         mViewModel.unregisterListener(this);
-        mController.unregisterListener(this);
+        mViewMvc.unregisterListener(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search, menu);
 
-        mController.setupSearchView(this, menu, mViewModel.getQuery());
+        mViewMvc.setupSearchView(this, menu, mViewModel.getQuery());
         return true;
     }
 
     @Override
     public void onSearchItemsFetched(Set<SearchItem> searchItems) {
-        mController.submitList(searchItems);
+        mViewMvc.submitList(searchItems);
     }
 
     @Override
@@ -87,5 +90,10 @@ public class SearchActivity extends BaseActivity implements SearchViewModel.List
     @Override
     public void onRequestFetch(String query) {
         mViewModel.fetchSearchResultsAndNotify(query);
+    }
+
+    @Override
+    public void onSearchItemClicked(SearchItem searchItem) {
+        mNavController.actionToFoodDetails(searchItem);
     }
 }

@@ -15,7 +15,7 @@ public class AltMeasure {
 
     public String measure;
     public int seq;
-    public int qty;
+    public float qty;
 
     @NonNull
     @Override

@@ -14,7 +14,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.ui.common.activity.BaseActivity;
 import com.kumela.cmeter.ui.screens.activity.ActivityHomeActivity;
 import com.kumela.cmeter.ui.screens.nutrition.home.NutritionHomeActivity;
 import com.kumela.cmeter.ui.screens.water.WaterHomeActivity;

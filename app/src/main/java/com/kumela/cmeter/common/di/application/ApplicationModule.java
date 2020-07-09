@@ -2,8 +2,9 @@ package com.kumela.cmeter.common.di.application;
 
 import android.app.Application;
 
-import com.kumela.cmeter.network.NutritionXService;
-import com.kumela.cmeter.network.search.FetchSearchResultsUseCase;
+import com.kumela.cmeter.network.api.NutritionXService;
+import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
+import com.kumela.cmeter.network.api.search.FetchSearchResultsUseCase;
 
 import dagger.Module;
 import dagger.Provides;
@@ -24,6 +25,11 @@ public class ApplicationModule {
     @Provides
     FetchSearchResultsUseCase providesFetchQuestionsListUseCase(NutritionXService nutritionXService) {
         return new FetchSearchResultsUseCase(nutritionXService);
+    }
+
+    @Provides
+    FetchNutritionInfoUseCase providesFetchNutritionInfoUseCase(NutritionXService nutritionXService) {
+        return new FetchNutritionInfoUseCase(nutritionXService);
     }
 
 }

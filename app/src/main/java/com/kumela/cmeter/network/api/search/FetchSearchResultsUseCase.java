@@ -1,4 +1,4 @@
-package com.kumela.cmeter.network.search;
+package com.kumela.cmeter.network.api.search;
 
 import android.util.Log;
 
@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.kumela.cmeter.common.BaseObservable;
 import com.kumela.cmeter.model.search.SearchItem;
 import com.kumela.cmeter.model.search.SearchResponse;
-import com.kumela.cmeter.network.NutritionXService;
+import com.kumela.cmeter.network.api.NutritionXService;
 
 import java.util.Set;
 

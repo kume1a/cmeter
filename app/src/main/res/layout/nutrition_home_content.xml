@@ -20,13 +20,13 @@
             android:id="@+id/cv_nutrition_calorie_dashboard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintVertical_chainStyle="spread_inside"
             app:cardBackgroundColor="@color/colorPrimaryDark"
             app:cardCornerRadius="12dp"
             app:layout_constraintBottom_toTopOf="@id/cv_nutrition_weight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside"
             app:layout_constraintWidth_percent=".95">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,8 +38,8 @@
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pie_home_dashboard_calories"
-                    android:layout_width="@dimen/home_dashboard_calorie_pie"
-                    android:layout_height="@dimen/home_dashboard_calorie_pie"
+                    android:layout_width="@dimen/pie_home_dashboard_calorie"
+                    android:layout_height="@dimen/pie_home_dashboard_calorie"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -269,8 +269,8 @@
             android:id="@+id/cv_nutrition_dinner"
             layout="@layout/nutrition_home_food_card"
             android:layout_width="0dp"
-            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toTopOf="@id/cv_nutrition_supper"
             app:layout_constraintEnd_toEndOf="@id/cv_nutrition_calorie_dashboard"
             app:layout_constraintStart_toStartOf="@id/cv_nutrition_calorie_dashboard"
@@ -293,9 +293,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/cv_nutrition_calorie_dashboard"
             app:layout_constraintStart_toStartOf="@id/cv_nutrition_calorie_dashboard"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cv_nutrition_supper" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

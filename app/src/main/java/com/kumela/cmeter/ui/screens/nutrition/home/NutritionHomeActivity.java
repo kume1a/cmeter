@@ -11,17 +11,17 @@ import androidx.annotation.Nullable;
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.ui.common.activity.BaseDrawerActivity;
 
-public class NutritionHomeActivity extends BaseDrawerActivity implements NutritionHomeMvcImpl.Listener {
+public class NutritionHomeActivity extends BaseDrawerActivity implements NutritionHomeMvc.Listener {
 
-    private NutritionHomeMvcImpl mController;
+    private NutritionHomeMvc mController;
     private NutritionHomeNavController mNavController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mController = getViewMvcFactory().newInstance(NutritionHomeMvcImpl.class, null);
-        mNavController = getPresentationComponent().getHomeNavController();
+        mController = getViewMvcFactory().newInstance(NutritionHomeMvc.class, null);
+        mNavController = getNavControllerFactory().newInstance(NutritionHomeNavController.class, this);
         setContentView(mController.getRootView());
         setupToolbar(R.id.toolbar_nutrition, R.id.drawer_nutrition, R.id.nav_nutrition, getString(R.string.title_nutrition));
     }
@@ -29,7 +29,6 @@ public class NutritionHomeActivity extends BaseDrawerActivity implements Nutriti
     @Override
     public void onStart() {
         super.onStart();
-        mController.init();
         mController.registerListener(this);
     }
 
@@ -55,11 +54,15 @@ public class NutritionHomeActivity extends BaseDrawerActivity implements Nutriti
     }
 
     @Override
-    public void onNavigateToAddFood(boolean isMenuOpen, @Nullable String title) {
+    public void onMenuClick(@NonNull String title) {
+        mController.closeMenu();
+        mNavController.actionToAddFood(title);
+    }
+
+    @Override
+    public void onFabClick(boolean isMenuOpen) {
         if (isMenuOpen) {
             mController.closeMenu();
         } else mController.openMenu();
-
-        if (title != null) mNavController.toAddFood(title);
     }
 }

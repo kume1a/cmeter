@@ -2,8 +2,11 @@ package com.kumela.cmeter.common.di.presentation;
 
 import androidx.lifecycle.ViewModel;
 
-import com.kumela.cmeter.common.di.ViewModelFactory;
-import com.kumela.cmeter.network.search.FetchSearchResultsUseCase;
+import com.kumela.cmeter.common.di.factory.ViewModelFactory;
+import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
+import com.kumela.cmeter.network.api.search.FetchSearchResultsUseCase;
+import com.kumela.cmeter.ui.common.NutritionInfoParser;
+import com.kumela.cmeter.ui.screens.nutrition.nutrition_details.NutritionDetailsViewModel;
 import com.kumela.cmeter.ui.screens.nutrition.search.SearchViewModel;
 
 import java.lang.annotation.ElementType;
@@ -43,5 +46,12 @@ public class ViewModelModule {
     @ViewModelKey(SearchViewModel.class)
     ViewModel providesSearchViewModel(FetchSearchResultsUseCase fetchSearchResultsUseCase) {
         return new SearchViewModel(fetchSearchResultsUseCase);
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(NutritionDetailsViewModel.class)
+    ViewModel providesFoodDetailsViewModel(FetchNutritionInfoUseCase fetchNutritionInfoUseCase, NutritionInfoParser nutritionInfoParser) {
+        return new NutritionDetailsViewModel(fetchNutritionInfoUseCase, nutritionInfoParser);
     }
 }

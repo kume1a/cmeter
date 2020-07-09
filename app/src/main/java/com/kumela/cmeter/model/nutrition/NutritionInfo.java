@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Toko on 20,June,2020
  **/
 
-public class Food {
+public class NutritionInfo {
     @SerializedName("food_name")
     public String foodName;
 
@@ -28,7 +28,7 @@ public class Food {
     public float servingWeightGrams;
 
     @SerializedName("nf_calories")
-    public float calories;
+    public float totalCalories;
 
     @SerializedName("nf_total_fat")
     public float totalFat;
@@ -52,7 +52,7 @@ public class Food {
     public float sugars;
 
     @SerializedName("nf_protein")
-    public float protein;
+    public float totalProtein;
 
     @SerializedName("nf_potassium")
     public float potassium;
@@ -61,7 +61,7 @@ public class Food {
     public float p;
 
     @SerializedName("full_nutrients")
-    public List<FullNutrient> fullNutrients; // TODO: 6/30/2020
+    public List<FullNutrient> fullNutrients;
 
     /*@SerializedName("nix_brand_name")
     public String nixBrandName;
@@ -109,7 +109,7 @@ public class Food {
                 ", servingQuantity=" + servingQuantity +
                 ", servingUnit='" + servingUnit + '\'' +
                 ", servingWeightGrams=" + servingWeightGrams +
-                ", calories=" + calories +
+                ", calories=" + totalCalories +
                 ", totalFat=" + totalFat +
                 ", saturatedFat=" + saturatedFat +
                 ", cholesterol=" + cholesterol +
@@ -117,7 +117,7 @@ public class Food {
                 ", totalCarbohydrates=" + totalCarbohydrates +
                 ", dietaryFiber=" + dietaryFiber +
                 ", sugars=" + sugars +
-                ", protein=" + protein +
+                ", protein=" + totalProtein +
                 ", potassium=" + potassium +
                 ", p=" + p +
                 ", fullNutrients=" + fullNutrients +

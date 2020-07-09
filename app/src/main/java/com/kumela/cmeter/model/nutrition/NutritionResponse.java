@@ -2,6 +2,8 @@ package com.kumela.cmeter.model.nutrition;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -9,14 +11,15 @@ import java.util.List;
  **/
 
 public class NutritionResponse {
-    public List<Food> foods;
+    @SerializedName("foods")
+    public List<NutritionInfo> mNutritionInfos;
     public List<Error> errors;
 
     @NonNull
     @Override
     public String toString() {
         return "NutritionResponse{" +
-                "food=" + foods +
+                "food=" + mNutritionInfos +
                 ", error=" + errors +
                 '}';
     }

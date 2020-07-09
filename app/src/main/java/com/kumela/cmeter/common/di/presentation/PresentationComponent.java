@@ -1,11 +1,9 @@
 package com.kumela.cmeter.common.di.presentation;
 
-import com.kumela.cmeter.common.di.NavControllerFactory;
-import com.kumela.cmeter.common.di.ViewModelFactory;
-import com.kumela.cmeter.common.di.ViewMvcFactory;
-import com.kumela.cmeter.network.search.FetchSearchResultsUseCase;
-import com.kumela.cmeter.ui.screens.nutrition.home.NutritionHomeNavController;
-import com.kumela.cmeter.ui.screens.nutrition.search.SearchViewModel;
+import com.kumela.cmeter.common.di.factory.NavControllerFactory;
+import com.kumela.cmeter.common.di.factory.ViewModelFactory;
+import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
+import com.kumela.cmeter.ui.screens.registration.AuthController;
 
 import dagger.Subcomponent;
 
@@ -17,8 +15,7 @@ import dagger.Subcomponent;
 public interface PresentationComponent {
     ViewMvcFactory getViewMvcFactory();
     NavControllerFactory getNavControllerFactory();
-
-    NutritionHomeNavController getHomeNavController();
-
     ViewModelFactory getViewModelFactory();
+
+    AuthController getAuthController();
 }

@@ -4,19 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.kumela.cmeter.ui.screens.nutrition.add_food.AddFoodActivity;
-import com.kumela.cmeter.ui.common.NavigationController;
-
-import javax.inject.Inject;
+import com.kumela.cmeter.ui.common.ContextWrapper;
 
 /**
  * Created by Toko on 29,June,2020
  **/
 
-public class NutritionHomeNavController implements NavigationController {
+public class NutritionHomeNavController implements ContextWrapper {
 
     private Context mContext;
 
-    @Inject
     public NutritionHomeNavController(Context context) {
         this.mContext = context;
     }
@@ -26,7 +23,7 @@ public class NutritionHomeNavController implements NavigationController {
         return mContext;
     }
 
-    public void toAddFood(String title) {
+    public void actionToAddFood(String title) {
         final Intent intent = new Intent(mContext, AddFoodActivity.class);
         intent.putExtra(AddFoodActivity.EXTRA_ADD_FOOD_TITLE, title);
         mContext.startActivity(intent);

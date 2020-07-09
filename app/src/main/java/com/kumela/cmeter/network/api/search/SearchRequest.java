@@ -1,4 +1,4 @@
-package com.kumela.cmeter.network.search;
+package com.kumela.cmeter.network.api.search;
 
 import androidx.annotation.NonNull;
 

@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.kumela.cmeter.R;
+import com.kumela.cmeter.common.Utils;
 import com.kumela.cmeter.model.search.SearchItem;
 import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvcImpl;
 
@@ -45,8 +46,8 @@ public class SearchItemMvcImpl extends BaseObservableViewMvcImpl<SearchItemMvc.L
 
         String foodDesc = String.format(
                 Locale.getDefault(),
-                getContext().getString(R.string.item_search_desc),
-                searchItem.servingQuantity, searchItem.servingUnit
+                getContext().getString(R.string.value_unit),
+                Utils.format(searchItem.servingQuantity), searchItem.servingUnit
         );
 
         tvName.setText(searchItem.foodName);
