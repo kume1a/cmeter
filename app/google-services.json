@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "89149098803",
+    "firebase_url": "https://activity-tracker-e4744.firebaseio.com",
+    "project_id": "activity-tracker-e4744",
+    "storage_bucket": "activity-tracker-e4744.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89149098803:android:158de9b2f30ef5f26e8c46",
+        "android_client_info": {
+          "package_name": "com.kumela.cmeter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "89149098803-6vlnc6dpllu5l6692ip7i1tu824b00t4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kumela.cmeter",
+            "certificate_hash": "a17518df364d7fac4f2a564ec8e247d798b9c8a0"
+          }
+        },
+        {
+          "client_id": "89149098803-6mrrsa4l7sahnulmin1ihv9merpn1t6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP33-5SFjSQetfNOLcZXuFme1lT90d9ZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "89149098803-6mrrsa4l7sahnulmin1ihv9merpn1t6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

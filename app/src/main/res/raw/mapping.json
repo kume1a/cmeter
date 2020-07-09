@@ -1,0 +1,342 @@
+[
+  {
+    "id": "208",
+    "name": "Energy",
+    "unit": "kcal",
+    "header": true
+  },
+  {
+    "id": "205",
+    "name": "Carbohydrates",
+    "unit": "g",
+    "header": true
+  },
+  {
+    "id": "291",
+    "name": "Dietary fiber",
+    "unit": "g"
+  },
+  {
+    "id": "269",
+    "name": "Sugars",
+    "unit": "g"
+  },
+  {
+    "id": "204",
+    "name": "Fats",
+    "unit": "g",
+    "header": true
+  },
+  {
+    "id": "606",
+    "name": "Fatty acids, saturated",
+    "unit": "g"
+  },
+  {
+    "id": "645",
+    "name": "Fatty acids, monounsaturated",
+    "unit": "g"
+  },
+  {
+    "id": "646",
+    "name": "Fatty acids, polyunsaturated",
+    "unit": "g"
+  },
+  {
+    "id": "605",
+    "name": "Fatty acids, trans",
+    "unit": "g"
+  },
+  {
+    "id": "203",
+    "name": "Protein",
+    "unit": "g",
+    "header": true
+  },
+  {
+    "id": "255",
+    "name": "Water",
+    "unit": "g",
+    "header": true
+  },
+  {
+    "id": "-1",
+    "name": "Sugars",
+    "unit": "-1",
+    "header": true,
+    "no_value": true
+  },
+  {
+    "id": "211",
+    "name": "Glucose",
+    "unit": "g"
+  },
+  {
+    "id": "287",
+    "name": "Galactose",
+    "unit": "g"
+  },
+  {
+    "id": "212",
+    "name": "Fructose",
+    "unit": "g"
+  },
+  {
+    "id": "210",
+    "name": "Sucrose",
+    "unit": "g"
+  },
+  {
+    "id": "213",
+    "name": "Lactose",
+    "unit": "g"
+  },
+  {
+    "id": "214",
+    "name": "Maltose",
+    "unit": "g"
+  },
+  {
+    "id": "209",
+    "name": "Starch",
+    "unit": "g"
+  },
+  {
+    "id": -1,
+    "name": "Amino acids",
+    "unit": "-1",
+    "header": true,
+    "no_value": true
+  },
+  {
+    "id": "513",
+    "name": "Alanine",
+    "unit": "g"
+  },
+  {
+    "id": "511",
+    "name": "Arginine",
+    "unit": "g"
+  },
+  {
+    "id": "514",
+    "name": "Aspartic acid",
+    "unit": "g"
+  },
+  {
+    "id": "507",
+    "name": "Cysteine",
+    "unit": "g"
+  },
+  {
+    "id": "515",
+    "name": "Glutamic acid",
+    "unit": "g"
+  },
+  {
+    "id": "516",
+    "name": "Glycine",
+    "unit": "g"
+  },
+  {
+    "id": "512",
+    "name": "Histidine",
+    "unit": "g"
+  },
+  {
+    "id": "503",
+    "name": "Isoleucine",
+    "unit": "g"
+  },
+  {
+    "id": "504",
+    "name": "Leucine",
+    "unit": "g"
+  },
+  {
+    "id": "505",
+    "name": "Lysine",
+    "unit": "g"
+  },
+  {
+    "id": "506",
+    "name": "Methionine",
+    "unit": "g"
+  },
+  {
+    "id": "508",
+    "name": "Phenylalanine",
+    "unit": "g"
+  },
+  {
+    "id": "517",
+    "name": "Proline",
+    "unit": "g"
+  },
+  {
+    "id": "518",
+    "name": "Serine",
+    "unit": "g"
+  },
+  {
+    "id": "502",
+    "name": "Threonine",
+    "unit": "g"
+  },
+  {
+    "id": "501",
+    "name": "Tryptophan",
+    "unit": "g"
+  },
+  {
+    "id": "509",
+    "name": "Tyrosine",
+    "unit": "g"
+  },
+  {
+    "id": "510",
+    "name": "Valine",
+    "unit": "g"
+  },
+  {
+    "id": -1,
+    "name": "Macro minerals",
+    "unit": "-1",
+    "header": true,
+    "no_value": true
+  },
+  {
+    "id": "307",
+    "name": "Sodium, Na",
+    "unit": "mg"
+  },
+  {
+    "id": "306",
+    "name": "Potassium, K",
+    "unit": "mg"
+  },
+  {
+    "id": "301",
+    "name": "Calcium, Ca",
+    "unit": "mg"
+  },
+  {
+    "id": "305",
+    "name": "Phosphorus, P",
+    "unit": "mg"
+  },
+  {
+    "id": "304",
+    "name": "Magnesium, Mg",
+    "unit": "mg"
+  },
+  {
+    "id": -1,
+    "name": "Micro minerals",
+    "unit": "-1",
+    "header": true,
+    "no_value": true
+  },
+  {
+    "id": "312",
+    "name": "Copper, Cu",
+    "unit": "mg"
+  },
+  {
+    "id": "303",
+    "name": "Iron, Fe",
+    "unit": "mg"
+  },
+  {
+    "id": "315",
+    "name": "Manganese, Mn",
+    "unit": "mg"
+  },
+  {
+    "id": "317",
+    "name": "Selenium, Se",
+    "unit": "Âµg"
+  },
+  {
+    "id": "309",
+    "name": "Zinc, Zn",
+    "unit": "mg"
+  },
+  {
+    "id": "313",
+    "name": "Fluoride, F",
+    "unit": "Âµg"
+  },
+  {
+    "id": -1,
+    "name": "Vitamins",
+    "unit": "-1",
+    "header": true,
+    "no_value": true
+  },
+  {
+    "id": "320",
+    "name": "Vitamin A",
+    "unit": "Âµg"
+  },
+  {
+    "id": "404",
+    "name": "Vitamin B1 thiamin",
+    "unit": "mg"
+  },
+  {
+    "id": "405",
+    "name": "Vitamin B2 riboflavin",
+    "unit": "mg"
+  },
+  {
+    "id": "406",
+    "name": "Vitamin B3 niacin",
+    "unit": "mg"
+  },
+  {
+    "id": "410",
+    "name": "Vitamin B5 pantothenic acid",
+    "unit": "mg"
+  },
+  {
+    "id": "415",
+    "name": "Vitamin B6",
+    "unit": "mg"
+  },
+  {
+    "id": "417",
+    "name": "Vitamin B9 folate",
+    "unit": "Âµg"
+  },
+  {
+    "id": "418",
+    "name": "Vitamin B12",
+    "unit": "Âµg"
+  },
+  {
+    "id": "401",
+    "name": "Vitamin C ascorbic acid",
+    "unit": "mg"
+  },
+  {
+    "id": "325",
+    "name": "Vitamin D2 ergocalciferol",
+    "unit": "Âµg"
+  },
+  {
+    "id": "326",
+    "name": "Vitamin D3 cholecalciferol",
+    "unit": "Âµg"
+  },
+  {
+    "id": "573",
+    "name": "Vitamin E",
+    "unit": "mg"
+  },
+  {
+    "id": "430",
+    "name": "Vitamin K phylloquinone",
+    "unit": "Âµg"
+  }
+]
