@@ -10,21 +10,22 @@ import com.kumela.cmeter.ui.adapters.nutrition_details.NutritionDetailsItemMvcIm
 import com.kumela.cmeter.ui.adapters.search.SearchItemMvc;
 import com.kumela.cmeter.ui.adapters.search.SearchItemMvcImpl;
 import com.kumela.cmeter.ui.common.mvc.ViewMvc;
-import com.kumela.cmeter.ui.screens.nutrition.add_food.AddFoodMvc;
-import com.kumela.cmeter.ui.screens.nutrition.home.NutritionHomeMvc;
-import com.kumela.cmeter.ui.screens.nutrition.nutrition_details.NutritionDetailsMvc;
-import com.kumela.cmeter.ui.screens.nutrition.nutrition_details.NutritionDetailsMvcImpl;
-import com.kumela.cmeter.ui.screens.nutrition.home.NutritionHomeMvcImpl;
-import com.kumela.cmeter.ui.screens.nutrition.search.SearchMvc;
-import com.kumela.cmeter.ui.screens.nutrition.search.SearchMvcImpl;
-import com.kumela.cmeter.ui.screens.onboarding.OnBoardingViewMvc;
-import com.kumela.cmeter.ui.screens.onboarding.OnBoardingViewMvcImpl;
-import com.kumela.cmeter.ui.screens.onboarding.tabs.fragments.weight_goal.WeightGoalViewMvc;
-import com.kumela.cmeter.ui.screens.onboarding.tabs.fragments.weight_goal.WeightGoalViewMvcImpl;
-import com.kumela.cmeter.ui.screens.registration.login.LoginMvc;
-import com.kumela.cmeter.ui.screens.registration.login.LoginMvcImpl;
-import com.kumela.cmeter.ui.screens.registration.register.RegisterMvc;
-import com.kumela.cmeter.ui.screens.registration.register.RegisterMvcImpl;
+import com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodViewMvc;
+import com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodViewMvcImpl;
+import com.kumela.cmeter.ui.screens.app.nutrition.home.NutritionHomeMvc;
+import com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details.NutritionDetailsMvc;
+import com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details.NutritionDetailsMvcImpl;
+import com.kumela.cmeter.ui.screens.app.nutrition.home.NutritionHomeMvcImpl;
+import com.kumela.cmeter.ui.screens.app.nutrition.search.SearchMvc;
+import com.kumela.cmeter.ui.screens.app.nutrition.search.SearchMvcImpl;
+import com.kumela.cmeter.ui.screens.starter.onboarding.OnBoardingViewMvc;
+import com.kumela.cmeter.ui.screens.starter.onboarding.OnBoardingViewMvcImpl;
+import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.weight_goal.WeightGoalViewMvc;
+import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.weight_goal.WeightGoalViewMvcImpl;
+import com.kumela.cmeter.ui.screens.starter.registration.login.LoginMvc;
+import com.kumela.cmeter.ui.screens.starter.registration.login.LoginMvcImpl;
+import com.kumela.cmeter.ui.screens.starter.registration.register.RegisterMvc;
+import com.kumela.cmeter.ui.screens.starter.registration.register.RegisterMvcImpl;
 
 import javax.inject.Inject;
 
@@ -52,8 +53,8 @@ public class ViewMvcFactory {
 
         if (mvcClass == NutritionHomeMvc.class) {
             viewMvc = new NutritionHomeMvcImpl(mLayoutInflater, parent);
-        } else if (mvcClass == AddFoodMvc.class) {
-            viewMvc = new AddFoodMvc(mLayoutInflater, parent);
+        } else if (mvcClass == AddFoodViewMvc.class) {
+            viewMvc = new AddFoodViewMvcImpl(mLayoutInflater, parent);
         } else if (mvcClass == SearchMvc.class) {
             viewMvc = new SearchMvcImpl(mLayoutInflater, parent, this);
         } else if (mvcClass == SearchItemMvc.class) {

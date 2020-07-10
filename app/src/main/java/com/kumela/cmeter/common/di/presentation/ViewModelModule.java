@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel;
 import com.kumela.cmeter.common.di.factory.ViewModelFactory;
 import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
 import com.kumela.cmeter.network.api.search.FetchSearchResultsUseCase;
-import com.kumela.cmeter.ui.common.NutritionInfoParser;
-import com.kumela.cmeter.ui.screens.nutrition.nutrition_details.NutritionDetailsViewModel;
-import com.kumela.cmeter.ui.screens.nutrition.search.SearchViewModel;
+import com.kumela.cmeter.ui.common.util.NutritionInfoParser;
+import com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details.NutritionDetailsViewModel;
+import com.kumela.cmeter.ui.screens.app.nutrition.search.SearchViewModel;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

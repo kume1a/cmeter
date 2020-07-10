@@ -80,24 +80,14 @@
             app:layout_constraintStart_toStartOf="@id/tv_food_details_head_amount_protein"
             app:layout_constraintTop_toBottomOf="@id/tv_food_details_head_amount_protein" />
 
-        <View
-            android:id="@+id/divider_below_head"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/divider_height"
-            android:layout_marginTop="12dp"
-            android:background="@color/colorPrimaryDark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_food_details_head_fats" />
-
-        <com.kumela.cmeter.ui.common.BaseNutritionPieChart
+        <com.kumela.cmeter.ui.common.util.NutritionPieChart
             android:id="@+id/pie_food_details"
             android:layout_width="@dimen/pie_nutrition_details"
             android:layout_height="@dimen/pie_nutrition_details"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider_below_head"
+            app:layout_constraintTop_toBottomOf="@id/tv_food_details_head_fats"
             tools:background="@color/colorPrimaryDark" />
 
         <com.google.android.material.textview.MaterialTextView

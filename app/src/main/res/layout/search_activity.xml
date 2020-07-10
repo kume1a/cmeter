@@ -5,7 +5,7 @@
     android:background="@color/colorPrimaryDark"
     android:layout_height="match_parent"
     android:id="@+id/root_search"
-    tools:context=".ui.screens.nutrition.search.SearchActivity">
+    tools:context=".ui.screens.app.nutrition.search.SearchActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/apb_search"

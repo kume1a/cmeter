@@ -3,7 +3,7 @@ package com.kumela.cmeter.common.di.presentation;
 import com.kumela.cmeter.common.di.factory.NavControllerFactory;
 import com.kumela.cmeter.common.di.factory.ViewModelFactory;
 import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
-import com.kumela.cmeter.ui.screens.registration.AuthController;
+import com.kumela.cmeter.ui.screens.starter.registration.AuthController;
 
 import dagger.Subcomponent;
 

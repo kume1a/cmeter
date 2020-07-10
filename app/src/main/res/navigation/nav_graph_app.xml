@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_app.xml"
+    app:startDestination="@id/nav_nutrition">
+
+    <fragment
+        android:id="@+id/nav_nutrition"
+        android:name="com.kumela.cmeter.ui.screens.app.nutrition.home.NutritionHomeFragment"
+        android:label="@string/title_nutrition"
+        tools:layout="@layout/nutrition_home_fragment" >
+        <action
+            android:id="@+id/action_nav_nutrition_to_addFoodFragment"
+            app:destination="@id/addFoodFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_water"
+        android:name="com.kumela.cmeter.ui.screens.app.water.WaterHomeFragment"
+        android:label="@string/title_water"
+        tools:layout="@layout/water_home_fragment" />
+    <fragment
+        android:id="@+id/nav_activity"
+        android:name="com.kumela.cmeter.ui.screens.app.activity.ActivityHomeFragment"
+        android:label="@string/title_activity"
+        tools:layout="@layout/activity_home_fragment" />
+    <fragment
+        android:id="@+id/addFoodFragment"
+        android:name="com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodFragment"
+        tools:layout="@layout/add_food_fragment" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+
+
+</navigation>

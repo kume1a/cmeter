@@ -5,18 +5,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.ui.common.base.BaseActivity;
-import com.kumela.cmeter.ui.screens.nutrition.home.NutritionHomeActivity;
-import com.kumela.cmeter.ui.screens.registration.AuthController;
-import com.kumela.cmeter.ui.screens.registration.login.LoginActivity;
+import com.kumela.cmeter.ui.screens.app.AppActivity;
+import com.kumela.cmeter.ui.screens.starter.StarterActivity;
+import com.kumela.cmeter.ui.screens.starter.registration.AuthController;
 
 public class SplashActivity extends BaseActivity {
 
     private static final String TAG = "SplashActivity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_activity);
 
@@ -28,15 +30,16 @@ public class SplashActivity extends BaseActivity {
         handler.postDelayed(() -> {
             Intent intent;
             if (uid != null) {
-                Log.d(TAG, "onCreate: navigating to homeActivity");
-                intent = new Intent(SplashActivity.this, NutritionHomeActivity.class);
+                Log.d(TAG, "onCreate: navigating to AppActivity");
+                intent = new Intent(this, AppActivity.class);
             } else {
-                Log.d(TAG, "onCreate: navigating to loginActivity");
-                intent = new Intent(SplashActivity.this, LoginActivity.class);
+                Log.d(TAG, "onCreate: navigating to StarterActivity");
+                intent = new Intent(this, StarterActivity.class);
             }
 
             startActivity(intent);
             finish();
         }, 500);
+
     }
 }

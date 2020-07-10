@@ -15,7 +15,7 @@ import com.kumela.cmeter.common.di.presentation.PresentationModule;
  * Created by Toko on 09,July,2020
  **/
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
     @UiThread
     protected PresentationComponent getPresentationComponent() {
         return getApplicationComponent()

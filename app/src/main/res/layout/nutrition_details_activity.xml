@@ -2,8 +2,8 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/abl_food_details"
@@ -29,19 +29,19 @@
                 android:id="@+id/toolbar_food_details"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"/>
+                app:layout_collapseMode="pin" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/colorAccentSecondary"
         app:layout_anchor="@id/abl_food_details"
         app:layout_anchorGravity="end|bottom"
-        android:layout_margin="16dp"
         app:srcCompat="@drawable/ic_add_round"
-        app:tint="@color/colorPrimaryDark"
-        app:backgroundTint="@color/colorAccentSecondary"
-        android:layout_height="wrap_content" />
+        app:tint="@color/colorPrimaryDark" />
 
     <include layout="@layout/nutrition_details_content" />
 
