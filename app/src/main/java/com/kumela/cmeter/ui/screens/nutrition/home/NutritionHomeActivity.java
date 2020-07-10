@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.ui.common.activity.BaseDrawerActivity;
+import com.kumela.cmeter.ui.common.base.BaseDrawerActivity;
 
 public class NutritionHomeActivity extends BaseDrawerActivity implements NutritionHomeMvc.Listener {
 

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:background="@color/colorPrimary">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_onboarding_weight_goal_current_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding_goal_weight_current_weight"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_onboarding_weight_goal_question"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".1" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_onboarding_weight_goal_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_onboarding_weight_goal_current_weight"
+        app:layout_constraintEnd_toStartOf="@+id/tv_onboarding_weight_goal_goal_weight"
+        app:layout_constraintStart_toEndOf="@+id/tv_onboarding_weight_goal_current_weight"
+        app:layout_constraintTop_toTopOf="@id/tv_onboarding_weight_goal_current_weight"
+        app:srcCompat="@drawable/ic_question" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_onboarding_weight_goal_goal_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding_goal_weight_goal_weight"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_onboarding_weight_goal_question"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".1" />
+
+    <NumberPicker
+        android:id="@+id/np_onboarding_weight_goal_current_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:theme="@style/AppTheme.Picker"
+        app:layout_constraintEnd_toEndOf="@id/tv_onboarding_weight_goal_current_weight"
+        app:layout_constraintStart_toStartOf="@id/tv_onboarding_weight_goal_current_weight"
+        app:layout_constraintTop_toBottomOf="@id/tv_onboarding_weight_goal_current_weight" />
+
+    <NumberPicker
+        android:id="@+id/np_onboarding_weight_goal_goal_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:theme="@style/AppTheme.Picker"
+        app:layout_constraintEnd_toEndOf="@id/tv_onboarding_weight_goal_goal_weight"
+        app:layout_constraintStart_toStartOf="@id/tv_onboarding_weight_goal_goal_weight"
+        app:layout_constraintTop_toBottomOf="@id/tv_onboarding_weight_goal_goal_weight" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:checkedButton="@id/rb_onboarding_goal_maintain_weight"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/np_onboarding_weight_goal_current_weight">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rb_onboarding_goal_weight_lose25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/onboarding_goal_weight_option1"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rb_onboarding_goal_weight_lose50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/onboarding_goal_weight_option2"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rb_onboarding_goal_weight_lose75"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/onboarding_goal_weight_option3"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
+    </RadioGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>

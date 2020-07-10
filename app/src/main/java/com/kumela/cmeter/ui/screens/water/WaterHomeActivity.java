@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.ui.common.activity.BaseDrawerActivity;
+import com.kumela.cmeter.ui.common.base.BaseDrawerActivity;
 
 /**
  * Created by Toko on 30,June,2020

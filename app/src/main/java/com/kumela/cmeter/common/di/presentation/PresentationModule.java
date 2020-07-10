@@ -5,8 +5,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
 
 import dagger.Module;
 import dagger.Provides;
@@ -19,24 +22,24 @@ import dagger.Provides;
 @Module
 public class PresentationModule {
 
-    private final FragmentActivity mActivity;
+    private final AppCompatActivity mActivity;
 
-    public PresentationModule(FragmentActivity fragmentActivity) {
-        mActivity = fragmentActivity;
+    public PresentationModule(AppCompatActivity appCompatActivity) {
+        mActivity = appCompatActivity;
     }
 
     @Provides
-    LayoutInflater providesLayoutInflater() {
-        return LayoutInflater.from(mActivity);
-    }
-
-    @Provides
-    Activity providesActivity() {
+    AppCompatActivity providesActivity() {
         return mActivity;
     }
 
     @Provides
-    Context providesContext(Activity activity) {
+    LayoutInflater providesLayoutInflater(AppCompatActivity activity) {
+        return LayoutInflater.from(activity);
+    }
+
+    @Provides
+    Context providesContext(AppCompatActivity activity) {
         return activity;
     }
 }

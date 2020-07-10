@@ -1,4 +1,4 @@
-package com.kumela.cmeter.ui.common.activity;
+package com.kumela.cmeter.ui.common.base;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -16,6 +16,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.ui.screens.activity.ActivityHomeActivity;
 import com.kumela.cmeter.ui.screens.nutrition.home.NutritionHomeActivity;
+import com.kumela.cmeter.ui.screens.registration.AuthController;
+import com.kumela.cmeter.ui.screens.registration.login.LoginActivity;
 import com.kumela.cmeter.ui.screens.water.WaterHomeActivity;
 
 /**
@@ -94,22 +96,31 @@ public abstract class BaseDrawerActivity extends BaseActivity
         switch (item.getItemId()) {
             case R.id.menu_nav_nutrition:
                 if (!NutritionHomeActivity.class.getName().equals(getActivityName())) {
-                    intent = new Intent(this, NutritionHomeActivity.class);
                     mDrawerLayout.closeDrawer(GravityCompat.START);
+                    intent = new Intent(this, NutritionHomeActivity.class);
                 }
                 break;
             case R.id.menu_nav_activity:
                 if (!ActivityHomeActivity.class.getName().equals(getActivityName())) {
-                    intent = new Intent(this, ActivityHomeActivity.class);
                     mDrawerLayout.closeDrawer(GravityCompat.START);
+                    intent = new Intent(this, ActivityHomeActivity.class);
                 }
                 break;
             case R.id.menu_nav_water:
                 if (!WaterHomeActivity.class.getName().equals(getActivityName())) {
-                    intent = new Intent(this, WaterHomeActivity.class);
                     mDrawerLayout.closeDrawer(GravityCompat.START);
+                    intent = new Intent(this, WaterHomeActivity.class);
                 }
                 break;
+
+            case R.id.menu_nav_sign_out:
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                AuthController authController = getPresentationComponent().getAuthController();
+                authController.signOut();
+                intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
         }
 
         if (intent != null) {

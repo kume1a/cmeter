@@ -11,8 +11,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.ui.screens.nutrition.add_food.tabs.TabsAdapter;
-import com.kumela.cmeter.ui.common.activity.BaseActivity;
+import com.kumela.cmeter.ui.screens.nutrition.add_food.tabs.AddFoodPagerAdapter;
+import com.kumela.cmeter.ui.common.base.BaseActivity;
 
 public class AddFoodActivity extends BaseActivity {
 
@@ -32,7 +32,7 @@ public class AddFoodActivity extends BaseActivity {
 
     private void setupViewPager() {
         ViewPager2 viewPager = findViewById(R.id.vp_add_food);
-        viewPager.setAdapter(new TabsAdapter(getSupportFragmentManager(), getLifecycle()));
+        viewPager.setAdapter(new AddFoodPagerAdapter(getSupportFragmentManager(), getLifecycle()));
 
         TabLayout tabLayout = findViewById(R.id.tabs_add_food);
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {

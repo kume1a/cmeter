@@ -34,6 +34,15 @@ public class AuthController extends BaseObservableViewMvcImpl<AuthController.Lis
         this.mAuth = firebaseAuth;
     }
 
+    @Nullable
+    public String getUid() {
+        return mAuth.getUid();
+    }
+
+    public void signOut() {
+        mAuth.signOut();
+    }
+
     public void loginAndNotify(@NonNull String email, @NonNull String password) {
         Task<AuthResult> authResult = mAuth.signInWithEmailAndPassword(email, password);
         addListener(authResult);

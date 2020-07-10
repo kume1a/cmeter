@@ -17,6 +17,10 @@ import com.kumela.cmeter.ui.screens.nutrition.nutrition_details.NutritionDetails
 import com.kumela.cmeter.ui.screens.nutrition.home.NutritionHomeMvcImpl;
 import com.kumela.cmeter.ui.screens.nutrition.search.SearchMvc;
 import com.kumela.cmeter.ui.screens.nutrition.search.SearchMvcImpl;
+import com.kumela.cmeter.ui.screens.onboarding.OnBoardingViewMvc;
+import com.kumela.cmeter.ui.screens.onboarding.OnBoardingViewMvcImpl;
+import com.kumela.cmeter.ui.screens.onboarding.tabs.fragments.weight_goal.WeightGoalViewMvc;
+import com.kumela.cmeter.ui.screens.onboarding.tabs.fragments.weight_goal.WeightGoalViewMvcImpl;
 import com.kumela.cmeter.ui.screens.registration.login.LoginMvc;
 import com.kumela.cmeter.ui.screens.registration.login.LoginMvcImpl;
 import com.kumela.cmeter.ui.screens.registration.register.RegisterMvc;
@@ -62,7 +66,14 @@ public class ViewMvcFactory {
             viewMvc = new LoginMvcImpl(mLayoutInflater, parent);
         } else if (mvcClass == RegisterMvc.class) {
             viewMvc = new RegisterMvcImpl(mLayoutInflater, parent);
+        } else if (mvcClass == OnBoardingViewMvc.class) {
+            viewMvc = new OnBoardingViewMvcImpl(mLayoutInflater, parent);
         }
+
+        else if (mvcClass == WeightGoalViewMvc.class) {
+            viewMvc = new WeightGoalViewMvcImpl(mLayoutInflater, parent);
+        }
+
         else {
             throw new IllegalArgumentException("unsupported MVC view class " + mvcClass);
         }

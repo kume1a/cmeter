@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.common.Constants;
-import com.kumela.cmeter.ui.common.activity.BaseActivity;
+import com.kumela.cmeter.ui.common.base.BaseActivity;
 import com.kumela.cmeter.ui.screens.registration.AuthController;
 
 public class RegisterActivity extends BaseActivity implements RegisterMvc.Listener, AuthController.Listener {

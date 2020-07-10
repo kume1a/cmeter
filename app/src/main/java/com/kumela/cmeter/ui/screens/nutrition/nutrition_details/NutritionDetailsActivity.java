@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.model.NutritionDetailItem;
-import com.kumela.cmeter.ui.common.activity.BaseActivity;
+import com.kumela.cmeter.ui.common.base.BaseActivity;
 
 import java.util.List;
 

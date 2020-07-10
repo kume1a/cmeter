@@ -19,6 +19,9 @@
     <color name="colorProtein">#c62828</color>
     <color name="colorProtein50">#80c62828</color>
 
+    <color name="colorIndicatorActive">#FF0844</color>
+    <color name="colorIndicatorInactive">#99FF0844</color>
+
 
     <color name="colorTextSecondary">#99FFFFFF</color>
 <!--    <color name="colorDivider">#BDBDBD</color>-->

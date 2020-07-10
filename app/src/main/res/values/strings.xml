@@ -59,4 +59,32 @@
     <string name="error_email_invalid">invalid email address</string>
     <string name="error_password_invalid">password contains invalid characters</string>
     <string name="error_password_weak">password is too weak</string>
+    <string name="nav_menu_sign_out">Sign out</string>
+
+    <!-- OnBoarding -->
+    <string name="onboarding_back">back</string>
+    <string name="onboarding_next">next</string>
+    <string name="onboarding_finish">finish</string>
+
+    <!-- Goal -->
+    <string name="onboarding_goal_header">What\'s your goal?</string>
+    <string name="onboarding_goal_option1">Lose weight</string>
+    <string name="onboarding_goal_option2">Maintain weight</string>
+    <string name="onboarding_goal_option3">Gain weight</string>
+
+    <!-- Activity -->
+    <string name="onboarding_activity_header">How active are you?</string>
+    <string name="onboarding_activity_option1">Little to no exercise</string>
+    <string name="onboarding_activity_option2">Light exercise (1–3 times per week)</string>
+    <string name="onboarding_activity_option3">Moderate exercise (3–5 times per week)</string>
+    <string name="onboarding_activity_option4">Heavy exercise (6–7 times per week)</string>
+    <string name="onboarding_activity_option5">Very heavy (twice per day, extra heavy workouts)</string>
+
+    <!-- Weight goal-->
+    <string name="onboarding_goal_weight_goal_weight">Goal weight</string>
+    <string name="onboarding_goal_weight_current_weight">Current weight</string>
+    <string name="onboarding_goal_weight_option3">Lose 0.75 kg per week</string>
+    <string name="onboarding_goal_weight_option2">Lose 0.5 kg per week</string>
+    <string name="onboarding_goal_weight_option1">Lose 0.25 kg per week</string>
+
 </resources>

@@ -15,9 +15,9 @@ import com.kumela.cmeter.ui.screens.nutrition.add_food.tabs.fragments.RecentFrag
  * Created by Toko on 30,June,2020
  **/
 
-public class TabsAdapter extends FragmentStateAdapter {
+public class AddFoodPagerAdapter extends FragmentStateAdapter {
 
-    public TabsAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    public AddFoodPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
 
@@ -34,8 +34,6 @@ public class TabsAdapter extends FragmentStateAdapter {
                 fragment = new FavoritesFragment();
                 break;
         }
-        Bundle args = new Bundle();
-        // Our object is just an integer :-P
         if (fragment == null) throw new RuntimeException("Fragment in view pager must not be null");
         return fragment;
     }

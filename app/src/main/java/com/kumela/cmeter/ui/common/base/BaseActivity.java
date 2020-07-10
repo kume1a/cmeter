@@ -1,4 +1,4 @@
-package com.kumela.cmeter.ui.common.activity;
+package com.kumela.cmeter.ui.common.base;
 
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
