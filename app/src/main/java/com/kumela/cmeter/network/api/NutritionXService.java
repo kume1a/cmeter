@@ -1,8 +1,8 @@
 package com.kumela.cmeter.network.api;
 
 import com.kumela.cmeter.common.Constants;
-import com.kumela.cmeter.model.nutrition.NutritionResponse;
-import com.kumela.cmeter.model.search.SearchResponse;
+import com.kumela.cmeter.model.api.nutrition.NutritionResponse;
+import com.kumela.cmeter.model.api.search.SearchResponse;
 import com.kumela.cmeter.network.api.nutrition.NutritionRequest;
 import com.kumela.cmeter.network.api.search.SearchRequest;
 

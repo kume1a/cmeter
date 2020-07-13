@@ -3,12 +3,9 @@ package com.kumela.cmeter.ui.screens.app.nutrition.search;
 import android.content.Context;
 import android.content.Intent;
 
-import com.kumela.cmeter.model.search.SearchItem;
+import com.kumela.cmeter.model.api.search.SearchItem;
 import com.kumela.cmeter.ui.common.nav.ActivityNavController;
 import com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details.NutritionDetailsActivity;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Toko on 02,July,2020

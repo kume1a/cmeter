@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/onboarding_activity_header"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
             android:id="@+id/rb_onboarding_activity_no_exercise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_activity_option1"
+            android:text="@string/onboarding_activity_o1"
             android:textColor="@color/colorWhite"
             android:textSize="18sp" />
 
@@ -41,7 +41,7 @@
             android:id="@+id/rb_onboarding_activity_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_activity_option2"
+            android:text="@string/onboarding_activity_o2"
             android:textColor="@color/colorWhite"
             android:textSize="18sp" />
 
@@ -50,16 +50,16 @@
             android:id="@+id/rb_onboarding_activity_moderate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_activity_option3"
+            android:text="@string/onboarding_activity_o3"
             android:textColor="@color/colorWhite"
             android:textSize="18sp" />
 
 
         <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/rb_onboarding_activity_haavy"
+            android:id="@+id/rb_onboarding_activity_heavy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_activity_option4"
+            android:text="@string/onboarding_activity_o4"
             android:textColor="@color/colorWhite"
             android:textSize="18sp" />
 
@@ -68,7 +68,7 @@
             android:id="@+id/rb_onboarding_activity_very_heavy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_activity_option5"
+            android:text="@string/onboarding_activity_o5"
             android:textColor="@color/colorWhite"
             android:textSize="18sp" />
     </RadioGroup>

@@ -23,9 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
-import com.kumela.cmeter.model.search.SearchItem;
+import com.kumela.cmeter.model.api.search.SearchItem;
 import com.kumela.cmeter.ui.adapters.search.SearchAdapter;
-import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvcImpl;
+import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvc;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -34,7 +34,7 @@ import java.util.Set;
  * Created by Toko on 01,July,2020
  **/
 
-public class SearchMvcImpl extends BaseObservableViewMvcImpl<SearchMvc.Listener> implements SearchMvc {
+public class SearchMvcImpl extends BaseObservableViewMvc<SearchMvc.Listener> implements SearchMvc {
 
     private SearchAdapter mAdapter;
     private ViewMvcFactory mViewMvcFactory;

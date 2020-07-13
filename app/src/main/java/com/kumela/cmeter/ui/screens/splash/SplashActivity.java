@@ -8,10 +8,10 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.kumela.cmeter.R;
+import com.kumela.cmeter.network.firebase.FirebaseAuthHandler;
 import com.kumela.cmeter.ui.common.base.BaseActivity;
 import com.kumela.cmeter.ui.screens.app.AppActivity;
 import com.kumela.cmeter.ui.screens.starter.StarterActivity;
-import com.kumela.cmeter.ui.screens.starter.registration.AuthController;
 
 public class SplashActivity extends BaseActivity {
 
@@ -22,8 +22,8 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_activity);
 
-        AuthController authController = getPresentationComponent().getAuthController();
-        String uid = authController.getUid();
+        FirebaseAuthHandler firebaseAuthHandler = getPresentationComponent().getAuthController();
+        String uid = firebaseAuthHandler.getUid();
         Log.d(TAG, "onCreate: uid = " + uid);
 
         Handler handler = new Handler();

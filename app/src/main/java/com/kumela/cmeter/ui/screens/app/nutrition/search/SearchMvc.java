@@ -5,9 +5,9 @@ import android.view.Menu;
 
 import androidx.annotation.NonNull;
 
-import com.kumela.cmeter.model.search.SearchItem;
+import com.kumela.cmeter.model.api.search.SearchItem;
 import com.kumela.cmeter.ui.adapters.search.SearchAdapter;
-import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvc;
+import com.kumela.cmeter.ui.common.mvc.observanble.ObservableViewMvc;
 
 import java.util.Set;
 
@@ -15,7 +15,7 @@ import java.util.Set;
  * Created by Toko on 02,July,2020
  **/
 
-public interface SearchMvc extends BaseObservableViewMvc<SearchMvc.Listener>, SearchAdapter.Listener {
+public interface SearchMvc extends ObservableViewMvc<SearchMvc.Listener>, SearchAdapter.Listener {
     interface Listener {
         void finish();
 

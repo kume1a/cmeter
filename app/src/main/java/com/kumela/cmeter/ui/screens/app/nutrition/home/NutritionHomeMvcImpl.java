@@ -20,7 +20,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvcImpl;
+import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvc;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Created by Toko on 26,June,2020
  **/
 
-public class NutritionHomeMvcImpl extends BaseObservableViewMvcImpl<NutritionHomeMvc.Listener>
+public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc.Listener>
         implements NutritionHomeMvc {
 
     private FloatingActionButton mFabMain, mFabBreakfast, mFabDinner, mFabSupper, mFabSnacks;
@@ -42,27 +42,26 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvcImpl<NutritionHom
 
     public NutritionHomeMvcImpl(LayoutInflater inflater, ViewGroup container) {
         setRootView(inflater.inflate(R.layout.nutrition_home_fragment, container, false));
-
-        mViewDim = findViewById(R.id.view_dim_nutrition_home);
-        mViewDim.setOnClickListener(v -> closeMenu());
-
         setupCalorieDashboardPie();
     }
 
     @Override
-    public void showFabMenu(View view) {
-        view.setVisibility(View.VISIBLE);
+    public void showFabMenu(View fabMenu, View dim) {
+        fabMenu.setVisibility(View.VISIBLE);
 
-        mFabMain = view.findViewById(R.id.fab_main);
-        mFabBreakfast = view.findViewById(R.id.fab_breakfast);
-        mFabDinner = view.findViewById(R.id.fab_dinner);
-        mFabSupper = view.findViewById(R.id.fab_supper);
-        mFabSnacks = view.findViewById(R.id.fab_snacks);
+        mViewDim = dim;
+        mViewDim.setOnClickListener(v -> closeMenu());
 
-        mCvBreakfast = view.findViewById(R.id.cv_home_breakfast);
-        mCvDinner = view.findViewById(R.id.cv_home_dinner);
-        mCvSupper = view.findViewById(R.id.cv_home_supper);
-        mCvSnacks = view.findViewById(R.id.cv_home_snacks);
+        mFabMain = fabMenu.findViewById(R.id.fab_main);
+        mFabBreakfast = fabMenu.findViewById(R.id.fab_breakfast);
+        mFabDinner = fabMenu.findViewById(R.id.fab_dinner);
+        mFabSupper = fabMenu.findViewById(R.id.fab_supper);
+        mFabSnacks = fabMenu.findViewById(R.id.fab_snacks);
+
+        mCvBreakfast = fabMenu.findViewById(R.id.cv_home_breakfast);
+        mCvDinner = fabMenu.findViewById(R.id.cv_home_dinner);
+        mCvSupper = fabMenu.findViewById(R.id.cv_home_supper);
+        mCvSnacks = fabMenu.findViewById(R.id.cv_home_snacks);
 
         fabMenuText(mCvBreakfast, getResources().getString(R.string.breakfast));
         fabMenuText(mCvDinner, getResources().getString(R.string.dinner));
@@ -93,14 +92,15 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvcImpl<NutritionHom
     }
 
     @Override
-    public void hideFabMenu(View v) {
+    public void hideFabMenu(View fabMenu) {
         mFabMain.hide(new FloatingActionButton.OnVisibilityChangedListener() {
             @Override
             public void onHidden(FloatingActionButton fab) {
                 super.onHidden(fab);
-                v.setVisibility(View.GONE);
+                fabMenu.setVisibility(View.GONE);
             }
         });
+        mViewDim.setOnClickListener(null);
     }
 
     private void fabMenuText(@NonNull CardView cardView, @NonNull String text) {

@@ -5,8 +5,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.kumela.cmeter.common.BaseObservable;
-import com.kumela.cmeter.model.search.SearchItem;
-import com.kumela.cmeter.model.search.SearchResponse;
+import com.kumela.cmeter.model.api.search.SearchItem;
+import com.kumela.cmeter.model.api.search.SearchResponse;
 import com.kumela.cmeter.network.api.NutritionXService;
 
 import java.util.Set;

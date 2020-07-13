@@ -45,11 +45,11 @@ public class AddFoodViewMvcImpl extends BaseViewMvc implements AddFoodViewMvc {
             switch (position) {
                 case 0:
                     tab.setIcon(R.drawable.ic_recent);
-                    tab.setText("Recent");
+                    tab.setText(R.string.tabs_recent);
                     break;
                 case 1:
                     tab.setIcon(R.drawable.ic_favorite);
-                    tab.setText("Favorite");
+                    tab.setText(R.string.tabs_favorite);
                     break;
             }
         }).attach();
@@ -57,13 +57,6 @@ public class AddFoodViewMvcImpl extends BaseViewMvc implements AddFoodViewMvc {
 
     @Override
     public void setupToolbar(FragmentActivity activity, String title) {
-        ToolbarHelper toolbarHelper = (ToolbarHelper) activity;
-        toolbarHelper.setTitle(title);
-        toolbarHelper.setBackground(R.color.colorPrimaryDark);
-    }
-
-    @Override
-    public void resetToolbar(FragmentActivity activity) {
-        ((ToolbarHelper) activity).setBackground(R.color.colorPrimary);
+        ((ToolbarHelper) activity).setTitle(title);
     }
 }

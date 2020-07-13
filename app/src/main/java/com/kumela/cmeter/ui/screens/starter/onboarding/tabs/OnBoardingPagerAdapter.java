@@ -6,10 +6,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.ActiveFragment;
-import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.GoalFragment;
+import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.active.ActiveFragment;
+import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.goal.GoalFragment;
 import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.weight_goal.WeightGoalFragment;
-import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.InfoFragment;
+import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.info.InfoFragment;
 
 /**
  * Created by Toko on 09,July,2020

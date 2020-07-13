@@ -1,11 +1,13 @@
 package com.kumela.cmeter.ui.screens.app;
 
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -14,13 +16,17 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.kumela.cmeter.R;
+import com.kumela.cmeter.ui.common.base.BaseActivity;
 import com.kumela.cmeter.ui.common.util.ToolbarHelper;
+import com.kumela.cmeter.ui.screens.starter.StarterActivity;
 
 /**
  * Created by Toko on 10,July,2020
  **/
 
-public class AppActivity extends AppCompatActivity implements ToolbarHelper {
+public class AppActivity extends BaseActivity implements ToolbarHelper {
+
+    public static final String EXTRA_UID = "EXTRA_UID";
 
     private AppBarConfiguration mAppBarConfiguration;
     private Toolbar mToolbar;
@@ -38,11 +44,32 @@ public class AppActivity extends AppCompatActivity implements ToolbarHelper {
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_nutrition, R.id.nav_water, R.id.nav_activity)
-                .setDrawerLayout(drawer)
+                .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_app);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        navigationView.setNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.menu_nav_sign_out) {
+                getPresentationComponent().getAuthController().signOut();
+                startActivity(new Intent(this, StarterActivity.class));
+                finish();
+                return false;
+            } else {
+                NavigationUI.onNavDestinationSelected(item, navController);
+            }
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+        });
+
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.addFoodFragment) {
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            } else {
+                resetToolbar();
+            }
+        });
     }
 
     @Override
@@ -58,12 +85,14 @@ public class AppActivity extends AppCompatActivity implements ToolbarHelper {
     }
 
     @Override
-    public void setBackground(int colorId) {
-        mToolbar.setBackgroundColor(getResources().getColor(colorId));
-    }
-
-    @Override
     public <T extends View> T findMenuView(int id) {
         return mToolbar.findViewById(id);
+    }
+
+    private void resetToolbar() {
+        if (mToolbar.getBackground() != null && ((ColorDrawable) mToolbar.getBackground()).getColor() !=
+                getResources().getColor(R.color.colorPrimaryDark)) {
+            mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }
     }
 }

@@ -8,7 +8,7 @@ import android.widget.Toast;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.model.search.SearchItem;
+import com.kumela.cmeter.model.api.search.SearchItem;
 import com.kumela.cmeter.ui.common.base.BaseActivity;
 
 import java.util.Set;
@@ -34,7 +34,7 @@ public class SearchActivity extends BaseActivity implements SearchViewModel.List
         ).get(SearchViewModel.class);
         onSearchItemsFetched(mViewModel.getSearchItems());
 
-        overridePendingTransition(0,0);
+        overridePendingTransition(0,R.anim.slide_out_right);
         if (savedInstanceState == null) {
             mViewMvc.animateActivity(getExtra(EXTRA_SEARCH_X), getExtra(EXTRA_SEARCH_Y));
         }
@@ -45,13 +45,6 @@ public class SearchActivity extends BaseActivity implements SearchViewModel.List
 
     private int getExtra(String extra) {
         Intent intent = getIntent();
-        if (!intent.hasExtra(extra)) {
-            String errorMessage = "Starting intent " + getClass().getSimpleName() +
-                    " requires extra argument: " + getClass().getSimpleName() +
-                    "(" + extra + ")";
-            throw new RuntimeException(errorMessage);
-        }
-
         return intent.getIntExtra(extra, 0);
     }
 

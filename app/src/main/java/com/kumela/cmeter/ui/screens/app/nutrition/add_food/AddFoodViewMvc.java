@@ -17,6 +17,4 @@ public interface AddFoodViewMvc extends ViewMvc {
     void setupViewPager(AppCompatActivity appCompatActivity);
 
     void setupToolbar(FragmentActivity activity, String title);
-
-    void resetToolbar(FragmentActivity activity);
 }

@@ -9,7 +9,5 @@ import android.view.View;
 public interface ToolbarHelper {
     void setTitle(String title);
 
-    void setBackground(int colorId);
-
     <T extends View> T findMenuView(int id);
 }

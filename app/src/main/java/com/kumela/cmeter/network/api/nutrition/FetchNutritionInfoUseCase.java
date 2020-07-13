@@ -5,8 +5,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.kumela.cmeter.common.BaseObservable;
-import com.kumela.cmeter.model.nutrition.NutritionInfo;
-import com.kumela.cmeter.model.nutrition.NutritionResponse;
+import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
+import com.kumela.cmeter.model.api.nutrition.NutritionResponse;
 import com.kumela.cmeter.network.api.NutritionXService;
 
 import retrofit2.Call;

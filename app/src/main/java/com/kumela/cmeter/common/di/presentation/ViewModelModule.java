@@ -8,6 +8,7 @@ import com.kumela.cmeter.network.api.search.FetchSearchResultsUseCase;
 import com.kumela.cmeter.ui.common.util.NutritionInfoParser;
 import com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details.NutritionDetailsViewModel;
 import com.kumela.cmeter.ui.screens.app.nutrition.search.SearchViewModel;
+import com.kumela.cmeter.ui.screens.starter.onboarding.OnBoardingViewModel;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -53,5 +54,12 @@ public class ViewModelModule {
     @ViewModelKey(NutritionDetailsViewModel.class)
     ViewModel providesFoodDetailsViewModel(FetchNutritionInfoUseCase fetchNutritionInfoUseCase, NutritionInfoParser nutritionInfoParser) {
         return new NutritionDetailsViewModel(fetchNutritionInfoUseCase, nutritionInfoParser);
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(OnBoardingViewModel.class)
+    ViewModel providesOnBoardingViewModel() {
+        return new OnBoardingViewModel();
     }
 }

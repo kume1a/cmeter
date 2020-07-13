@@ -7,10 +7,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.kumela.cmeter.common.Utils;
-import com.kumela.cmeter.model.BaseNutrition;
-import com.kumela.cmeter.model.NutritionDetailItem;
-import com.kumela.cmeter.model.common.Photo;
-import com.kumela.cmeter.model.nutrition.NutritionInfo;
+import com.kumela.cmeter.model.list.BaseNutrition;
+import com.kumela.cmeter.model.list.NutritionDetailItem;
+import com.kumela.cmeter.model.api.Photo;
+import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
 import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
 import com.kumela.cmeter.ui.common.util.NutritionInfoParser;
 

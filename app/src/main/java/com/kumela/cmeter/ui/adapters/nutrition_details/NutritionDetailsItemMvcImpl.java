@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.model.NutritionDetailItem;
+import com.kumela.cmeter.model.list.NutritionDetailItem;
 import com.kumela.cmeter.ui.common.mvc.BaseViewMvc;
 
 /**

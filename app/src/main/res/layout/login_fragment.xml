@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    tools:context=".ui.screens.starter.registration.login.LoginFragment">
+    tools:context=".ui.screens.starter.authentication.login.LoginFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_login"

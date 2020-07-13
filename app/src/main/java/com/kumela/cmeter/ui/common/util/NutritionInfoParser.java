@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.kumela.cmeter.common.BaseObservable;
-import com.kumela.cmeter.model.NutritionDetailItem;
-import com.kumela.cmeter.model.nutrition.FullNutrient;
-import com.kumela.cmeter.model.nutrition.NutritionInfo;
+import com.kumela.cmeter.model.list.NutritionDetailItem;
+import com.kumela.cmeter.model.api.nutrition.FullNutrient;
+import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

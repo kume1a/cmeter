@@ -8,8 +8,8 @@ import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.common.Utils;
-import com.kumela.cmeter.model.search.SearchItem;
-import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvcImpl;
+import com.kumela.cmeter.model.api.search.SearchItem;
+import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvc;
 
 import java.util.Locale;
 
@@ -17,7 +17,7 @@ import java.util.Locale;
  * Created by Toko on 02,July,2020
  **/
 
-public class SearchItemMvcImpl extends BaseObservableViewMvcImpl<SearchItemMvc.Listener>
+public class SearchItemMvcImpl extends BaseObservableViewMvc<SearchItemMvc.Listener>
         implements SearchItemMvc {
 
     private final TextView tvName;

@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
-import com.kumela.cmeter.model.NutritionDetailItem;
+import com.kumela.cmeter.model.list.NutritionDetailItem;
 
 import java.util.List;
 

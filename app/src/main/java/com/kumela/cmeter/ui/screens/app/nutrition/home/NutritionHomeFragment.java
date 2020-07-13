@@ -27,9 +27,11 @@ public class NutritionHomeFragment extends BaseFragment implements NutritionHome
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        View v = requireActivity().findViewById(R.id.nutrition_home_fab_menu);
-        mViewMvc.showFabMenu(v);
         mNavController = getNavControllerFactory().newInstance(NutritionHomeNavController.class, view);
+
+        View fabMenu = requireActivity().findViewById(R.id.nutrition_home_fab_menu);
+        View dim = requireActivity().findViewById(R.id.view_dim);
+        mViewMvc.showFabMenu(fabMenu, dim);
     }
 
     @Override
@@ -47,8 +49,8 @@ public class NutritionHomeFragment extends BaseFragment implements NutritionHome
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        View v = requireActivity().findViewById(R.id.nutrition_home_fab_menu);
-        mViewMvc.hideFabMenu(v);
+        View fabMenu = requireActivity().findViewById(R.id.nutrition_home_fab_menu);
+        mViewMvc.hideFabMenu(fabMenu);
     }
 
     //    @Override

@@ -20,12 +20,18 @@ import com.kumela.cmeter.ui.screens.app.nutrition.search.SearchMvc;
 import com.kumela.cmeter.ui.screens.app.nutrition.search.SearchMvcImpl;
 import com.kumela.cmeter.ui.screens.starter.onboarding.OnBoardingViewMvc;
 import com.kumela.cmeter.ui.screens.starter.onboarding.OnBoardingViewMvcImpl;
+import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.active.ActiveViewMvc;
+import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.active.ActiveViewMvcImpl;
+import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.goal.GoalViewMvc;
+import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.goal.GoalViewMvcImpl;
+import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.info.InfoViewMvc;
+import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.info.InfoViewMvcImpl;
 import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.weight_goal.WeightGoalViewMvc;
 import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.fragments.weight_goal.WeightGoalViewMvcImpl;
-import com.kumela.cmeter.ui.screens.starter.registration.login.LoginMvc;
-import com.kumela.cmeter.ui.screens.starter.registration.login.LoginMvcImpl;
-import com.kumela.cmeter.ui.screens.starter.registration.register.RegisterMvc;
-import com.kumela.cmeter.ui.screens.starter.registration.register.RegisterMvcImpl;
+import com.kumela.cmeter.ui.screens.starter.authentication.login.LoginMvc;
+import com.kumela.cmeter.ui.screens.starter.authentication.login.LoginMvcImpl;
+import com.kumela.cmeter.ui.screens.starter.authentication.register.RegisterMvc;
+import com.kumela.cmeter.ui.screens.starter.authentication.register.RegisterMvcImpl;
 
 import javax.inject.Inject;
 
@@ -69,9 +75,13 @@ public class ViewMvcFactory {
             viewMvc = new RegisterMvcImpl(mLayoutInflater, parent);
         } else if (mvcClass == OnBoardingViewMvc.class) {
             viewMvc = new OnBoardingViewMvcImpl(mLayoutInflater, parent);
-        }
-
-        else if (mvcClass == WeightGoalViewMvc.class) {
+        } else if (mvcClass == InfoViewMvc.class) {
+            viewMvc = new InfoViewMvcImpl(mLayoutInflater, parent);
+        } else if (mvcClass == GoalViewMvc.class) {
+            viewMvc = new GoalViewMvcImpl(mLayoutInflater, parent);
+        } else if (mvcClass == ActiveViewMvc.class) {
+            viewMvc = new ActiveViewMvcImpl(mLayoutInflater, parent);
+        } else if (mvcClass == WeightGoalViewMvc.class) {
             viewMvc = new WeightGoalViewMvcImpl(mLayoutInflater, parent);
         }
 

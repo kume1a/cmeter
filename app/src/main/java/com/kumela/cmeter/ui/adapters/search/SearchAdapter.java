@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
-import com.kumela.cmeter.model.search.SearchItem;
+import com.kumela.cmeter.model.api.search.SearchItem;
 
 /**
  * Created by Toko on 23,June,2020

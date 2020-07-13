@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:text="@string/onboarding_goal_header" />
 
     <RadioGroup
@@ -32,7 +32,7 @@
             android:id="@+id/rb_onboarding_goal_lose_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_goal_option1"
+            android:text="@string/onboarding_goal_o1"
             android:textSize="18sp"
             android:textColor="@color/colorWhite"/>
 
@@ -40,7 +40,7 @@
             android:id="@+id/rb_onboarding_goal_maintain_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_goal_option2"
+            android:text="@string/onboarding_goal_o2"
             android:textSize="18sp"
             android:textColor="@color/colorWhite"/>
 
@@ -48,7 +48,7 @@
             android:id="@+id/rb_onboarding_goal_gain_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_goal_option3"
+            android:text="@string/onboarding_goal_o3"
             android:textSize="18sp"
             android:textColor="@color/colorWhite"/>
     </RadioGroup>

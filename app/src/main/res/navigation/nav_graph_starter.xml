@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.kumela.cmeter.ui.screens.starter.registration.login.LoginFragment"
-        tools:layout="@layout/login_fragment" >
+        android:name="com.kumela.cmeter.ui.screens.starter.authentication.login.LoginFragment"
+        tools:layout="@layout/login_fragment">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
@@ -18,8 +18,8 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.kumela.cmeter.ui.screens.starter.registration.register.RegisterFragment"
-        tools:layout="@layout/register_fragment" >
+        android:name="com.kumela.cmeter.ui.screens.starter.authentication.register.RegisterFragment"
+        tools:layout="@layout/register_fragment">
         <action
             android:id="@+id/action_registerFragment_to_onboardingActivity"
             app:destination="@id/onboardingActivity" />
@@ -28,5 +28,26 @@
         android:id="@+id/onboardingActivity"
         android:name="com.kumela.cmeter.ui.screens.starter.onboarding.OnBoardingFragment"
         android:label="onboarding_fragment"
-        tools:layout="@layout/onboarding_fragment" />
+        tools:layout="@layout/onboarding_fragment">
+        <action
+            android:id="@+id/action_onboardingActivity_to_alertDialogFragment"
+            app:destination="@id/alertDialogFragment" />
+        <argument
+            android:name="username"
+            app:argType="string"/>
+        <argument
+            android:name="email"
+            app:argType="string"/>
+    </fragment>
+    <dialog
+        android:id="@+id/alertDialogFragment"
+        android:name="com.kumela.cmeter.ui.common.util.AlertDialogFragment"
+        android:label="AlertDialogFragment">
+        <argument
+            android:name="title"
+            app:argType="integer" />
+        <argument
+            android:name="message"
+            app:argType="integer" />
+    </dialog>
 </navigation>

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import com.kumela.cmeter.common.App;
 import com.kumela.cmeter.common.di.application.ApplicationComponent;
 import com.kumela.cmeter.common.di.factory.NavControllerFactory;
+import com.kumela.cmeter.common.di.factory.ViewModelFactory;
 import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
 import com.kumela.cmeter.common.di.presentation.PresentationComponent;
 import com.kumela.cmeter.common.di.presentation.PresentationModule;
@@ -30,6 +31,11 @@ public abstract class BaseFragment extends Fragment {
     @UiThread
     protected ViewMvcFactory getViewMvcFactory() {
         return getPresentationComponent().getViewMvcFactory();
+    }
+
+    @UiThread
+    protected ViewModelFactory getViewModelFactory() {
+        return getPresentationComponent().getViewModelFactory();
     }
 
     private ApplicationComponent getApplicationComponent() {

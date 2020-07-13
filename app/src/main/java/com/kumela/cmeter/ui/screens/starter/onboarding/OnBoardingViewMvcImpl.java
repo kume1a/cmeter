@@ -4,21 +4,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvcImpl;
+import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvc;
 import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.OnBoardingPagerAdapter;
 
 /**
  * Created by Toko on 09,July,2020
  **/
 
-public class OnBoardingViewMvcImpl extends BaseObservableViewMvcImpl<OnBoardingViewMvc.Listener>
+public class OnBoardingViewMvcImpl extends BaseObservableViewMvc<OnBoardingViewMvc.Listener>
         implements OnBoardingViewMvc {
 
     private MaterialButton btnNext, btnBack;
@@ -58,8 +60,8 @@ public class OnBoardingViewMvcImpl extends BaseObservableViewMvcImpl<OnBoardingV
     }
 
     @Override
-    public void setPagerAdapter(AppCompatActivity activity) {
-        mViewPager.setAdapter(new OnBoardingPagerAdapter(activity.getSupportFragmentManager(), activity.getLifecycle()));
+    public void setPagerAdapter(FragmentManager fragmentManager, Lifecycle lifecycle) {
+        mViewPager.setAdapter(new OnBoardingPagerAdapter(fragmentManager, lifecycle));
     }
 
     @Override
@@ -98,5 +100,12 @@ public class OnBoardingViewMvcImpl extends BaseObservableViewMvcImpl<OnBoardingV
 
             indicators[i].setBackgroundDrawable(ContextCompat.getDrawable(getContext(), drawableId));
         }
+    }
+
+    @Override
+    public void showErrorSnackBar(int errorMsgId) {
+        Snackbar snackbar = Snackbar.make(getRootView(), getResources().getString(errorMsgId), Snackbar.LENGTH_LONG);
+        snackbar.setBackgroundTint(getResources().getColor(R.color.colorAccent));
+        snackbar.show();
     }
 }

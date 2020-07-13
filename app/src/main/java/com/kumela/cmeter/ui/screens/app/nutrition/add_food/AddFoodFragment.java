@@ -40,12 +40,6 @@ public class AddFoodFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mViewMvc.resetToolbar(requireActivity());
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_add_food_search) {
             int[] searchPosition = mViewMvc.getSearchPosition(

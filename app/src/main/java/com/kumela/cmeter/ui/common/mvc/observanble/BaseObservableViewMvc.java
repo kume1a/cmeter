@@ -1,10 +1,27 @@
 package com.kumela.cmeter.ui.common.mvc.observanble;
 
-import com.kumela.cmeter.ui.common.mvc.ViewMvc;
+import com.kumela.cmeter.ui.common.mvc.BaseViewMvc;
 
-public interface BaseObservableViewMvc<ListenerType> extends ViewMvc {
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-    void registerListener(ListenerType listener);
+public abstract class BaseObservableViewMvc<ListenerType> extends BaseViewMvc
+        implements ObservableViewMvc<ListenerType> {
 
-    void unregisterListener(ListenerType listener);
+    private Set<ListenerType> mListeners = new HashSet<>();
+
+    @Override
+    public final void registerListener(ListenerType listener) {
+        mListeners.add(listener);
+    }
+
+    @Override
+    public final void unregisterListener(ListenerType listener) {
+        mListeners.remove(listener);
+    }
+
+    protected final Set<ListenerType> getListeners() {
+        return Collections.unmodifiableSet(mListeners);
+    }
 }
