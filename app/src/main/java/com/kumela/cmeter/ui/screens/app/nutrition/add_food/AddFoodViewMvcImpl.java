@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -56,7 +57,7 @@ public class AddFoodViewMvcImpl extends BaseViewMvc implements AddFoodViewMvc {
     }
 
     @Override
-    public void setupToolbar(FragmentActivity activity, String title) {
-        ((ToolbarHelper) activity).setTitle(title);
+    public void setupToolbar(FragmentActivity activity, @StringRes int title) {
+        ((ToolbarHelper) activity).setTitle(getResources().getString(title));
     }
 }

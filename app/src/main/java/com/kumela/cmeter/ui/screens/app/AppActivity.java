@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.ui.common.base.BaseActivity;
@@ -30,12 +31,14 @@ public class AppActivity extends BaseActivity implements ToolbarHelper {
 
     private AppBarConfiguration mAppBarConfiguration;
     private Toolbar mToolbar;
+    private AppBarLayout mAppBarLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_activity);
 
+        mAppBarLayout = findViewById(R.id.abl_main_nav);
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -66,6 +69,7 @@ public class AppActivity extends BaseActivity implements ToolbarHelper {
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if (destination.getId() == R.id.addFoodFragment) {
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                mAppBarLayout.setExpanded(true, true);
             } else {
                 resetToolbar();
             }
@@ -94,5 +98,7 @@ public class AppActivity extends BaseActivity implements ToolbarHelper {
                 getResources().getColor(R.color.colorPrimaryDark)) {
             mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
+
+        mAppBarLayout.setExpanded(true, true);
     }
 }

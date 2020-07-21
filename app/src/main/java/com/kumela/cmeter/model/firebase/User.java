@@ -7,25 +7,51 @@ import androidx.annotation.NonNull;
  **/
 
 public class User {
-    public String uid;
-
     public String username;
     public String email;
+
+    public Integer goalWeight;
+    public Integer currentWeight;
+    public Integer height;
+    public Integer age;
 
     public Integer bmr;
     public Integer dailyExtraCalories;
     public Integer dailyWaterIntake;
+    public Integer carbohydrates;
+    public Integer fats;
+    public Integer proteins;
 
     public User() {
     }
 
-    public User(String uid, String username, String email, Integer bmr, Integer dailyExtraCalories, Integer dailyWaterIntake) {
-        this.uid = uid;
+    public User(String username,
+                String email,
+                Integer bmr,
+                Integer dailyExtraCalories,
+                Integer dailyWaterIntake,
+                Integer carbohydrates,
+                Integer fats,
+                Integer proteins,
+                Integer goalWeight,
+                Integer currentWeight,
+                Integer height,
+                Integer age
+
+    ) {
         this.username = username;
         this.email = email;
         this.bmr = bmr;
         this.dailyExtraCalories = dailyExtraCalories;
         this.dailyWaterIntake = dailyWaterIntake;
+        this.carbohydrates = carbohydrates;
+        this.fats = fats;
+        this.proteins = proteins;
+
+        this.goalWeight = goalWeight;
+        this.currentWeight = currentWeight;
+        this.height = height;
+        this.age = age;
     }
 
     @NonNull
@@ -34,9 +60,16 @@ public class User {
         return "User{" +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
+                ", goalWeight=" + goalWeight +
+                ", currentWeight=" + currentWeight +
+                ", height=" + height +
+                ", age=" + age +
                 ", bmr=" + bmr +
-                ", extraCalories=" + dailyExtraCalories +
+                ", dailyExtraCalories=" + dailyExtraCalories +
                 ", dailyWaterIntake=" + dailyWaterIntake +
+                ", carbohydrates=" + carbohydrates +
+                ", fats=" + fats +
+                ", proteins=" + proteins +
                 '}';
     }
 }

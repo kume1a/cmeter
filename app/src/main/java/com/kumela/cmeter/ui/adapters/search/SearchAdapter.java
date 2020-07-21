@@ -20,6 +20,8 @@ public class SearchAdapter extends ListAdapter<SearchItem, SearchAdapter.SearchI
 
     public interface Listener {
         void onSearchItemClicked(SearchItem searchItem);
+
+        void onAddButtonClicked(SearchItem searchItem);
     }
 
     private final Listener mListener;
@@ -61,11 +63,6 @@ public class SearchAdapter extends ListAdapter<SearchItem, SearchAdapter.SearchI
     }
 
     @Override
-    public void onSearchItemClicked(SearchItem searchItem) {
-        mListener.onSearchItemClicked(searchItem);
-    }
-
-    @Override
     public void onBindViewHolder(@NonNull SearchItemViewHolder holder, int position) {
         holder.mSearchItemMvc.bindSearchItem(getItem(position));
     }
@@ -77,5 +74,16 @@ public class SearchAdapter extends ListAdapter<SearchItem, SearchAdapter.SearchI
             super(searchItemMvc.getRootView());
             this.mSearchItemMvc = searchItemMvc;
         }
+    }
+
+
+    @Override
+    public void onSearchItemClicked(SearchItem searchItem) {
+        mListener.onSearchItemClicked(searchItem);
+    }
+
+    @Override
+    public void onAddButtonClicked(SearchItem searchItem) {
+        mListener.onAddButtonClicked(searchItem);
     }
 }

@@ -13,6 +13,8 @@ import com.kumela.cmeter.ui.common.mvc.ViewMvc;
 import com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodViewMvc;
 import com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodViewMvcImpl;
 import com.kumela.cmeter.ui.screens.app.nutrition.home.NutritionHomeMvc;
+import com.kumela.cmeter.ui.screens.app.nutrition.meal.MealViewMvc;
+import com.kumela.cmeter.ui.screens.app.nutrition.meal.MealViewMvcImpl;
 import com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details.NutritionDetailsMvc;
 import com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details.NutritionDetailsMvcImpl;
 import com.kumela.cmeter.ui.screens.app.nutrition.home.NutritionHomeMvcImpl;
@@ -49,40 +51,42 @@ public class ViewMvcFactory {
      * type inferred by java's automatic type inference.
      *
      * @param mvcClass the class of the required MVC view
-     * @param parent   this container will be used as MVC view's parent. See {@link LayoutInflater#inflate(int, ViewGroup)}
+     * @param container   this container will be used as MVC view's container. See {@link LayoutInflater#inflate(int, ViewGroup)}
      * @param <T>      the type of the required MVC view
      * @return new instance of MVC view
      */
-    public <T extends ViewMvc> T newInstance(Class<T> mvcClass, @Nullable ViewGroup parent) {
+    public <T extends ViewMvc> T newInstance(Class<T> mvcClass, @Nullable ViewGroup container) {
 
         ViewMvc viewMvc;
 
         if (mvcClass == NutritionHomeMvc.class) {
-            viewMvc = new NutritionHomeMvcImpl(mLayoutInflater, parent);
+            viewMvc = new NutritionHomeMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == AddFoodViewMvc.class) {
-            viewMvc = new AddFoodViewMvcImpl(mLayoutInflater, parent);
+            viewMvc = new AddFoodViewMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == SearchMvc.class) {
-            viewMvc = new SearchMvcImpl(mLayoutInflater, parent, this);
+            viewMvc = new SearchMvcImpl(mLayoutInflater, container, this);
         } else if (mvcClass == SearchItemMvc.class) {
-            viewMvc = new SearchItemMvcImpl(mLayoutInflater, parent);
+            viewMvc = new SearchItemMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == NutritionDetailsItemMvc.class) {
-            viewMvc = new NutritionDetailsItemMvcImpl(mLayoutInflater, parent);
+            viewMvc = new NutritionDetailsItemMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == NutritionDetailsMvc.class) {
-            viewMvc = new NutritionDetailsMvcImpl(mLayoutInflater, parent, this);
+            viewMvc = new NutritionDetailsMvcImpl(mLayoutInflater, container, this);
         } else if (mvcClass == LoginMvc.class) {
-            viewMvc = new LoginMvcImpl(mLayoutInflater, parent);
+            viewMvc = new LoginMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == RegisterMvc.class) {
-            viewMvc = new RegisterMvcImpl(mLayoutInflater, parent);
+            viewMvc = new RegisterMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == OnBoardingViewMvc.class) {
-            viewMvc = new OnBoardingViewMvcImpl(mLayoutInflater, parent);
+            viewMvc = new OnBoardingViewMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == InfoViewMvc.class) {
-            viewMvc = new InfoViewMvcImpl(mLayoutInflater, parent);
+            viewMvc = new InfoViewMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == GoalViewMvc.class) {
-            viewMvc = new GoalViewMvcImpl(mLayoutInflater, parent);
+            viewMvc = new GoalViewMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == ActiveViewMvc.class) {
-            viewMvc = new ActiveViewMvcImpl(mLayoutInflater, parent);
+            viewMvc = new ActiveViewMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == WeightGoalViewMvc.class) {
-            viewMvc = new WeightGoalViewMvcImpl(mLayoutInflater, parent);
+            viewMvc = new WeightGoalViewMvcImpl(mLayoutInflater, container);
+        } else if (mvcClass == MealViewMvc.class) {
+            viewMvc = new MealViewMvcImpl(mLayoutInflater, container);
         }
 
         else {

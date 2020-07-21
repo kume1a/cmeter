@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.ui.common.base.BaseFragment;
@@ -15,6 +16,7 @@ public class NutritionHomeFragment extends BaseFragment implements NutritionHome
 
     private NutritionHomeMvc mViewMvc;
     private NutritionHomeNavController mNavController;
+    private NutritionHomeViewModel mViewModel;
 
     @Nullable
     @Override
@@ -28,16 +30,25 @@ public class NutritionHomeFragment extends BaseFragment implements NutritionHome
         super.onViewCreated(view, savedInstanceState);
 
         mNavController = getNavControllerFactory().newInstance(NutritionHomeNavController.class, view);
+        mViewModel = new ViewModelProvider(this, getViewModelFactory()).get(NutritionHomeViewModel.class);
 
+        // show fab menu from activity
         View fabMenu = requireActivity().findViewById(R.id.nutrition_home_fab_menu);
         View dim = requireActivity().findViewById(R.id.view_dim);
         mViewMvc.showFabMenu(fabMenu, dim);
+
+        // listen for live data changes from firebase database
+        mViewModel.getNutritionHomeModelLiveData().observe(
+                getViewLifecycleOwner(),
+                nutritionHomeModel -> mViewMvc.bindHomeModelInfo(nutritionHomeModel)
+        );
     }
 
     @Override
     public void onStart() {
         super.onStart();
         mViewMvc.registerListener(this);
+        mViewModel.fetchNutritionHomeInfo();
     }
 
     @Override
@@ -49,29 +60,16 @@ public class NutritionHomeFragment extends BaseFragment implements NutritionHome
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        // hide fab menu from activity
         View fabMenu = requireActivity().findViewById(R.id.nutrition_home_fab_menu);
         mViewMvc.hideFabMenu(fabMenu);
     }
 
-    //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.nutrition, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if (item.getItemId() == R.id.menu_nutrition_stats) {
-//            Toast.makeText(this, "Statistics", Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
     @Override
-    public void onMenuClick(@NonNull String title) {
+    public void onMenuClick(@NonNull String mealType) {
         mViewMvc.closeMenu();
-        mNavController.actionToAddFood(title);
+        mNavController.actionToAddFood(mealType);
     }
 
     @Override
@@ -79,5 +77,10 @@ public class NutritionHomeFragment extends BaseFragment implements NutritionHome
         if (isMenuOpen) {
             mViewMvc.closeMenu();
         } else mViewMvc.openMenu();
+    }
+
+    @Override
+    public void onMealClick(@NonNull String mealType) {
+        mNavController.actionToMeal(mealType);
     }
 }

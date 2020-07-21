@@ -36,7 +36,7 @@ public class FetchNutritionInfoUseCase extends BaseObservable<FetchNutritionInfo
     }
 
     public void fetchNutritionInfoAndNotify(String foodName) {
-        Log.d(TAG, "fetchSearchItemsAndNotify: called foodName = " + foodName);
+        Log.d(TAG, "fetchNutritionInfoAndNotify: called foodName = " + foodName);
 
         mNutritionXService.getNutritionInfo(new NutritionRequest(foodName)).enqueue(new Callback<NutritionResponse>() {
             @Override

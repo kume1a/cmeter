@@ -22,6 +22,8 @@ public interface SearchMvc extends ObservableViewMvc<SearchMvc.Listener>, Search
         void onRequestFetch(String query);
 
         void onSearchItemClicked(SearchItem searchItem);
+
+        void onSearchItemAddButtonClicked(SearchItem searchItem);
     }
 
     void animateActivity(int x, int y);

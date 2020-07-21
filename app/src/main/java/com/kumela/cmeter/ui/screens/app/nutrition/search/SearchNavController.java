@@ -17,9 +17,10 @@ public class SearchNavController extends ActivityNavController {
         setContext(context);
     }
 
-    public void actionToFoodDetails(SearchItem searchItem) {
+    public void actionToFoodDetails(String foodName, String mealType) {
         Intent intent = new Intent(getContext(), NutritionDetailsActivity.class);
-        intent.putExtra(NutritionDetailsActivity.EXTRA_FOOD_NAME, searchItem.foodName);
+        intent.putExtra(NutritionDetailsActivity.EXTRA_FOOD_NAME, foodName);
+        intent.putExtra(NutritionDetailsActivity.EXTRA_MEAL_TYPE, mealType);
         startActivity(intent);
     }
 }

@@ -1,4 +1,4 @@
-package com.kumela.cmeter.model.list;
+package com.kumela.cmeter.model.local;
 
 import androidx.annotation.NonNull;
 
@@ -9,33 +9,24 @@ import java.util.Objects;
  **/
 
 public class BaseNutrition {
-    private String calories;
-    private String carbohydrates;
-    private String proteins;
-    private String fats;
+    private float calories;
+    private float carbohydrates;
+    private float proteins;
+    private float fats;
 
-    public BaseNutrition(String calories, String carbohydrates, String fats, String proteins) {
+    public BaseNutrition(float calories, float carbohydrates, float fats, float proteins) {
         this.calories = calories;
         this.carbohydrates = carbohydrates;
-        this.proteins = proteins;
         this.fats = fats;
+        this.proteins = proteins;
     }
 
-    public String getCalories() {
-        return (int)Float.parseFloat(calories) + "";
-    }
+    public BaseNutrition() {}
 
-    public String getCarbohydrates() {
-        return (int)Float.parseFloat(carbohydrates) + "";
-    }
-
-    public String getProteins() {
-        return (int)Float.parseFloat(proteins) + "";
-    }
-
-    public String getFats() {
-        return (int)Float.parseFloat(fats) + "";
-    }
+    public float getCalories() { return calories; }
+    public float getCarbohydrates() { return carbohydrates; }
+    public float getProteins() { return proteins; }
+    public float getFats() { return fats; }
 
     @NonNull
     @Override

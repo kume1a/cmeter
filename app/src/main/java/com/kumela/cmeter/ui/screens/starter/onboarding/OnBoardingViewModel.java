@@ -1,14 +1,21 @@
 package com.kumela.cmeter.ui.screens.starter.onboarding;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.kumela.cmeter.common.Constants;
+import com.kumela.cmeter.model.firebase.User;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Toko on 09,July,2020
@@ -44,7 +51,13 @@ public class OnBoardingViewModel extends ViewModel {
     private int mAge = Constants.AVERAGE_AGE;
     private int mHeight = Constants.AVERAGE_HEIGHT;
 
-    public OnBoardingViewModel() {
+
+    private DatabaseReference mDatabase;
+    private String mUserId;
+
+    public OnBoardingViewModel(FirebaseDatabase firebaseDatabase, String uid) {
+        mDatabase = firebaseDatabase.getReference();
+        mUserId = uid;
     }
 
     public LiveData<Goal> getGoalLiveData() {
@@ -129,6 +142,14 @@ public class OnBoardingViewModel extends ViewModel {
         mHeight = height;
     }
 
+    public int getAge() {
+        return mAge;
+    }
+
+    public int getHeight() {
+        return mHeight;
+    }
+
     private Map<ActivityLevel, Float> BMRMultiplier = new HashMap<ActivityLevel, Float>() {{
         put(ActivityLevel.NO_ACTIVITY, 1.2f);
         put(ActivityLevel.LIGHT_ACTIVITY, 1.375f);
@@ -157,6 +178,48 @@ public class OnBoardingViewModel extends ViewModel {
     public int getDailyExtra() {
         // 7716.17f = calories per kg
         return (int) (mWeightChangeGoal * 7716.17f / 7f);
+    }
+
+    /* Calculation ratio
+       carbohydrates : fats : protein = 1 / 2 / 2
+     */
+    public int getCarbohydrates(int goalCalories) {
+        return (int) (goalCalories * .5f / 4f);
+    }
+
+    public int getFats(int goalCalories) {
+        return (int) (goalCalories * .25f / 9f);
+    }
+
+    public int getProteins(int goalCalories) {
+        return (int) (goalCalories * .25f / 4f);
+    }
+
+    // Firebase create user
+    public interface Listener {
+        void onDatabaseWriteCompleted();
+    }
+
+    private Set<Listener> mListeners = new HashSet<>(1);
+
+    public void registerListener(Listener listener) {
+        mListeners.add(listener);
+    }
+
+    public void unregisterListener(Listener listener) {
+        mListeners.remove(listener);
+    }
+
+    public void createUserAndNotify(User user) {
+        Log.d(getClass().getSimpleName(), "createUserAndNotify: called, user = " + user);
+
+        mDatabase.child(Constants.CHILD_USERS)
+                .child(mUserId)
+                .setValue(user)
+                .addOnSuccessListener(aVoid -> {
+                    for (Listener listener : mListeners) listener.onDatabaseWriteCompleted();
+                })
+                .addOnFailureListener(e -> Log.e(getClass().getSimpleName(), "createUserAndNotify: ", e));
     }
 
     @NonNull

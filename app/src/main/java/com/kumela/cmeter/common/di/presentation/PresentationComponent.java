@@ -1,11 +1,9 @@
 package com.kumela.cmeter.common.di.presentation;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.kumela.cmeter.common.di.factory.NavControllerFactory;
 import com.kumela.cmeter.common.di.factory.ViewModelFactory;
 import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
 import com.kumela.cmeter.network.firebase.FirebaseAuthHandler;
-import com.kumela.cmeter.network.firebase.FirebaseUserHandler;
 
 import dagger.Subcomponent;
 
@@ -20,5 +18,4 @@ public interface PresentationComponent {
     ViewModelFactory getViewModelFactory();
 
     FirebaseAuthHandler getAuthController();
-    FirebaseUserHandler getFirebaseUserHandler();
 }

@@ -1,5 +1,6 @@
 package com.kumela.cmeter.ui.adapters.search;
 
+import android.graphics.drawable.Animatable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -52,8 +53,10 @@ public class SearchItemMvcImpl extends BaseObservableViewMvc<SearchItemMvc.Liste
 
         tvName.setText(searchItem.foodName);
         tvDesc.setText(foodDesc);
+
         btnAdd.setOnClickListener(v -> {
-            // TODO: 7/2/2020 implement onClick to write into database
+            ((Animatable) btnAdd.getDrawable()).start();
+            for (Listener listener : getListeners()) listener.onAddButtonClicked(searchItem);
         });
     }
 }

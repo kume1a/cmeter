@@ -8,22 +8,20 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.model.firebase.User;
-import com.kumela.cmeter.network.firebase.FirebaseUserHandler;
 import com.kumela.cmeter.ui.common.base.BaseFragment;
 
-public class OnBoardingFragment extends BaseFragment implements OnBoardingViewMvc.Listener, FirebaseUserHandler.Listener {
+public class OnBoardingFragment extends BaseFragment
+        implements OnBoardingViewMvc.Listener, OnBoardingViewModel.Listener {
 
     private static final String TAG = "OnBoardingFragment";
 
     private OnBoardingViewMvc mViewMvc;
     private OnBoardingViewModel mViewModel;
     private OnBoardingNavController mNavController;
-    private FirebaseUserHandler mFirebaseUserHandler;
 
     @Nullable
     @Override
@@ -36,9 +34,8 @@ public class OnBoardingFragment extends BaseFragment implements OnBoardingViewMv
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mViewModel = new ViewModelProvider(requireActivity()).get(OnBoardingViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity(), getViewModelFactory()).get(OnBoardingViewModel.class);
         mNavController = getNavControllerFactory().newInstance(OnBoardingNavController.class, getContext(), view);
-        mFirebaseUserHandler = getPresentationComponent().getFirebaseUserHandler();
 
         mViewMvc.setPagerAdapter(getChildFragmentManager(), getLifecycle());
     }
@@ -47,14 +44,14 @@ public class OnBoardingFragment extends BaseFragment implements OnBoardingViewMv
     public void onStart() {
         super.onStart();
         mViewMvc.registerListener(this);
-        mFirebaseUserHandler.registerListener(this);
+        mViewModel.registerListener(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         mViewMvc.unregisterListener(this);
-        mFirebaseUserHandler.unregisterListener(this);
+        mViewModel.unregisterListener(this);
     }
 
     @Override
@@ -97,29 +94,29 @@ public class OnBoardingFragment extends BaseFragment implements OnBoardingViewMv
             final int waterIntake = mViewModel.getDailyWaterIntake();
             final int dailyExtra = mViewModel.getDailyExtra();
 
-            Log.d(TAG, "onFinished: bmr = " + bmr + " calories");
-            Log.d(TAG, "onFinished: water intake = " + waterIntake + " litres");
-            Log.d(TAG, "onFinished: weekly extra = " + dailyExtra  + " calories");
+            final int goalCalories = bmr + dailyExtra;
+
+            final int carbohydrates = mViewModel.getCarbohydrates(goalCalories);
+            final int fats = mViewModel.getFats(goalCalories);
+            final int proteins = mViewModel.getProteins(goalCalories);
+
+            final int goalWeight = mViewModel.getGoalWeight();
+            final int currentWeight = mViewModel.getCurrentWeight();
+            final int height = mViewModel.getHeight();
+            final int age = mViewModel.getAge();
 
             final OnBoardingFragmentArgs args = OnBoardingFragmentArgs.fromBundle(requireArguments());
-            mFirebaseUserHandler.createUserAndNotify(new User(
-                    mFirebaseUserHandler.getUid(),
-                    args.getUsername(),
-                    args.getEmail(),
-                    bmr,
-                    dailyExtra,
-                    waterIntake
+            mViewModel.createUserAndNotify(new User(
+                    args.getUsername(), args.getEmail(),
+                    bmr, dailyExtra, waterIntake,
+                    carbohydrates, fats, proteins,
+                    goalWeight, currentWeight, height, age
             ));
         }
     }
 
     @Override
-    public void onUserCreated() {
-        mNavController.actionToApp(mFirebaseUserHandler.getUid());
-    }
-
-    @Override
-    public void onUserCreateFailed(@StringRes int errorMsgId) {
-        mViewMvc.showErrorSnackBar(errorMsgId);
+    public void onDatabaseWriteCompleted() {
+        mNavController.actionToApp();
     }
 }

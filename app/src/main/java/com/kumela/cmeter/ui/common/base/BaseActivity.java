@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.common.App;
 import com.kumela.cmeter.common.di.factory.NavControllerFactory;
+import com.kumela.cmeter.common.di.factory.ViewModelFactory;
 import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
 import com.kumela.cmeter.common.di.application.ApplicationComponent;
 import com.kumela.cmeter.common.di.presentation.PresentationComponent;
@@ -40,6 +41,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected PresentationComponent getPresentationComponent() {
         return getApplicationComponent()
                 .newPresentationComponent(new PresentationModule(this));
+    }
+
+    @UiThread
+    protected ViewModelFactory getViewModelFactory() {
+        return getPresentationComponent().getViewModelFactory();
     }
 
     @UiThread

@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kumela.cmeter.R;
+import com.kumela.cmeter.common.Constants;
 import com.kumela.cmeter.ui.common.util.ToolbarHelper;
 import com.kumela.cmeter.ui.common.base.BaseFragment;
 
@@ -20,6 +21,8 @@ public class AddFoodFragment extends BaseFragment {
 
     private AddFoodViewMvc mViewMvc;
     private AddFoodNavController mNavController;
+
+    private String mMealType;
 
     @Nullable
     @Override
@@ -29,13 +32,16 @@ public class AddFoodFragment extends BaseFragment {
         return mViewMvc.getRootView();
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mMealType = AddFoodFragmentArgs.fromBundle(requireArguments()).getMealType();
+
         mNavController = getNavControllerFactory().newInstance(AddFoodNavController.class, requireContext());
 
-        mViewMvc.setupToolbar(requireActivity(), AddFoodFragmentArgs.fromBundle(requireArguments()).getTitle());
+        mViewMvc.setupToolbar(requireActivity(), Constants.MEAL_TYPE_TO_STRING.get(mMealType));
         mViewMvc.setupViewPager((AppCompatActivity) requireActivity());
     }
 
@@ -45,7 +51,7 @@ public class AddFoodFragment extends BaseFragment {
             int[] searchPosition = mViewMvc.getSearchPosition(
                     ((ToolbarHelper) requireActivity()).findMenuView(item.getItemId())
             );
-            mNavController.actionToSearch(searchPosition[0], searchPosition[1]);
+            mNavController.actionToSearch(mMealType, searchPosition[0], searchPosition[1]);
             return true;
         }
         return super.onOptionsItemSelected(item);

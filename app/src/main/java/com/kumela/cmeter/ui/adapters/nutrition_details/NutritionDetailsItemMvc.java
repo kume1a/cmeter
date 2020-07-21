@@ -1,6 +1,6 @@
 package com.kumela.cmeter.ui.adapters.nutrition_details;
 
-import com.kumela.cmeter.model.list.NutritionDetailItem;
+import com.kumela.cmeter.model.local.NutritionDetailItem;
 import com.kumela.cmeter.ui.common.mvc.ViewMvc;
 
 /**

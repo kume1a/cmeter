@@ -6,34 +6,33 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-    tools:background="@color/colorPrimary">
+    tools:background="@color/colorPrimaryDark">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="32dp">
+        android:paddingEnd="16dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_food_details_head_amount_carbs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:textAppearance="@style/Header"
+            android:layout_marginStart="32dp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@id/tv_food_details_head_amount_fats"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/pie_food_details"
+            app:layout_constraintBottom_toBottomOf="@id/pie_food_details"
+            app:layout_constraintTop_toTopOf="@id/pie_food_details"
             tools:text="23g" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_food_details_head_amount_fats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/Header"
+            android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@id/tv_food_details_head_amount_protein"
             app:layout_constraintStart_toEndOf="@id/tv_food_details_head_amount_carbs"
             app:layout_constraintTop_toTopOf="@id/tv_food_details_head_amount_carbs"
@@ -43,8 +42,8 @@
             android:id="@+id/tv_food_details_head_amount_protein"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:textAppearance="@style/Header"
+            android:textSize="18sp"
+            android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_food_details_head_amount_fats"
             app:layout_constraintTop_toTopOf="@id/tv_food_details_head_amount_fats"
@@ -55,7 +54,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/carbs"
-            android:textAppearance="@style/Header.Small"
+            android:textColor="@color/colorCarbs"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/tv_food_details_head_amount_carbs"
             app:layout_constraintEnd_toEndOf="@id/tv_food_details_head_amount_carbs"
             app:layout_constraintTop_toBottomOf="@id/tv_food_details_head_amount_carbs" />
@@ -65,7 +65,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fats"
-            android:textAppearance="@style/Header.Small"
+            android:textColor="@color/colorFats"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@id/tv_food_details_head_amount_fats"
             app:layout_constraintStart_toStartOf="@id/tv_food_details_head_amount_fats"
             app:layout_constraintTop_toBottomOf="@id/tv_food_details_head_amount_fats" />
@@ -74,8 +75,9 @@
             android:id="@+id/tv_food_details_head_protein"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/protein"
-            android:textAppearance="@style/Header.Small"
+            android:text="@string/proteins"
+            android:textColor="@color/colorProtein"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@id/tv_food_details_head_amount_protein"
             app:layout_constraintStart_toStartOf="@id/tv_food_details_head_amount_protein"
             app:layout_constraintTop_toBottomOf="@id/tv_food_details_head_amount_protein" />
@@ -85,16 +87,15 @@
             android:layout_width="@dimen/pie_nutrition_details"
             android:layout_height="@dimen/pie_nutrition_details"
             android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_food_details_head_fats"
+            app:layout_constraintTop_toTopOf="parent"
             tools:background="@color/colorPrimaryDark" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_food_details_card_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="64dp"
             android:text="@string/details_card_header"
             android:textAppearance="@style/Header"
             android:textStyle="bold"
@@ -102,6 +103,7 @@
             app:layout_constraintTop_toBottomOf="@id/pie_food_details" />
 
         <include
+            android:id="@+id/ll_nutrition_details"
             layout="@layout/nutrition_details_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
 
-import com.kumela.cmeter.ui.common.mvc.ViewMvc;
-
 public abstract class BaseViewMvc implements ViewMvc {
 
     private View mRootView;

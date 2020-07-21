@@ -15,6 +15,15 @@ public class FullNutrient {
     @SerializedName("value")
     public float value;
 
+    @SuppressWarnings("unused")
+    public FullNutrient() {
+    }
+
+    public FullNutrient(int id, float value) {
+        this.id = id;
+        this.value = value;
+    }
+
     @NonNull
     @Override
     public String toString() {

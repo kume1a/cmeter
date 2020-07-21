@@ -3,8 +3,8 @@ package com.kumela.cmeter.ui.common.util;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 
+import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -13,12 +13,9 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.common.Utils;
 
 import java.util.ArrayList;
 import java.util.Map;
-
-import okhttp3.internal.Util;
 
 /**
  * Created by Toko on 06,July,2020
@@ -52,21 +49,16 @@ public class NutritionPieChart extends PieChart {
         getLegend().setEnabled(false);
     }
 
-    private static final String TAG = "BaseNutritionPieChart";
-    public void setHoleRadius(int height) {
-        super.setHoleRadius(Utils.pxToDp(getContext(), height) * .5f);
+    public void setHoleRadius(int height, float fraction) {
+        super.setHoleRadius(height * fraction);
     }
 
-    public void setCenterText(@NonNull String text) {
+    public void setCenterText(@NonNull String text, @IntRange(from = 12, to = 30) int textSize) {
         setDrawCenterText(true);
         setCenterTextColor(getResources().getColor(R.color.colorWhite));
-        setCenterTextSize(Utils.pxToDp(getContext(), getHeight() * .15f));
+        setCenterTextSize(textSize);
 
-        super.setCenterText(String.format(
-                getResources().getString(R.string.value_unit),
-                text,
-                getResources().getString(R.string.kcal)
-        ));
+        super.setCenterText(text);
     }
 
     /**
@@ -74,12 +66,12 @@ public class NutritionPieChart extends PieChart {
      *
      * @param data hash map of string (float value) and int (color)
      */
-    public void setPieData(@NonNull Map<String, Integer> data) {
+    public void setPieData(@NonNull Map<Float, Integer> data) {
         ArrayList<PieEntry> entries = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<>();
 
-        for (Map.Entry<String, Integer> entry : data.entrySet()) {
-            entries.add(new PieEntry(Float.parseFloat(entry.getKey())));
+        for (Map.Entry<Float, Integer> entry : data.entrySet()) {
+            entries.add(new PieEntry(entry.getKey()));
             colors.add(entry.getValue());
         }
 

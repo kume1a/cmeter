@@ -1,9 +1,11 @@
 package com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details;
 
-import com.kumela.cmeter.model.list.BaseNutrition;
-import com.kumela.cmeter.model.list.NutritionDetailItem;
-import com.kumela.cmeter.model.api.Photo;
-import com.kumela.cmeter.ui.common.mvc.ViewMvc;
+import androidx.annotation.NonNull;
+
+import com.kumela.cmeter.model.api.nutrition.AltMeasure;
+import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
+import com.kumela.cmeter.model.local.NutritionDetailItem;
+import com.kumela.cmeter.ui.common.mvc.observanble.ObservableViewMvc;
 
 import java.util.List;
 
@@ -11,10 +13,25 @@ import java.util.List;
  * Created by Toko on 03,July,2020
  **/
 
-public interface NutritionDetailsMvc extends ViewMvc {
-    void bindRecyclerNutritionInfo(List<NutritionDetailItem> nutritionDetails);
+public interface NutritionDetailsMvc extends ObservableViewMvc<NutritionDetailsMvc.Listener> {
 
-    void bindImage(Photo photo);
+    interface Listener {
 
-    void bindBaseNutritionInfo(BaseNutrition baseNutrition);
+        void onFabClicked();
+
+        void onAltMeasureChanged(@NonNull AltMeasure altMeasure);
+
+        void onServingQuantityChanged(float servingQuantity);
+
+    }
+
+    void showFab();
+
+    void bindNutritionInfo(NutritionInfo nutritionInfo);
+
+    void bindNutritionDetails(List<NutritionDetailItem> nutritionDetails);
+
+    void updateNutritionInfo(NutritionInfo nutritionInfo);
+
+    void updateNutritionDetails(List<NutritionDetailItem> nutritionDetails);
 }

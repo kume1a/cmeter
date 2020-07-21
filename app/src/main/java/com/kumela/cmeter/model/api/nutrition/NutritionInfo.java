@@ -11,117 +11,144 @@ import java.util.List;
  * Created by Toko on 20,June,2020
  **/
 
-public class NutritionInfo {
+public class NutritionInfo implements Cloneable {
     @SerializedName("food_name")
     public String foodName;
 
-    @SerializedName("brand_name")
-    public String brandName;
-
     @SerializedName("serving_qty")
-    public float servingQuantity;
+    public float currentServingQuantity;
 
     @SerializedName("serving_unit")
     public String servingUnit;
 
     @SerializedName("serving_weight_grams")
-    public float servingWeightGrams;
+    public float servingWeightInGrams;
 
     @SerializedName("nf_calories")
     public float totalCalories;
 
-    @SerializedName("nf_total_fat")
-    public float totalFat;
-
-    @SerializedName("nf_saturated_fat")
-    public float saturatedFat;
-
-    @SerializedName("nf_cholesterol")
-    public float cholesterol;
-
-    @SerializedName("nf_sodium")
-    public float sodium;
-
     @SerializedName("nf_total_carbohydrate")
     public float totalCarbohydrates;
 
-    @SerializedName("nf_dietary_fiber")
-    public float dietaryFiber;
-
-    @SerializedName("nf_sugars")
-    public float sugars;
+    @SerializedName("nf_total_fat")
+    public float totalFats;
 
     @SerializedName("nf_protein")
-    public float totalProtein;
-
-    @SerializedName("nf_potassium")
-    public float potassium;
-
-    @SerializedName("nf_p")
-    public float p;
+    public float totalProteins;
 
     @SerializedName("full_nutrients")
     public List<FullNutrient> fullNutrients;
 
-    /*@SerializedName("nix_brand_name")
-    public String nixBrandName;
-
-    @SerializedName("nix_brand_id")
-    public String nixBrandId;
-
-    @SerializedName("nix_item_id")
-    public String nixItemId;
-
-    public String upc;*/
-
-    @SerializedName("consumed_at")
-    public String timestamp;
-
-    /*public MetaData metaData;
-
-    public int source;
-
-    @SerializedName("ndb_no")
-    public int ndbNo;
-
-    public Tags tags;*/
-
     @SerializedName("alt_measures")
     public List<AltMeasure> altMeasures;
 
-    /*public double lat;
-    public double lng;
-
-    @SerializedName("meal_type")
-    public int mealType;*/
-
     public Photo photo;
 
-    /*@SerializedName("sub_recipe")
-    public String subRecipe;*/
+    private NutritionInfo(String foodName,
+                          float currentServingQuantity,
+                          String servingUnit,
+                          float servingWeightInGrams,
+                          float totalCalories,
+                          float totalCarbohydrates,
+                          float totalFats,
+                          float totalProteins,
+                          List<FullNutrient> fullNutrients,
+                          List<AltMeasure> altMeasures,
+                          Photo photo
+    ) {
+        this.foodName = foodName;
+        this.currentServingQuantity = currentServingQuantity;
+        this.servingUnit = servingUnit;
+        this.servingWeightInGrams = servingWeightInGrams;
+        this.totalCalories = totalCalories;
+        this.totalCarbohydrates = totalCarbohydrates;
+        this.totalFats = totalFats;
+        this.totalProteins = totalProteins;
+        this.fullNutrients = fullNutrients;
+        this.altMeasures = altMeasures;
+        this.photo = photo;
+    }
+
+    public NutritionInfo getZeroedOutInstance() {
+        return new NutritionInfo(
+                foodName, currentServingQuantity, servingUnit, servingWeightInGrams,
+                0, 0, 0, 0,
+                null, altMeasures, photo
+        );
+    }
+
+    private float servingQuantity;
+
+    public boolean zeroedOut = false;
+
+    /**
+     * set new alt measure for NutritionInfo class
+     *
+     * @param altMeasure new AltMeasure
+     * @return true if anything changed false otherwise
+     */
+    public boolean setAltMeasure(AltMeasure altMeasure) {
+        zeroedOut = false;
+        float valueFraction = altMeasure.servingWeight / this.servingWeightInGrams;
+
+        if (valueFraction == 1.0f) return false;
+
+        if (this.servingQuantity == 0f) this.servingQuantity = this.currentServingQuantity;
+
+        if (this.currentServingQuantity != this.servingQuantity) {
+            valueFraction *= this.servingQuantity / this.currentServingQuantity;
+        }
+
+        this.servingQuantity = altMeasure.qty;
+        this.currentServingQuantity = altMeasure.qty;
+        this.servingWeightInGrams = altMeasure.servingWeight;
+        this.servingUnit = altMeasure.measure;
+
+        this.totalCalories *= valueFraction;
+        this.totalCarbohydrates *= valueFraction;
+        this.totalFats *= valueFraction;
+        this.totalProteins *= valueFraction;
+
+        for (FullNutrient fullNutrient : this.fullNutrients) {
+            fullNutrient.value *= valueFraction;
+        }
+
+        return true;
+    }
+
+    public void setCurrentServingQuantity(float currentServingQuantity) {
+        if (currentServingQuantity == 0f) {
+            zeroedOut = true;
+            return;
+        } else zeroedOut = false;
+
+        final float valueFraction = currentServingQuantity / this.currentServingQuantity;
+
+        this.currentServingQuantity = currentServingQuantity;
+
+        this.totalCalories *= valueFraction;
+        this.totalCarbohydrates *= valueFraction;
+        this.totalFats *= valueFraction;
+        this.totalProteins *= valueFraction;
+
+        for (FullNutrient fullNutrient : this.fullNutrients) {
+            fullNutrient.value *= valueFraction;
+        }
+    }
 
     @NonNull
     @Override
     public String toString() {
         return "Food{" +
                 "foodName='" + foodName + '\'' +
-                ", brandName='" + brandName + '\'' +
-                ", servingQuantity=" + servingQuantity +
+                ", servingQuantity=" + currentServingQuantity +
                 ", servingUnit='" + servingUnit + '\'' +
-                ", servingWeightGrams=" + servingWeightGrams +
+                ", servingWeightGrams=" + servingWeightInGrams +
                 ", calories=" + totalCalories +
-                ", totalFat=" + totalFat +
-                ", saturatedFat=" + saturatedFat +
-                ", cholesterol=" + cholesterol +
-                ", sodium=" + sodium +
+                ", totalFat=" + totalFats +
                 ", totalCarbohydrates=" + totalCarbohydrates +
-                ", dietaryFiber=" + dietaryFiber +
-                ", sugars=" + sugars +
-                ", protein=" + totalProtein +
-                ", potassium=" + potassium +
-                ", p=" + p +
+                ", protein=" + totalProteins +
                 ", fullNutrients=" + fullNutrients +
-                ", timestamp='" + timestamp + '\'' +
                 ", altMeasures=" + altMeasures +
                 ", photo=" + photo +
                 '}';

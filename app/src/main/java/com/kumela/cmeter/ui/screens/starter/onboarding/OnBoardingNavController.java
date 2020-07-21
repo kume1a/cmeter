@@ -8,7 +8,6 @@ import androidx.annotation.StringRes;
 
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.ui.common.nav.DualNavController;
-import com.kumela.cmeter.ui.common.nav.FragmentNavController;
 import com.kumela.cmeter.ui.screens.app.AppActivity;
 
 /**
@@ -32,9 +31,8 @@ public class OnBoardingNavController extends DualNavController {
         getNavController().navigate(navDirections);
     }
 
-    void actionToApp(String uid) {
+    void actionToApp() {
         Intent intent = new Intent(getContext(), AppActivity.class);
-        intent.putExtra(AppActivity.EXTRA_UID, uid);
         startActivity(intent);
     }
 }

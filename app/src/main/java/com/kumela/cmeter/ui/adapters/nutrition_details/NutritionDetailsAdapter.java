@@ -3,25 +3,38 @@ package com.kumela.cmeter.ui.adapters.nutrition_details;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
-import com.kumela.cmeter.model.list.NutritionDetailItem;
-
-import java.util.List;
+import com.kumela.cmeter.model.local.NutritionDetailItem;
 
 /**
  * Created by Toko on 03,July,2020
  **/
 
-public class NutritionDetailsAdapter extends RecyclerView.Adapter<NutritionDetailsAdapter.NutritionDetailsViewHolder> {
+public class NutritionDetailsAdapter
+        extends ListAdapter<NutritionDetailItem, NutritionDetailsAdapter.NutritionDetailsViewHolder> {
 
     private ViewMvcFactory mViewMvcFactory;
-    private List<NutritionDetailItem> mData;
 
-    public NutritionDetailsAdapter(ViewMvcFactory viewMvcFactory, List<NutritionDetailItem> data) {
+    private static final DiffUtil.ItemCallback<NutritionDetailItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<NutritionDetailItem>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull NutritionDetailItem oldItem, @NonNull NutritionDetailItem newItem) {
+            return oldItem.equals(newItem);
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull NutritionDetailItem oldItem, @NonNull NutritionDetailItem newItem) {
+            return oldItem.getName().equals(newItem.getName()) &&
+                    oldItem.getValue().equals(newItem.getValue());
+        }
+    };
+
+    public NutritionDetailsAdapter(ViewMvcFactory viewMvcFactory) {
+        super(DIFF_CALLBACK);
         this.mViewMvcFactory = viewMvcFactory;
-        this.mData = data;
     }
 
     @NonNull
@@ -33,12 +46,7 @@ public class NutritionDetailsAdapter extends RecyclerView.Adapter<NutritionDetai
 
     @Override
     public void onBindViewHolder(@NonNull NutritionDetailsViewHolder holder, int position) {
-        holder.mNutritionDetailsItemMvc.bindDetailsItem(mData.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return mData.size();
+        holder.mNutritionDetailsItemMvc.bindDetailsItem(getItem(position));
     }
 
     static final class NutritionDetailsViewHolder extends RecyclerView.ViewHolder {

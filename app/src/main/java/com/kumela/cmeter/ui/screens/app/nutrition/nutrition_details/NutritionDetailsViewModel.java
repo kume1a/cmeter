@@ -2,16 +2,13 @@ package com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details;
 
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.kumela.cmeter.common.Utils;
-import com.kumela.cmeter.model.list.BaseNutrition;
-import com.kumela.cmeter.model.list.NutritionDetailItem;
-import com.kumela.cmeter.model.api.Photo;
+import com.kumela.cmeter.model.api.nutrition.AltMeasure;
 import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
+import com.kumela.cmeter.model.local.NutritionDetailItem;
 import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
+import com.kumela.cmeter.network.firebase.FirebaseProductManager;
 import com.kumela.cmeter.ui.common.util.NutritionInfoParser;
 
 import java.util.HashSet;
@@ -28,53 +25,55 @@ public class NutritionDetailsViewModel extends ViewModel
     private static final String TAG = "FoodDetailsViewModel";
 
     interface Listener {
-        void onProvideNutritionInfo(List<NutritionDetailItem> nutritionDetails);
+        void onProvideNutritionDetails(List<NutritionDetailItem> nutritionDetails);
+
+        void onProvideNutritionInfo(NutritionInfo nutritionInfo);
 
         void onProvideNutritionInfoFailed();
+
+        void onNutritionInfoUpdated(NutritionInfo nutritionInfo);
+
+        void onNutritionDetailsUpdated(List<NutritionDetailItem> nutritionDetails);
     }
 
     private Set<Listener> mListeners = new HashSet<>(1);
+
     private List<NutritionDetailItem> mNutritionDetails;
 
-    private MutableLiveData<Photo> mPhotoLiveData;
-    private MutableLiveData<BaseNutrition> mBaseNutritionLiveData;
+    private NutritionInfo mNutritionInfo;
 
     private final FetchNutritionInfoUseCase mFetchNutritionInfoUseCase;
     private final NutritionInfoParser mNutritionInfoParser;
+    private final FirebaseProductManager mFirebaseProductManager;
 
-    public NutritionDetailsViewModel(FetchNutritionInfoUseCase fetchSearchResultsUseCase, NutritionInfoParser parser) {
+    public NutritionDetailsViewModel(FetchNutritionInfoUseCase fetchSearchResultsUseCase,
+                                     NutritionInfoParser parser,
+                                     FirebaseProductManager firebaseProductManager) {
         this.mFetchNutritionInfoUseCase = fetchSearchResultsUseCase;
         this.mNutritionInfoParser = parser;
-
-        this.mPhotoLiveData = new MutableLiveData<>();
-        this.mBaseNutritionLiveData = new MutableLiveData<>();
+        this.mFirebaseProductManager = firebaseProductManager;
 
         mFetchNutritionInfoUseCase.registerListener(this);
         mNutritionInfoParser.registerListener(this);
     }
 
     void fetchNutritionInfoAndNotify(String foodName) {
-        Log.d(TAG, "fetchNutritionInfoAndNotify: called foodName = " + foodName);
         if (mNutritionDetails == null) {
             Log.d(TAG, "fetchNutritionInfoAndNotify: fetching from use case");
             mFetchNutritionInfoUseCase.fetchNutritionInfoAndNotify(foodName);
         } else {
             Log.d(TAG, "fetchNutritionInfoAndNotify: providing from view model");
+            for (Listener listener : mListeners) listener.onProvideNutritionInfo(mNutritionInfo);
             onNutritionInfoParsed(mNutritionDetails);
         }
     }
 
     @Override
     public void onNutritionInfoFetched(NutritionInfo nutritionInfo) {
-        mNutritionInfoParser.parseNutritionInfoAndNotify(nutritionInfo);
+        mNutritionInfo = nutritionInfo;
+        for (Listener listener: mListeners) listener.onProvideNutritionInfo(nutritionInfo);
 
-        mPhotoLiveData.setValue(nutritionInfo.photo);
-        mBaseNutritionLiveData.setValue(new BaseNutrition(
-                Utils.format(nutritionInfo.totalCalories),
-                Utils.format(nutritionInfo.totalCarbohydrates),
-                Utils.format(nutritionInfo.totalFat),
-                Utils.format(nutritionInfo.totalProtein)
-        ));
+        mNutritionInfoParser.parseNutritionInfoAndNotify(nutritionInfo);
     }
 
     @Override
@@ -82,6 +81,10 @@ public class NutritionDetailsViewModel extends ViewModel
         for (Listener listener : mListeners) {
             listener.onProvideNutritionInfoFailed();
         }
+    }
+
+    void writeProduct(String mealType) {
+        mFirebaseProductManager.writeProductAndNotify(mNutritionInfo, mealType);
     }
 
     void registerListener(Listener listener) {
@@ -101,10 +104,16 @@ public class NutritionDetailsViewModel extends ViewModel
 
     @Override
     public void onNutritionInfoParsed(List<NutritionDetailItem> nutritionDetails) {
-        mNutritionDetails = nutritionDetails;
-        for (Listener listener : mListeners) {
-            listener.onProvideNutritionInfo(nutritionDetails);
+        if (mNutritionDetails == null) {
+            for (Listener listener : mListeners) {
+                listener.onProvideNutritionDetails(nutritionDetails);
+            }
+        } else {
+            for (Listener listener: mListeners) {
+                listener.onNutritionDetailsUpdated(nutritionDetails);
+            }
         }
+        mNutritionDetails = nutritionDetails;
     }
 
     @Override
@@ -114,11 +123,20 @@ public class NutritionDetailsViewModel extends ViewModel
         }
     }
 
-    LiveData<BaseNutrition> getBaseNutritionLiveData() {
-        return mBaseNutritionLiveData;
+    // Serving unit and serving quantity changer functions
+    public void setAltMeasure(AltMeasure altMeasure) {
+        boolean valuesChanged = this.mNutritionInfo.setAltMeasure(altMeasure);
+
+        if (valuesChanged) {
+            for (Listener listener : mListeners) listener.onNutritionInfoUpdated(mNutritionInfo);
+            mNutritionInfoParser.parseNutritionInfoAndNotify(mNutritionInfo);
+        }
     }
 
-    LiveData<Photo> getPhotoLicaData() {
-        return mPhotoLiveData;
+    public void setQuantity(float servingQuantity) {
+        this.mNutritionInfo.setCurrentServingQuantity(servingQuantity);
+
+        for (Listener listener : mListeners) listener.onNutritionInfoUpdated(mNutritionInfo);
+        mNutritionInfoParser.parseNutritionInfoAndNotify(mNutritionInfo);
     }
 }

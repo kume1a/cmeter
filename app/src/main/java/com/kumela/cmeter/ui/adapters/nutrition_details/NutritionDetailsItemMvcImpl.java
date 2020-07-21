@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.model.list.NutritionDetailItem;
+import com.kumela.cmeter.model.local.NutritionDetailItem;
 import com.kumela.cmeter.ui.common.mvc.BaseViewMvc;
 
 /**
@@ -46,11 +46,16 @@ public class NutritionDetailsItemMvcImpl extends BaseViewMvc implements Nutritio
         }
 
         if (item.hasValue() && item.getValue() != null) {
+            Float itemValue = item.getValue();
+            String value;
+            if (itemValue == 0) value = "0";
+            else if (itemValue < .1) value = "> 0.1";
+            else value = String.format(getResources().getString(R.string.value_1f), itemValue);
+
             tvValue.setText(String.format(
                     getResources().getString(R.string.value_unit),
-                    String.format(getResources().getString(R.string.value), Float.parseFloat(item.getValue())),
-                    item.getUnit())
-            );
+                    value, item.getUnit()
+            ));
         }
         tvName.setText(item.getName());
     }

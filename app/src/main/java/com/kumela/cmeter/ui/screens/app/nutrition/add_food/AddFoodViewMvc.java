@@ -2,6 +2,7 @@ package com.kumela.cmeter.ui.screens.app.nutrition.add_food;
 
 import android.view.View;
 
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
@@ -16,5 +17,5 @@ public interface AddFoodViewMvc extends ViewMvc {
 
     void setupViewPager(AppCompatActivity appCompatActivity);
 
-    void setupToolbar(FragmentActivity activity, String title);
+    void setupToolbar(FragmentActivity activity, @StringRes int title);
 }

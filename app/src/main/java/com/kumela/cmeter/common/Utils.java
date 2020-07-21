@@ -13,7 +13,7 @@ public class Utils {
         return s.contains(".") ? s.replaceAll("0*$", "").replaceAll("\\.$", "") : s;
     }
 
-    public static int pxToDp(Context context, float px) {
-        return (int) (px / ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
-    }
+//    public static int pxToDp(Context context, float px) {
+//        return (int) (px / ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+//    }
 }

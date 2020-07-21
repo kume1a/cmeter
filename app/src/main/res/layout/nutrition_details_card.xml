@@ -1,43 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cv_nutrition_details"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    app:cardBackgroundColor="@color/colorPrimaryDark"
-    app:cardCornerRadius="@dimen/card_default_radius">
+    android:orientation="vertical"
+    android:paddingBottom="120dp"
+    android:gravity="center_horizontal"
+    tools:background="@color/colorPrimaryDark">
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_nutrient_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        tools:listitem="@layout/item_nutrition" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_nutrient_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            tools:listitem="@layout/item_nutrition" />
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_food_details_arrow"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="@dimen/food_details_card_header_space"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_arrow_vertical" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_nutrient_details_collapsible"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:visibility="gone"
-            tools:listitem="@layout/item_nutrition"
-            tools:visibility="visible" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_arrow_food_details"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="16dp"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_arrow_vertical" />
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_nutrient_details_collapsible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:listitem="@layout/item_nutrition"
+        tools:visibility="visible" />
+</LinearLayout>

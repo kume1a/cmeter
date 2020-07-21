@@ -12,9 +12,6 @@ import java.util.Objects;
  **/
 
 public class Photo {
-    @SerializedName("thumb")
-    public String thumbnail;
-
     @Nullable
     @SerializedName("highres")
     public String highRes;
@@ -23,7 +20,6 @@ public class Photo {
     @Override
     public String toString() {
         return "Photo{" +
-                "thumbnail='" + thumbnail + '\'' +
                 ", highRes='" + highRes + '\'' +
                 '}';
     }
@@ -33,12 +29,11 @@ public class Photo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Photo photo = (Photo) o;
-        return Objects.equals(thumbnail, photo.thumbnail) &&
-                Objects.equals(highRes, photo.highRes);
+        return Objects.equals(highRes, photo.highRes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(thumbnail, highRes);
+        return Objects.hash(highRes);
     }
 }

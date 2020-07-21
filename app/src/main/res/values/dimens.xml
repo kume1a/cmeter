@@ -3,15 +3,13 @@
     <dimen name="pie_home_dashboard_calorie">100dp</dimen>
     <dimen name="pb_height_calorie_dashboard">5dp</dimen>
     <dimen name="height_collapsing_toolbar">192dp</dimen>
-    <dimen name="card_default_radius">12dp</dimen>
-    <dimen name="card_radius_small">6dp</dimen>
     <dimen name="food_details_card_header_space">20dp</dimen>
     <dimen name="food_details_card_sub_header_to_header_margin">4dp</dimen>
 
+    <dimen name="pie_nutrition_details">120dp</dimen>
     <dimen name="divider_height">1dp</dimen>
-    <dimen name="pie_nutrition_details">150dp</dimen>
-    <dimen name="card_radius_registration">24dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="card_default_radius">12dp</dimen>
+    <dimen name="card_radius_authentication">24dp</dimen>
+    <dimen name="pie_meal_card">80dp</dimen>
+    <dimen name="meal_goals_space">8dp</dimen>
 </resources>

@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.model.list.NutritionDetailItem;
+import com.kumela.cmeter.model.api.nutrition.AltMeasure;
+import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
+import com.kumela.cmeter.model.local.NutritionDetailItem;
 import com.kumela.cmeter.ui.common.base.BaseActivity;
 
 import java.util.List;
@@ -18,26 +21,27 @@ import java.util.List;
  **/
 
 public class NutritionDetailsActivity extends BaseActivity
-        implements NutritionDetailsViewModel.Listener {
+        implements NutritionDetailsViewModel.Listener, NutritionDetailsMvc.Listener {
 
     public static final String EXTRA_FOOD_NAME = "EXTRA_FOOD_NAME";
+    public static final String EXTRA_MEAL_TYPE = "EXTRA_MEAL_TYPE";
 
     private NutritionDetailsMvc mViewMvc;
     private NutritionDetailsViewModel mViewModel;
+    private String mMealType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewMvc = getPresentationComponent().getViewMvcFactory().newInstance(NutritionDetailsMvc.class, null);
+        mMealType = getIntent().getStringExtra(EXTRA_MEAL_TYPE);
+
+        mViewMvc = getViewMvcFactory().newInstance(NutritionDetailsMvc.class, null);
 
         mViewModel = new ViewModelProvider(
                 this,
-                getPresentationComponent().getViewModelFactory()
+                getViewModelFactory()
         ).get(NutritionDetailsViewModel.class);
-
-        mViewModel.getBaseNutritionLiveData().observe(this, baseNutrition -> mViewMvc.bindBaseNutritionInfo(baseNutrition));
-        mViewModel.getPhotoLicaData().observe(this, photo -> mViewMvc.bindImage(photo));
 
         setContentView(mViewMvc.getRootView());
         setupToolbar(R.id.toolbar_food_details, getFoodName());
@@ -46,6 +50,7 @@ public class NutritionDetailsActivity extends BaseActivity
     @Override
     protected void onStart() {
         super.onStart();
+        mViewMvc.registerListener(this);
         mViewModel.registerListener(this);
         mViewModel.fetchNutritionInfoAndNotify(getFoodName());
     }
@@ -53,6 +58,7 @@ public class NutritionDetailsActivity extends BaseActivity
     @Override
     protected void onStop() {
         super.onStop();
+        mViewMvc.unregisterListener(this);
         mViewModel.unregisterListener(this);
     }
 
@@ -65,12 +71,46 @@ public class NutritionDetailsActivity extends BaseActivity
     }
 
     @Override
-    public void onProvideNutritionInfo(List<NutritionDetailItem> nutritionDetails) {
-        mViewMvc.bindRecyclerNutritionInfo(nutritionDetails);
+    public void onFabClicked() {
+        mViewModel.writeProduct(mMealType);
+    }
+
+    @Override
+    public void onAltMeasureChanged(@NonNull AltMeasure altMeasure) {
+        mViewModel.setAltMeasure(altMeasure);
+    }
+
+    @Override
+    public void onServingQuantityChanged(float servingQuantity) {
+        mViewModel.setQuantity(servingQuantity);
+    }
+
+    @Override
+    public void onProvideNutritionInfo(NutritionInfo nutritionInfo) {
+        mViewMvc.bindNutritionInfo(nutritionInfo);
     }
 
     @Override
     public void onProvideNutritionInfoFailed() {
+        // TODO: 7/19/2020 implement failure ui
         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProvideNutritionDetails(List<NutritionDetailItem> nutritionDetails) {
+        mViewMvc.bindNutritionDetails(nutritionDetails);
+        mViewMvc.showFab();
+    }
+
+    @Override
+    public void onNutritionInfoUpdated(NutritionInfo nutritionInfo) {
+        if (nutritionInfo.zeroedOut) {
+            mViewMvc.updateNutritionInfo(nutritionInfo.getZeroedOutInstance());
+        } else mViewMvc.updateNutritionInfo(nutritionInfo);
+    }
+
+    @Override
+    public void onNutritionDetailsUpdated(List<NutritionDetailItem> nutritionDetails) {
+        mViewMvc.updateNutritionDetails(nutritionDetails);
     }
 }

@@ -11,6 +11,8 @@ public interface SearchItemMvc extends ObservableViewMvc<SearchItemMvc.Listener>
 
     interface Listener {
         void onSearchItemClicked(SearchItem searchItem);
+
+        void onAddButtonClicked(SearchItem searchItem);
     }
 
     void bindSearchItem(SearchItem searchItem);

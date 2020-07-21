@@ -1,5 +1,10 @@
 package com.kumela.cmeter.common;
 
+import com.kumela.cmeter.R;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Toko on 20,June,2020
  **/
@@ -37,6 +42,21 @@ public class Constants {
 
     // Firebase
     public static final String CHILD_USERS = "users";
+    public static final String CHILD_PRODUCTS = "products";
 
+    public static final String UID_DATE = "uid_date";
 
+    public static final String BREAKFAST = "BREAKFAST";
+    public static final String DINNER = "DINNER";
+    public static final String SUPPER = "SUPPER";
+    public static final String SNACKS = "SNACKS";
+
+    public static final Map<String, Integer> MEAL_TYPE_TO_STRING = new HashMap<String, Integer>() {{
+        put(BREAKFAST, R.string.breakfast);
+        put(DINNER, R.string.dinner);
+        put(SUPPER, R.string.supper);
+        put(SNACKS, R.string.snacks);
+    }};
+
+    public static final String DATE_FORMAT_PATTERN = "dd/MM/yyyy";
 }

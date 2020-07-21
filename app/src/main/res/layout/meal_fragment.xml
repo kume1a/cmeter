@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:padding="8dp">
+
+    <!-- Header info -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_meal_head_amount_carbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:textAppearance="@style/Header"
+        app:layout_constraintEnd_toStartOf="@id/tv_meal_head_amount_fats"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="23g" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_meal_head_amount_fats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Header"
+        app:layout_constraintEnd_toStartOf="@id/tv_meal_head_amount_proteins"
+        app:layout_constraintStart_toEndOf="@id/tv_meal_head_amount_carbs"
+        app:layout_constraintTop_toTopOf="@id/tv_meal_head_amount_carbs"
+        tools:text="1.1g" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_meal_head_amount_proteins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:textAppearance="@style/Header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_meal_head_amount_fats"
+        app:layout_constraintTop_toTopOf="@id/tv_meal_head_amount_fats"
+        tools:text="3.5g" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_meal_head_carbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/carbs"
+        android:textAppearance="@style/Header.Small"
+        app:layout_constraintEnd_toEndOf="@id/tv_meal_head_amount_carbs"
+        app:layout_constraintStart_toStartOf="@id/tv_meal_head_amount_carbs"
+        app:layout_constraintTop_toBottomOf="@id/tv_meal_head_amount_carbs" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_meal_head_fats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fats"
+        android:textAppearance="@style/Header.Small"
+        app:layout_constraintEnd_toEndOf="@id/tv_meal_head_amount_fats"
+        app:layout_constraintStart_toStartOf="@id/tv_meal_head_amount_fats"
+        app:layout_constraintTop_toBottomOf="@id/tv_meal_head_amount_fats" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_meal_head_proteins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/proteins"
+        android:textAppearance="@style/Header.Small"
+        app:layout_constraintEnd_toEndOf="@id/tv_meal_head_amount_proteins"
+        app:layout_constraintStart_toStartOf="@id/tv_meal_head_amount_proteins"
+        app:layout_constraintTop_toBottomOf="@id/tv_meal_head_amount_proteins" />
+    
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_meal_top_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="tv_meal_head_carbs,tv_meal_head_fats,tv_meal_head_proteins"
+        app:barrierDirection="bottom" />
+
+    <!-- Meal goals -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_meal_goals_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/meal_goal_header"
+        android:textSize="24sp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_meal_goals"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardCornerRadius="@dimen/card_default_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_meal_goals_header">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_meal_goals_calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/calories"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/pb_meal_goals_calories"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <ProgressBar
+                android:id="@+id/pb_meal_goals_calories"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/pb_height_calorie_dashboard"
+                android:layout_marginBottom="8dp"
+                android:progressDrawable="@drawable/bgr_progress_goals"
+                app:layout_constraintBottom_toTopOf="@+id/tv_meal_goals_carbohydrates"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_meal_goals_calories"
+                tools:max="200"
+                tools:progress="100" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_meal_goals_calories_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_meal_goals_calories"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="100 / 200 kcal" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_meal_goals_carbohydrates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/meal_goals_space"
+                android:text="@string/carbs"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/pb_meal_goals_carbohydrates"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pb_meal_goals_calories" />
+
+            <ProgressBar
+                android:id="@+id/pb_meal_goals_carbohydrates"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/pb_height_calorie_dashboard"
+                android:progressDrawable="@drawable/bgr_progress_goals"
+                app:layout_constraintBottom_toTopOf="@+id/tv_meal_goals_fats"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_meal_goals_carbohydrates"
+                tools:max="50"
+                tools:progress="40" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_meal_goals_carbohydrates_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_meal_goals_carbohydrates"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="40 / 50 g" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_meal_goals_fats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/meal_goals_space"
+                android:text="@string/fats"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/pb_meal_goals_fats"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pb_meal_goals_carbohydrates" />
+
+            <ProgressBar
+                android:id="@+id/pb_meal_goals_fats"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/pb_height_calorie_dashboard"
+                android:progressDrawable="@drawable/bgr_progress_goals"
+                app:layout_constraintBottom_toTopOf="@+id/tv_meal_goals_proteins"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_meal_goals_fats"
+                tools:max="30"
+                tools:progress="10" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_meal_goals_fats_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_meal_goals_fats"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="10 / 20 g" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_meal_goals_proteins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/meal_goals_space"
+                android:text="@string/proteins"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/pb_meal_goals_proteins"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pb_meal_goals_fats" />
+
+            <ProgressBar
+                android:id="@+id/pb_meal_goals_proteins"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/pb_height_calorie_dashboard"
+                android:progressDrawable="@drawable/bgr_progress_goals"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_meal_goals_proteins"
+                tools:max="40"
+                tools:progress="13" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_meal_goals_proteins_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_meal_goals_proteins"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="13 / 40 g" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_meal_products"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_meal_goals"
+        tools:listitem="@layout/item_product"
+        android:layout_marginTop="16dp"
+        tools:itemCount="3"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_meal_nutrition_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        tools:listitem="@layout/item_nutrition"
+        app:layout_constraintTop_toBottomOf="@id/recycler_meal_products" />
+</androidx.constraintlayout.widget.ConstraintLayout>

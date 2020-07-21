@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.kumela.cmeter.common.BaseObservable;
-import com.kumela.cmeter.model.list.NutritionDetailItem;
 import com.kumela.cmeter.model.api.nutrition.FullNutrient;
 import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
+import com.kumela.cmeter.model.local.NutritionDetailItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,14 +45,17 @@ public class NutritionInfoParser extends BaseObservable<NutritionInfoParser.List
     }
 
     public void parseNutritionInfoAndNotify(NutritionInfo nutritionInfo) {
-        new Parser(nutritionInfo.fullNutrients, getListeners()).execute();
+        new Parser(getListeners(), nutritionInfo.fullNutrients, nutritionInfo.zeroedOut).execute();
     }
 
     private static class Parser extends AsyncTask<Void, Void, List<NutritionDetailItem>> {
 
         private Map<String, Float> mIdToName;
-        private Set<Listener> mListeners;
-        private List<FullNutrient> mFullNutrients;
+
+        private final Set<Listener> mListeners;
+        private final List<FullNutrient> mFullNutrients;
+        private final boolean mZeroedOut;
+
 
         private static final String ID = "id";
         private static final String NAME = "name";
@@ -60,9 +63,12 @@ public class NutritionInfoParser extends BaseObservable<NutritionInfoParser.List
         private static final String HEADER = "header";
         private static final String NO_VALUE = "no_value";
 
-        private Parser(@NonNull List<FullNutrient> fullNutrients, @NonNull Set<Listener> listeners) {
+        private Parser(@NonNull Set<Listener> listeners,
+                       @NonNull List<FullNutrient> fullNutrients,
+                       boolean zeroedOut) {
             this.mListeners = listeners;
             this.mFullNutrients = fullNutrients;
+            this.mZeroedOut = zeroedOut;
         }
 
         private void mapIdToNames(@NonNull List<FullNutrient> fullNutrients) {
@@ -71,7 +77,7 @@ public class NutritionInfoParser extends BaseObservable<NutritionInfoParser.List
             for (FullNutrient fullNutrient : fullNutrients) {
                 mIdToName.put(
                         Integer.toString(fullNutrient.id),
-                        fullNutrient.value
+                        mZeroedOut ? 0 : fullNutrient.value
                 );
             }
         }
@@ -95,17 +101,17 @@ public class NutritionInfoParser extends BaseObservable<NutritionInfoParser.List
 
                         if (o.has(NO_VALUE)) {
                             nutritionDetails.add(new NutritionDetailItem(
-                                    o.getString(NAME), 0f, "",
-                                    true, false
+                                    o.getString(NAME), 0f,
+                                    "", true, false
                             ));
                         } else {
-                            NutritionDetailItem nutritionDetailItem =  getNutritionDetailItem(o);
+                            NutritionDetailItem nutritionDetailItem = getNutritionDetailItem(o);
                             if (nutritionDetailItem != null) {
                                 nutritionDetails.add(getNutritionDetailItem(o));
                             } // if getNutritionDetailItem returns null then there is no value and skip
                         }
                     }
-                    
+
                     return nutritionDetails;
                 } catch (JSONException e) {
                     Log.e(TAG, "doInBackground: ", e);
@@ -137,11 +143,9 @@ public class NutritionInfoParser extends BaseObservable<NutritionInfoParser.List
 
                 if (value == null) return null;
 
-
                 String name = o.getString(NAME);
                 String unit = o.getString(UNIT);
                 boolean isHeader = o.has(HEADER);
-
 
                 return new NutritionDetailItem(name, value, unit, isHeader, true);
             } catch (JSONException e) {

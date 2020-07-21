@@ -79,6 +79,11 @@ public class SearchMvcImpl extends BaseObservableViewMvc<SearchMvc.Listener> imp
     }
 
     @Override
+    public void onAddButtonClicked(SearchItem searchItem) {
+        for (Listener listener: getListeners()) listener.onSearchItemAddButtonClicked(searchItem);
+    }
+
+    @Override
     public void submitList(@NonNull Set<SearchItem> searchItemSet) {
         mAdapter.submitList(new ArrayList<>(searchItemSet));
     }

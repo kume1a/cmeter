@@ -4,6 +4,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.kumela.cmeter.model.local.NutritionHomeModel;
 import com.kumela.cmeter.ui.common.mvc.observanble.ObservableViewMvc;
 
 /**
@@ -12,18 +13,23 @@ import com.kumela.cmeter.ui.common.mvc.observanble.ObservableViewMvc;
 
 public interface NutritionHomeMvc extends ObservableViewMvc<NutritionHomeMvc.Listener> {
 
+    interface Listener {
+
+        void onMenuClick(@NonNull String mealType);
+
+        void onFabClick(boolean isMenuOpen);
+
+        void onMealClick(@NonNull String mealType);
+    }
+
     void showFabMenu(View fabMenu, View dim);
 
     void hideFabMenu(View fabMenu);
 
-    interface Listener {
-
-        void onMenuClick(@NonNull String title);
-
-        void onFabClick(boolean isMenuOpen);
-    }
-
     void closeMenu();
 
     void openMenu();
+
+
+    void bindHomeModelInfo(NutritionHomeModel nutritionHomeModel);
 }
