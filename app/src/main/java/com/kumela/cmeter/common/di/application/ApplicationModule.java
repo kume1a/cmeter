@@ -1,6 +1,8 @@
 package com.kumela.cmeter.common.di.application;
 
 import android.app.Application;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.kumela.cmeter.network.api.NutritionXService;
 import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
@@ -30,6 +32,11 @@ public class ApplicationModule {
     @Provides
     FetchNutritionInfoUseCase providesFetchNutritionInfoUseCase(NutritionXService nutritionXService) {
         return new FetchNutritionInfoUseCase(nutritionXService);
+    }
+
+    @Provides
+    Handler providesUiHandler() {
+        return new Handler(Looper.getMainLooper());
     }
 
 }

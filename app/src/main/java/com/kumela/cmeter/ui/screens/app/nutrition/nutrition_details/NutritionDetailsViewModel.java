@@ -20,7 +20,7 @@ import java.util.Set;
  **/
 
 public class NutritionDetailsViewModel extends ViewModel
-        implements FetchNutritionInfoUseCase.Listener, NutritionInfoParser.Listener {
+        implements FetchNutritionInfoUseCase.Listener, NutritionInfoParser.Listener, FirebaseProductManager.Listener {
 
     private static final String TAG = "FoodDetailsViewModel";
 
@@ -34,6 +34,8 @@ public class NutritionDetailsViewModel extends ViewModel
         void onNutritionInfoUpdated(NutritionInfo nutritionInfo);
 
         void onNutritionDetailsUpdated(List<NutritionDetailItem> nutritionDetails);
+
+        void onWriteProductCompleted();
     }
 
     private Set<Listener> mListeners = new HashSet<>(1);
@@ -55,6 +57,7 @@ public class NutritionDetailsViewModel extends ViewModel
 
         mFetchNutritionInfoUseCase.registerListener(this);
         mNutritionInfoParser.registerListener(this);
+        mFirebaseProductManager.registerListener(this);
     }
 
     void fetchNutritionInfoAndNotify(String foodName) {
@@ -87,6 +90,11 @@ public class NutritionDetailsViewModel extends ViewModel
         mFirebaseProductManager.writeProductAndNotify(mNutritionInfo, mealType);
     }
 
+    @Override
+    public void onDatabaseWriteCompleted() {
+        for (Listener listener: mListeners) listener.onWriteProductCompleted();
+    }
+
     void registerListener(Listener listener) {
         mListeners.add(listener);
     }
@@ -100,6 +108,7 @@ public class NutritionDetailsViewModel extends ViewModel
         super.onCleared();
         mFetchNutritionInfoUseCase.unregisterListener(this);
         mNutritionInfoParser.unregisterListener(this);
+        mFirebaseProductManager.unregisterListener(this);
     }
 
     @Override

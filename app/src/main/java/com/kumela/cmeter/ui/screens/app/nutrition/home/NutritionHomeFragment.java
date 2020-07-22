@@ -81,6 +81,6 @@ public class NutritionHomeFragment extends BaseFragment implements NutritionHome
 
     @Override
     public void onMealClick(@NonNull String mealType) {
-        mNavController.actionToMeal(mealType);
+        mNavController.actionToMeal(mealType, mViewModel.getGoalCaloriesInDay());
     }
 }

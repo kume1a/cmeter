@@ -76,6 +76,11 @@ public class NutritionDetailsActivity extends BaseActivity
     }
 
     @Override
+    public void onWriteProductCompleted() {
+        finish();
+    }
+
+    @Override
     public void onAltMeasureChanged(@NonNull AltMeasure altMeasure) {
         mViewModel.setAltMeasure(altMeasure);
     }

@@ -14,9 +14,8 @@
         android:ellipsize="end"
         android:lines="1"
         android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tv_item_product_food_serving_unit"
-        app:layout_constraintEnd_toStartOf="@id/tv_item_product_clories"
+        app:layout_constraintEnd_toStartOf="@id/tv_item_product_calories"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="White bread" />
@@ -29,19 +28,18 @@
         android:textSize="16sp"
         android:lines="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tv_item_product_clories"
+        app:layout_constraintEnd_toStartOf="@id/tv_item_product_calories"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_item_product_name"
         tools:text="1 slice" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_item_product_clories"
+        android:id="@+id/tv_item_product_calories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
         tools:text="120 kcal"
         android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

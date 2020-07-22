@@ -9,6 +9,7 @@ import com.kumela.cmeter.network.api.search.FetchSearchResultsUseCase;
 import com.kumela.cmeter.network.firebase.FirebaseProductManager;
 import com.kumela.cmeter.ui.common.util.NutritionInfoParser;
 import com.kumela.cmeter.ui.screens.app.nutrition.home.NutritionHomeViewModel;
+import com.kumela.cmeter.ui.screens.app.nutrition.meal.MealViewModel;
 import com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details.NutritionDetailsViewModel;
 import com.kumela.cmeter.ui.screens.app.nutrition.search.SearchViewModel;
 import com.kumela.cmeter.ui.screens.starter.onboarding.OnBoardingViewModel;
@@ -83,5 +84,14 @@ public class ViewModelModule {
     @ViewModelKey(NutritionHomeViewModel.class)
     ViewModel providesNutritionHomeViewModel(String uid, FirebaseDatabase firebaseDatabase) {
         return new NutritionHomeViewModel(uid, firebaseDatabase);
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(MealViewModel.class)
+    ViewModel providesMealViewModel(String uid,
+                                    FirebaseDatabase firebaseDatabase,
+                                    NutritionInfoParser nutritionInfoParser) {
+        return new MealViewModel(uid, firebaseDatabase, nutritionInfoParser);
     }
 }

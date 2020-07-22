@@ -1,6 +1,6 @@
 package com.kumela.cmeter.ui.adapters.nutrition_details;
 
-import android.os.Build;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,22 +27,17 @@ public class NutritionDetailsItemMvcImpl extends BaseViewMvc implements Nutritio
         this.topMargin20 = findViewById(R.id.item_nutrition_top_margin);
     }
 
-    private void setHeaderAppearance(TextView textView) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            textView.setTextAppearance(getContext(), R.style.Header_Medium);
-        } else {
-            textView.setTextAppearance(R.style.Header_Medium);
-        }
-    }
-
     @Override
     public void bindDetailsItem(NutritionDetailItem item) {
         if (item.isHeader()) {
 
             if (!item.getName().equals("Energy")) topMargin20.setVisibility(View.VISIBLE);
 
-            setHeaderAppearance(tvName);
-            setHeaderAppearance(tvValue);
+            tvName.setTextSize(18);
+            tvValue.setTextSize(18);
+
+            tvName.setTypeface(null, Typeface.BOLD);
+            tvValue.setTypeface(null, Typeface.BOLD);
         }
 
         if (item.hasValue() && item.getValue() != null) {

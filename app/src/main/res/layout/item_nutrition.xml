@@ -19,7 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/food_details_card_sub_header_to_header_margin"
-        android:textAppearance="@style/Header.Small"
+        android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@id/tv_item_nutrition_value"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_nutrition_top_margin"
@@ -29,7 +29,7 @@
         android:id="@+id/tv_item_nutrition_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Header.Small"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_item_nutrition_name"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="0.5g" />

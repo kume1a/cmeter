@@ -5,16 +5,19 @@
     <string name="ok">OK</string>
     <string name="please_wait">Please wait…</string>
 
-    <string name="cal">cal</string>
+    <string name="cal">kcal</string>
     <string name="carbs">Carbs</string>
     <string name="fats">Fats</string>
     <string name="proteins">Proteins</string>
     <string name="calories">Calories</string>
     <string name="value_unit">%s %s</string>
     <string name="value_percent">%d%%</string>
-    <string name="value_slash_value_g">%d/%dg</string>
+    <string name="value_slash_value_g">%d/%d g</string>
+    <string name="value_slash_value_cal">%d/%d kcal</string>
     <string name="value_1f">%.1f</string>
+    <string name="value_1f_g">%.1fg</string>
     <string name="value_g">%sg</string>
+    <string name="value_cal">%d kcal</string>
     <string name="int_g">%dg</string>
 
     <!-- Toolbar title -->

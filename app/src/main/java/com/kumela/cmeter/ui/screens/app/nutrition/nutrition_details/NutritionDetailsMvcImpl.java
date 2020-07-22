@@ -95,7 +95,6 @@ public class NutritionDetailsMvcImpl extends BaseObservableViewMvc<NutritionDeta
     public void showFab() {
         mFabAdd.show();
         mFabAdd.setOnClickListener(v -> {
-            ((Animatable) mFabAdd.getDrawable()).start();
             for (Listener listener : getListeners()) listener.onFabClicked();
         });
     }

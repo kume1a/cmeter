@@ -90,44 +90,44 @@ public class NutritionHomeModel {
         this.goalSnacksMacros[2] = (int) (goalSnacks * proteinsRatio / proteinsToCalories);*/
 
         for (AddedFood addedFood : addedFoods) {
-            this.currentCalories += addedFood.baseNutrition.getCalories();
+            this.currentCalories += addedFood.totalCalories;
 
-            this.currentCarbohydrates += addedFood.baseNutrition.getCarbohydrates();
-            this.currentFats += addedFood.baseNutrition.getFats();
-            this.currentProteins += addedFood.baseNutrition.getProteins();
+            this.currentCarbohydrates += addedFood.totalCarbohydrates;
+            this.currentFats += addedFood.totalFats;
+            this.currentProteins += addedFood.totalProteins;
 
             switch (addedFood.mealType) {
                 case Constants.BREAKFAST:
                     this.addedFoodsOnBreakfast.add(addedFood);
-                    this.breakfastProgress += addedFood.baseNutrition.getCalories();
+                    this.breakfastProgress += addedFood.totalCalories;
 
-                    this.currentBreakfastMacros[0] += addedFood.baseNutrition.getCarbohydrates();
-                    this.currentBreakfastMacros[1] += addedFood.baseNutrition.getFats();
-                    this.currentBreakfastMacros[2] += addedFood.baseNutrition.getProteins();
+                    this.currentBreakfastMacros[0] += addedFood.totalCarbohydrates;
+                    this.currentBreakfastMacros[1] += addedFood.totalFats;
+                    this.currentBreakfastMacros[2] += addedFood.totalProteins;
                     break;
                 case Constants.DINNER:
                     this.addedFoodsOnDinner.add(addedFood);
-                    this.dinnerProgress += addedFood.baseNutrition.getCalories();
+                    this.dinnerProgress += addedFood.totalCalories;
 
-                    this.currentDinnerMacros[0] += addedFood.baseNutrition.getCarbohydrates();
-                    this.currentDinnerMacros[1] += addedFood.baseNutrition.getFats();
-                    this.currentDinnerMacros[2] += addedFood.baseNutrition.getProteins();
+                    this.currentDinnerMacros[0] += addedFood.totalCarbohydrates;
+                    this.currentDinnerMacros[1] += addedFood.totalFats;
+                    this.currentDinnerMacros[2] += addedFood.totalProteins;
                     break;
                 case Constants.SUPPER:
                     this.addedFoodsOnSupper.add(addedFood);
-                    this.supperProgress += addedFood.baseNutrition.getCalories();
+                    this.supperProgress += addedFood.totalCalories;
 
-                    this.currentSupperMacros[0] += addedFood.baseNutrition.getCarbohydrates();
-                    this.currentSupperMacros[1] += addedFood.baseNutrition.getFats();
-                    this.currentSupperMacros[2] += addedFood.baseNutrition.getProteins();
+                    this.currentSupperMacros[0] += addedFood.totalCarbohydrates;
+                    this.currentSupperMacros[1] += addedFood.totalFats;
+                    this.currentSupperMacros[2] += addedFood.totalProteins;
                     break;
                 case Constants.SNACKS:
                     this.addedFoodsOnSnacks.add(addedFood);
-                    this.snacksProgress += addedFood.baseNutrition.getCalories();
+                    this.snacksProgress += addedFood.totalCalories;
 
-                    this.currentSnacksMacros[0] += addedFood.baseNutrition.getCarbohydrates();
-                    this.currentSnacksMacros[1] += addedFood.baseNutrition.getFats();
-                    this.currentSnacksMacros[2] += addedFood.baseNutrition.getProteins();
+                    this.currentSnacksMacros[0] += addedFood.totalCarbohydrates;
+                    this.currentSnacksMacros[1] += addedFood.totalFats;
+                    this.currentSnacksMacros[2] += addedFood.totalProteins;
                     break;
             }
         }

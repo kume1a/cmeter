@@ -1,5 +1,8 @@
 package com.kumela.cmeter.model.local;
 
+import androidx.annotation.FloatRange;
+import androidx.annotation.NonNull;
+
 import java.util.Objects;
 
 /**
@@ -8,7 +11,7 @@ import java.util.Objects;
 
 public class NutritionDetailItem {
     private final String name;
-    private final Float value;
+    private Float value;
     private final String unit;
     private final boolean isHeader;
     private final boolean hasValue;
@@ -27,11 +30,27 @@ public class NutritionDetailItem {
         this.hasValue = hasValue;
     }
 
+    public void incrementValue(@FloatRange(from = 0) Float amount) {
+        value += amount;
+    }
+
     public String getName() { return name; }
     public Float getValue() { return value; }
     public String getUnit() { return unit; }
     public boolean isHeader() { return isHeader; }
     public boolean hasValue() { return hasValue; }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "NutritionDetailItem{" +
+                "name='" + name + '\'' +
+                ", value=" + value +
+                ", unit='" + unit + '\'' +
+                ", isHeader=" + isHeader +
+                ", hasValue=" + hasValue +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

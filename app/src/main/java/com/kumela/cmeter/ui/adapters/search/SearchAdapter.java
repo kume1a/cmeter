@@ -1,6 +1,5 @@
 package com.kumela.cmeter.ui.adapters.search;
 
-import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -47,12 +46,6 @@ public class SearchAdapter extends ListAdapter<SearchItem, SearchAdapter.SearchI
                     oldItem.servingQuantity == newItem.servingQuantity;
         }
     };
-
-    @Override
-    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        Log.e(getClass().getSimpleName(), "onDetachedFromRecyclerView: called");
-    }
 
     @NonNull
     @Override

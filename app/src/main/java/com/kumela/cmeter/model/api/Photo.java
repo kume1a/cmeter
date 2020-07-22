@@ -16,6 +16,14 @@ public class Photo {
     @SerializedName("highres")
     public String highRes;
 
+    @SuppressWarnings("unused")
+    public Photo() {
+    }
+
+    public Photo(@Nullable String highRes) {
+        this.highRes = highRes;
+    }
+
     @NonNull
     @Override
     public String toString() {

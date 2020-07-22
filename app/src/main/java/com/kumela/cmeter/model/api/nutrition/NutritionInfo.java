@@ -6,12 +6,14 @@ import com.google.gson.annotations.SerializedName;
 import com.kumela.cmeter.model.api.Photo;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Toko on 20,June,2020
  **/
 
-public class NutritionInfo implements Cloneable {
+// TODO: 7/21/2020 bug in changing alt measure and result getting 10x more
+public class NutritionInfo {
     @SerializedName("food_name")
     public String foodName;
 
@@ -44,7 +46,7 @@ public class NutritionInfo implements Cloneable {
 
     public Photo photo;
 
-    private NutritionInfo(String foodName,
+    public NutritionInfo(String foodName,
                           float currentServingQuantity,
                           String servingUnit,
                           float servingWeightInGrams,
@@ -78,8 +80,11 @@ public class NutritionInfo implements Cloneable {
     }
 
     private float servingQuantity;
-
     public boolean zeroedOut = false;
+
+    public float getServingQuantity() {
+        return servingQuantity;
+    }
 
     /**
      * set new alt measure for NutritionInfo class
@@ -113,6 +118,8 @@ public class NutritionInfo implements Cloneable {
             fullNutrient.value *= valueFraction;
         }
 
+        roundValues();
+
         return true;
     }
 
@@ -133,6 +140,19 @@ public class NutritionInfo implements Cloneable {
 
         for (FullNutrient fullNutrient : this.fullNutrients) {
             fullNutrient.value *= valueFraction;
+        }
+
+        roundValues();
+    }
+
+    private void roundValues() {
+        this.totalCalories = Float.parseFloat(String.format(Locale.getDefault(), "%.1f", totalCalories));
+        this.totalCarbohydrates = Float.parseFloat(String.format(Locale.getDefault(), "%.1f", totalCarbohydrates));
+        this.totalFats = Float.parseFloat(String.format(Locale.getDefault(), "%.1f", totalFats));
+        this.totalProteins = Float.parseFloat(String.format(Locale.getDefault(), "%.1f", totalProteins));
+
+        for (FullNutrient fullNutrient : this.fullNutrients) {
+            fullNutrient.value = Float.parseFloat(String.format(Locale.getDefault(), "%.1f", fullNutrient.value));
         }
     }
 

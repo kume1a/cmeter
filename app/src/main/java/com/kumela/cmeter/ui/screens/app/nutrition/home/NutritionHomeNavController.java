@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.navigation.NavDirections;
 
+import com.kumela.cmeter.model.firebase.User;
 import com.kumela.cmeter.ui.common.nav.FragmentNavController;
 
 /**
@@ -22,9 +23,9 @@ public class NutritionHomeNavController extends FragmentNavController {
         getNavController().navigate(navDirections);
     }
 
-    public void actionToMeal(@NonNull String mealType) {
+    public void actionToMeal(@NonNull String mealType, int goalCaloriesInDay) {
         NutritionHomeFragmentDirections.ActionNavNutritionToMealFragment
-                navDirections = NutritionHomeFragmentDirections.actionNavNutritionToMealFragment(mealType);
+                navDirections = NutritionHomeFragmentDirections.actionNavNutritionToMealFragment(mealType, goalCaloriesInDay);
         getNavController().navigate(navDirections);
     }
 }

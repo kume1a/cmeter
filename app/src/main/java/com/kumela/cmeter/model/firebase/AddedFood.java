@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.kumela.cmeter.model.api.nutrition.AltMeasure;
 import com.kumela.cmeter.model.api.nutrition.FullNutrient;
-import com.kumela.cmeter.model.local.BaseNutrition;
 
 import java.util.List;
 
@@ -13,56 +12,83 @@ import java.util.List;
  **/
 
 public class AddedFood {
-    public String uid_date;
-    public String name;
-    public String date;
     public String mealType;
+    public String foodName;
+    public String uidDate;
+    public String uidDateMeal;
 
-    public BaseNutrition baseNutrition;
-    public Float quantity;
+    public float currentServingQuantity;
     public String servingUnit;
-    public Float servingWeightInGrams;
+    public float servingWeightInGrams;
+
+    public float totalCalories;
+    public float totalCarbohydrates;
+    public float totalFats;
+    public float totalProteins;
 
     public List<FullNutrient> fullNutrients;
     public List<AltMeasure> altMeasures;
     public String imageUrl;
 
+    public float servingQuantity;
+    public boolean zeroedOut = false;
+
     @SuppressWarnings("unused")
     public AddedFood() {
     }
 
-    public AddedFood(String uid,
+    public AddedFood(String uidDate,
                      String mealType,
-                     String name,
-                     String date,
-                     BaseNutrition baseNutrition,
-                     Float quantity,
+                     String foodName,
+                     float currentServingQuantity,
                      String servingUnit,
-                     Float servingWeightInGrams,
+                     float servingWeightInGrams,
+                     float totalCalories,
+                     float totalCarbohydrates,
+                     float totalFats,
+                     float totalProteins,
                      List<FullNutrient> fullNutrients,
                      List<AltMeasure> altMeasures,
-                     String imageUrl) {
-        this.uid_date = uid + date;
+                     String imageUrl,
+                     float servingQuantity,
+                     boolean zeroedOut
+    ) {
+        this.uidDate = uidDate;
+        this.uidDateMeal = uidDate + mealType;
         this.mealType = mealType;
-        this.name = name;
-        this.date = date;
-        this.baseNutrition = baseNutrition;
-        this.quantity = quantity;
+        this.foodName = foodName;
+        this.currentServingQuantity = currentServingQuantity;
         this.servingUnit = servingUnit;
         this.servingWeightInGrams = servingWeightInGrams;
+        this.totalCalories = totalCalories;
+        this.totalCarbohydrates = totalCarbohydrates;
+        this.totalFats = totalFats;
+        this.totalProteins = totalProteins;
         this.fullNutrients = fullNutrients;
         this.altMeasures = altMeasures;
         this.imageUrl = imageUrl;
+        this.servingQuantity = servingQuantity;
+        this.zeroedOut = zeroedOut;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "Product{" + "\n" +
-                "uid_date='" + uid_date + '\'' + "\n" +
-                ", name='" + name + '\'' + "\n" +
-                ", timestamp='" + date + '\'' + "\n" +
-                ", baseNutrition=" + baseNutrition + "\n" +
+        return "AddedFood{" + "\n" +
+                "mealType='" + mealType + '\'' + "\n" +
+                "foodName='" + foodName + '\'' + "\n" +
+                "currentServingQuantity=" + currentServingQuantity + "\n" +
+                "servingUnit='" + servingUnit + '\'' + "\n" +
+                "servingWeightInGrams=" + servingWeightInGrams + "\n" +
+                "totalCalories=" + totalCalories + "\n" +
+                "totalCarbohydrates=" + totalCarbohydrates + "\n" +
+                "totalFats=" + totalFats + "\n" +
+                "totalProteins=" + totalProteins + "\n" +
+                "fullNutrients=" + fullNutrients + "\n" +
+                "altMeasures=" + altMeasures + "\n" +
+                "imageUrl='" + imageUrl + '\'' + "\n" +
+                "servingQuantity=" + servingQuantity + "\n" +
+                "zeroedOut=" + zeroedOut + "\n" +
                 '}';
     }
 }

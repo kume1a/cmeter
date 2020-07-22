@@ -42,6 +42,9 @@
         <argument
             android:name="mealType"
             app:argType="string" />
+        <argument
+            android:name="goalCaloriesInDay"
+            app:argType="integer" />
     </fragment>
 
 

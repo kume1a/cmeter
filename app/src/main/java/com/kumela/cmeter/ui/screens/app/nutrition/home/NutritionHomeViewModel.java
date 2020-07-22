@@ -14,15 +14,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.kumela.cmeter.common.Constants;
+import com.kumela.cmeter.common.Utils;
 import com.kumela.cmeter.model.firebase.AddedFood;
 import com.kumela.cmeter.model.firebase.User;
 import com.kumela.cmeter.model.local.NutritionHomeModel;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Toko on 15,July,2020
@@ -35,6 +33,7 @@ public class NutritionHomeViewModel extends ViewModel {
     private DatabaseReference mDatabaseReference;
     private String mUserId;
 
+    private int mGoalCaloriesInDay;
     private MutableLiveData<NutritionHomeModel> mNutritionHomeModelLiveData;
     private boolean mAlreadyFetched = false;
 
@@ -71,7 +70,11 @@ public class NutritionHomeViewModel extends ViewModel {
 
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             User user = dataSnapshot.getValue(User.class);
-                            onUserInfoFetched(user);
+                            if (user != null) {
+                                onUserInfoFetched(user);
+                            } else {
+                                Log.e(TAG, "onDataChange: user is null");
+                            }
                         }
                     }
 
@@ -84,12 +87,11 @@ public class NutritionHomeViewModel extends ViewModel {
     }
 
     private void onUserInfoFetched(User user) {
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.getDefault());
-        String date = sdf.format(Calendar.getInstance().getTime());
+        mGoalCaloriesInDay = user.bmr + user.dailyExtraCalories;
 
         mAddedFoodsQuery = mDatabaseReference.child(Constants.CHILD_PRODUCTS)
                 .orderByChild(Constants.UID_DATE)
-                .equalTo(mUserId + date);
+                .equalTo(mUserId + Utils.getDate());
 
         mAddedFoodsEventListener = new ValueEventListener() {
             @Override
@@ -120,5 +122,9 @@ public class NutritionHomeViewModel extends ViewModel {
         if (mAddedFoodsQuery != null) {
             mAddedFoodsQuery.removeEventListener(mAddedFoodsEventListener);
         }
+    }
+
+    public int getGoalCaloriesInDay() {
+        return mGoalCaloriesInDay;
     }
 }

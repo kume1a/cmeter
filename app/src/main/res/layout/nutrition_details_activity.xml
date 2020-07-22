@@ -44,8 +44,8 @@
         app:backgroundTint="@color/colorAccentSecondary"
         app:layout_anchor="@id/abl_food_details"
         app:layout_anchorGravity="end|bottom"
-        app:srcCompat="@drawable/ic_add_round_anim"
-        app:tint="@color/colorPrimaryDark"
+        app:srcCompat="@drawable/ic_add_round"
+        app:tint="@android:color/black"
         tools:visibility="visible" />
 
     <include layout="@layout/nutrition_details_content" />

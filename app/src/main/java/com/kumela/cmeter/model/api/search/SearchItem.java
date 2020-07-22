@@ -23,9 +23,6 @@ public class SearchItem {
     @SerializedName("tag_id")
     public int tagId;
 
-//    public Photo photo;
-//    public String locale;
-
     @NonNull
     @Override
     public String toString() {

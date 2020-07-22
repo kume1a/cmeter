@@ -24,7 +24,7 @@ import com.kumela.cmeter.ui.screens.starter.StarterActivity;
 /**
  * Created by Toko on 10,July,2020
  **/
-
+// git reset --hard <commidId> && git clean -f
 public class AppActivity extends BaseActivity implements ToolbarHelper {
 
     public static final String EXTRA_UID = "EXTRA_UID";
