@@ -2,6 +2,7 @@ package com.kumela.cmeter.model.firebase;
 
 import androidx.annotation.NonNull;
 
+import com.kumela.cmeter.common.Utils;
 import com.kumela.cmeter.model.api.nutrition.AltMeasure;
 import com.kumela.cmeter.model.api.nutrition.FullNutrient;
 
@@ -14,8 +15,11 @@ import java.util.List;
 public class AddedFood {
     public String mealType;
     public String foodName;
+
+    public String uid;
     public String uidDate;
     public String uidDateMeal;
+    public String uidFavorite;
 
     public float currentServingQuantity;
     public String servingUnit;
@@ -37,9 +41,10 @@ public class AddedFood {
     public AddedFood() {
     }
 
-    public AddedFood(String uidDate,
+    public AddedFood(String uid,
                      String mealType,
                      String foodName,
+                     boolean favorite,
                      float currentServingQuantity,
                      String servingUnit,
                      float servingWeightInGrams,
@@ -53,9 +58,11 @@ public class AddedFood {
                      float servingQuantity,
                      boolean zeroedOut
     ) {
-        this.uidDate = uidDate;
+        this.uid = uid;
+        this.uidDate = uid + Utils.getDate();
         this.uidDateMeal = uidDate + mealType;
         this.mealType = mealType;
+        this.uidFavorite = uid + favorite;
         this.foodName = foodName;
         this.currentServingQuantity = currentServingQuantity;
         this.servingUnit = servingUnit;

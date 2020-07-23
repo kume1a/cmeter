@@ -44,8 +44,10 @@ public class Constants {
     public static final String CHILD_USERS = "users";
     public static final String CHILD_PRODUCTS = "products";
 
+    public static final String UID = "uid";
     public static final String UID_DATE = "uidDate";
     public static final String UID_DATE_MEAL = "uidDateMeal";
+    public static final String UID_FAVORITE = "uidFavorite";
 
     public static final String BREAKFAST = "BREAKFAST";
     public static final String DINNER = "DINNER";

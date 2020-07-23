@@ -35,9 +35,10 @@ public class FirebaseProductManager extends BaseObservable<FirebaseProductManage
 
     public void writeProductAndNotify(NutritionInfo nutritionInfo, String mealType) {
         AddedFood addedFood = new AddedFood(
-                mUserId + Utils.getDate(),
+                mUserId,
                 mealType,
                 nutritionInfo.foodName,
+                false,
                 nutritionInfo.currentServingQuantity,
                 nutritionInfo.servingUnit,
                 nutritionInfo.servingWeightInGrams,

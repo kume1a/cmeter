@@ -14,8 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.common.Constants;
-import com.kumela.cmeter.ui.common.util.ToolbarHelper;
 import com.kumela.cmeter.ui.common.base.BaseFragment;
+import com.kumela.cmeter.ui.common.util.ToolbarHelper;
 
 public class AddFoodFragment extends BaseFragment {
 

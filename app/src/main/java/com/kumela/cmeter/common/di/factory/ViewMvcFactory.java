@@ -14,6 +14,8 @@ import com.kumela.cmeter.ui.adapters.search.SearchItemMvcImpl;
 import com.kumela.cmeter.ui.common.mvc.ViewMvc;
 import com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodViewMvc;
 import com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodViewMvcImpl;
+import com.kumela.cmeter.ui.screens.app.nutrition.add_food.tabs.tab_fragment.TabViewMvc;
+import com.kumela.cmeter.ui.screens.app.nutrition.add_food.tabs.tab_fragment.TabViewMvcImpl;
 import com.kumela.cmeter.ui.screens.app.nutrition.home.NutritionHomeMvc;
 import com.kumela.cmeter.ui.screens.app.nutrition.home.NutritionHomeMvcImpl;
 import com.kumela.cmeter.ui.screens.app.nutrition.meal.MealViewMvc;
@@ -91,6 +93,8 @@ public class ViewMvcFactory {
             viewMvc = new WeightGoalViewMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == MealViewMvc.class) {
             viewMvc = new MealViewMvcImpl(mLayoutInflater, container, this);
+        } else if (mvcClass == TabViewMvc.class) {
+            viewMvc = new TabViewMvcImpl(mLayoutInflater, container, this);
         } else {
             throw new IllegalArgumentException("unsupported MVC view class " + mvcClass);
         }

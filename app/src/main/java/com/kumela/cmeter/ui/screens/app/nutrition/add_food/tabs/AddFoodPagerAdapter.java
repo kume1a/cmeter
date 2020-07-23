@@ -1,13 +1,14 @@
 package com.kumela.cmeter.ui.screens.app.nutrition.add_food.tabs;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.kumela.cmeter.ui.screens.app.nutrition.add_food.tabs.fragments.FavoritesFragment;
-import com.kumela.cmeter.ui.screens.app.nutrition.add_food.tabs.fragments.RecentFragment;
+import com.kumela.cmeter.ui.screens.app.nutrition.add_food.tabs.tab_fragment.TabFragment;
 
 /**
  * Created by Toko on 30,June,2020
@@ -23,17 +24,24 @@ public class AddFoodPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         // Return a NEW fragment instance in createFragment(int)
-        Fragment fragment = null;
+        TabFragment.TabType tabType = null;
         switch (position) {
             case 0:
-                fragment = new RecentFragment();
+                tabType = TabFragment.TabType.RECENT;
                 break;
             case 1:
-                fragment = new FavoritesFragment();
+                tabType = TabFragment.TabType.FAVORITES;
                 break;
         }
-        if (fragment == null) throw new RuntimeException("Fragment in view pager must not be null");
-        return fragment;
+        if (tabType == null) throw new RuntimeException();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(TabFragment.EXTRA_TAB_TYPE, tabType);
+
+        TabFragment tabFragment = new TabFragment();
+        tabFragment.setArguments(bundle);
+
+        return tabFragment;
     }
 
     @Override
