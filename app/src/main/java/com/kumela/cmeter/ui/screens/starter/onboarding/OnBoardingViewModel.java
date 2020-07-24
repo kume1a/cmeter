@@ -7,8 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.kumela.cmeter.common.Constants;
 import com.kumela.cmeter.model.firebase.User;
 
@@ -52,12 +51,12 @@ public class OnBoardingViewModel extends ViewModel {
     private int mHeight = Constants.AVERAGE_HEIGHT;
 
 
-    private DatabaseReference mDatabase;
+    private FirebaseFirestore mFirebaseFirestore;
     private String mUserId;
 
-    public OnBoardingViewModel(FirebaseDatabase firebaseDatabase, String uid) {
-        mDatabase = firebaseDatabase.getReference();
-        mUserId = uid;
+    public OnBoardingViewModel(FirebaseFirestore firebaseFirestore, String uid) {
+        this.mFirebaseFirestore = firebaseFirestore;
+        this.mUserId = uid;
     }
 
     public LiveData<Goal> getGoalLiveData() {
@@ -213,9 +212,9 @@ public class OnBoardingViewModel extends ViewModel {
     public void createUserAndNotify(User user) {
         Log.d(getClass().getSimpleName(), "createUserAndNotify: called, user = " + user);
 
-        mDatabase.child(Constants.CHILD_USERS)
-                .child(mUserId)
-                .setValue(user)
+        mFirebaseFirestore.collection(Constants.COLLECTION_USERS)
+                .document(mUserId)
+                .set(user)
                 .addOnSuccessListener(aVoid -> {
                     for (Listener listener : mListeners) listener.onDatabaseWriteCompleted();
                 })

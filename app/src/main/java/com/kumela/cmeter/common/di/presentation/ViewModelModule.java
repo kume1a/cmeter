@@ -2,7 +2,7 @@ package com.kumela.cmeter.common.di.presentation;
 
 import androidx.lifecycle.ViewModel;
 
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.kumela.cmeter.common.di.factory.ViewModelFactory;
 import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
 import com.kumela.cmeter.network.api.search.FetchSearchResultsUseCase;
@@ -76,31 +76,38 @@ public class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(OnBoardingViewModel.class)
-    ViewModel providesOnBoardingViewModel(FirebaseDatabase firebaseDatabase, String uid) {
-        return new OnBoardingViewModel(firebaseDatabase, uid);
+    ViewModel providesOnBoardingViewModel(FirebaseFirestore firebaseFirestore, String uid) {
+        return new OnBoardingViewModel(firebaseFirestore, uid);
     }
 
     @Provides
     @IntoMap
     @ViewModelKey(NutritionHomeViewModel.class)
-    ViewModel providesNutritionHomeViewModel(String uid, FirebaseDatabase firebaseDatabase) {
-        return new NutritionHomeViewModel(uid, firebaseDatabase);
+    ViewModel providesNutritionHomeViewModel(String uid, FirebaseFirestore firebaseFirestore) {
+        return new NutritionHomeViewModel(uid, firebaseFirestore);
     }
 
     @Provides
     @IntoMap
     @ViewModelKey(MealViewModel.class)
     ViewModel providesMealViewModel(String uid,
-                                    FirebaseDatabase firebaseDatabase,
+                                    FirebaseFirestore firebaseFirestore,
                                     NutritionInfoParser nutritionInfoParser) {
-        return new MealViewModel(uid, firebaseDatabase, nutritionInfoParser);
+        return new MealViewModel(uid, firebaseFirestore, nutritionInfoParser);
     }
 
     @Provides
     @IntoMap
     @ViewModelKey(AddFoodViewModel.class)
     ViewModel providesAddFoodViewModel(String uid,
-                                    FirebaseDatabase firebaseDatabase) {
-        return new AddFoodViewModel(uid, firebaseDatabase);
+                                       FirebaseFirestore firebaseFirestore,
+                                       FetchNutritionInfoUseCase fetchNutritionInfoUseCase,
+                                       FirebaseProductManager firebaseProductManager) {
+        return new AddFoodViewModel(
+                uid,
+                firebaseFirestore,
+                fetchNutritionInfoUseCase,
+                firebaseProductManager
+        );
     }
 }

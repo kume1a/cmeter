@@ -12,7 +12,9 @@ import java.util.List;
 public interface TabViewMvc extends ObservableViewMvc<TabViewMvc.Listener> {
 
     interface Listener {
+        void onProductClicked(SearchItem searchItem);
 
+        void onProductAddClicked(SearchItem searchItem);
     }
 
     void bindRecyclerViewData(List<SearchItem> searchItems);

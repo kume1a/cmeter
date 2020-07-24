@@ -2,19 +2,19 @@ package com.kumela.cmeter.ui.screens.app.nutrition.add_food;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.kumela.cmeter.common.Constants;
+import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
 import com.kumela.cmeter.model.api.search.SearchItem;
 import com.kumela.cmeter.model.firebase.AddedFood;
+import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
+import com.kumela.cmeter.network.firebase.FirebaseProductManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Toko on 22,July,2020
  **/
 
-public class AddFoodViewModel extends ViewModel {
+public class AddFoodViewModel extends ViewModel implements FetchNutritionInfoUseCase.Listener {
 
     private static final String TAG = "AddFoodViewModel";
 
@@ -38,62 +38,63 @@ public class AddFoodViewModel extends ViewModel {
         return mFavoritesLiveData;
     }
 
-    private final String mUserId;
-    private final DatabaseReference mDatabaseReference;
+    private String mMeal;
 
-    public AddFoodViewModel(String userId, FirebaseDatabase firebaseDatabase) {
+    private final String mUserId;
+    private final FirebaseFirestore mFirebaseFirestore;
+
+    private final FetchNutritionInfoUseCase mFetchNutritionInfoUseCase;
+    private final FirebaseProductManager mFirebaseProductManager;
+
+    public AddFoodViewModel(String userId,
+                            FirebaseFirestore firebaseFirestore,
+                            FetchNutritionInfoUseCase fetchNutritionInfoUseCase,
+                            FirebaseProductManager firebaseProductManager) {
         mUserId = userId;
-        mDatabaseReference = firebaseDatabase.getReference();
+        mFirebaseFirestore = firebaseFirestore;
+        mFetchNutritionInfoUseCase = fetchNutritionInfoUseCase;
+        mFirebaseProductManager = firebaseProductManager;
 
         mRecentLiveData = new MutableLiveData<>();
         mFavoritesLiveData = new MutableLiveData<>();
+
+        mFetchNutritionInfoUseCase.registerListener(this);
     }
 
     public void fetchRecentlyAddedProducts() {
-        mDatabaseReference.child(Constants.CHILD_PRODUCTS)
-                .orderByChild(Constants.UID)
-                .limitToFirst(15)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        List<SearchItem> recentlyAdded = getSearchItemsFromSnapshot(snapshot);
-                        mRecentLiveData.setValue(recentlyAdded);
-                        Log.d(TAG, "onDataChange: called, fetching from firebase");
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.e(TAG, "onCancelled: ", error.toException());
-                        mRecentLiveData.setValue(null);
-                    }
+        mFirebaseFirestore.collection(Constants.COLLECTION_PRODUCTS)
+                .whereEqualTo(Constants.UID, mUserId)
+                .limit(15)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<SearchItem> recentlyAdded = getSearchItemsFromSnapshot(queryDocumentSnapshots);
+                    mRecentLiveData.setValue(recentlyAdded);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "onCancelled: ", e);
+                    mRecentLiveData.setValue(null);
                 });
     }
 
     public void fetchFavorites() {
-        mDatabaseReference.child(Constants.CHILD_PRODUCTS)
-                .orderByChild(Constants.UID_FAVORITE)
-                .equalTo(mUserId + true)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        List<SearchItem> recentlyAdded = getSearchItemsFromSnapshot(snapshot);
-                        mRecentLiveData.setValue(recentlyAdded);
-                        Log.d(TAG, "onDataChange: called, fetching from firebase");
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.e(TAG, "onCancelled: ", error.toException());
-                        mRecentLiveData.setValue(null);
-                    }
+        mFirebaseFirestore.collection(Constants.COLLECTION_PRODUCTS)
+                .whereEqualTo(Constants.FAVORITE, true)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<SearchItem> recentlyAdded = getSearchItemsFromSnapshot(queryDocumentSnapshots);
+                    mRecentLiveData.setValue(recentlyAdded);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "onCancelled: ", e);
+                    mRecentLiveData.setValue(null);
                 });
     }
 
     @SuppressWarnings("ConstantConditions")
-    private List<SearchItem> getSearchItemsFromSnapshot(DataSnapshot dataSnapshot) {
+    private List<SearchItem> getSearchItemsFromSnapshot(QuerySnapshot queryDocumentSnapshots) {
         List<SearchItem> list = new ArrayList<>();
-        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            AddedFood nutritionInfo = snapshot.getValue(AddedFood.class);
+        for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
+            AddedFood nutritionInfo = snapshot.toObject(AddedFood.class);
             list.add(new SearchItem(
                     nutritionInfo.foodName,
                     nutritionInfo.servingUnit,
@@ -101,5 +102,20 @@ public class AddFoodViewModel extends ViewModel {
             ));
         }
         return list;
+    }
+
+    public void writeProduct(String foodName, String meal) {
+        mFetchNutritionInfoUseCase.fetchNutritionInfoAndNotify(foodName);
+        mMeal = meal;
+    }
+
+    @Override
+    public void onNutritionInfoFetched(NutritionInfo nutritionInfo) {
+        mFirebaseProductManager.writeProductAndNotify(nutritionInfo, mMeal);
+    }
+
+    @Override
+    public void onNutritionInfoFetchFailed() {
+        // TODO: 7/23/2020 Failed is ignored implement notify mechanism in UI
     }
 }

@@ -24,15 +24,18 @@ import java.util.List;
 public class TabFragment extends BaseFragment implements TabViewMvc.Listener {
 
     public static final String EXTRA_TAB_TYPE = "EXTRA_TAB_TYPE";
+    public static final String EXTRA_MEAL = "EXTRA_MEAL";
 
     public enum TabType {
         RECENT, FAVORITES
     }
 
     private TabType mTabType;
+    private String mMeal;
 
     private AddFoodViewModel mViewModel;
     private TabViewMvc mViewMvc;
+    private TabNavController mNavController;
 
     @Nullable
     @Override
@@ -45,8 +48,11 @@ public class TabFragment extends BaseFragment implements TabViewMvc.Listener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mViewModel = new ViewModelProvider(this, getViewModelFactory()).get(AddFoodViewModel.class);
         mTabType = (TabType) requireArguments().getSerializable(EXTRA_TAB_TYPE);
+        mMeal = requireArguments().getString(EXTRA_MEAL);
+
+        mViewModel = new ViewModelProvider(this, getViewModelFactory()).get(AddFoodViewModel.class);
+        mNavController = getNavControllerFactory().newInstance(TabNavController.class);
 
         Observer<? super List<SearchItem>> binder = searchItems -> mViewMvc.bindRecyclerViewData(searchItems);
         LifecycleOwner lifecycleOwner = getViewLifecycleOwner();
@@ -79,5 +85,15 @@ public class TabFragment extends BaseFragment implements TabViewMvc.Listener {
     public void onStop() {
         super.onStop();
         mViewMvc.unregisterListener(this);
+    }
+
+    @Override
+    public void onProductClicked(SearchItem searchItem) {
+        mNavController.actionToFoodDetails(searchItem.foodName, mMeal);
+    }
+
+    @Override
+    public void onProductAddClicked(SearchItem searchItem) {
+        mViewModel.writeProduct(searchItem.foodName, mMeal);
     }
 }

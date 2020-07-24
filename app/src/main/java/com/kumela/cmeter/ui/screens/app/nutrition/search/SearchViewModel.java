@@ -38,7 +38,7 @@ public class SearchViewModel extends ViewModel
     private final FetchNutritionInfoUseCase mFetchNutritionInfoUseCase;
     private final FirebaseProductManager mFirebaseProductManager;
 
-    private String mMealType;
+    private String mMeal;
 
     public SearchViewModel(FetchSearchResultsUseCase fetchSearchResultsUseCase,
                            FetchNutritionInfoUseCase fetchNutritionInfoUseCase,
@@ -64,9 +64,9 @@ public class SearchViewModel extends ViewModel
         mQuery = query;
     }
 
-    void writeProduct(String foodName, String mealType) {
+    void writeProduct(String foodName, String meal) {
         mFetchNutritionInfoUseCase.fetchNutritionInfoAndNotify(foodName);
-        mMealType = mealType;
+        mMeal = meal;
     }
 
     String getQuery() {
@@ -94,7 +94,7 @@ public class SearchViewModel extends ViewModel
 
     @Override
     public void onNutritionInfoFetched(NutritionInfo nutritionInfo) {
-        mFirebaseProductManager.writeProductAndNotify(nutritionInfo, mMealType);
+        mFirebaseProductManager.writeProductAndNotify(nutritionInfo, mMeal);
     }
 
     @Override

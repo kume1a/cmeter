@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
@@ -34,11 +36,12 @@ public class AddFoodViewMvcImpl extends BaseViewMvc implements AddFoodViewMvc {
     }
 
     @Override
-    public void setupViewPager(AppCompatActivity appCompatActivity) {
+    public void setupViewPager(FragmentManager supportFragmentManager, Lifecycle lifecycle, String meal) {
         ViewPager2 viewPager = findViewById(R.id.vp_add_food);
         viewPager.setAdapter(new AddFoodPagerAdapter(
-                appCompatActivity.getSupportFragmentManager(),
-                appCompatActivity.getLifecycle()
+                supportFragmentManager,
+                lifecycle,
+                meal
         ));
 
         TabLayout tabLayout = findViewById(R.id.tabs_add_food);

@@ -96,7 +96,7 @@ public class NutritionHomeModel {
             this.currentFats += addedFood.totalFats;
             this.currentProteins += addedFood.totalProteins;
 
-            switch (addedFood.mealType) {
+            switch (addedFood.meal) {
                 case Constants.BREAKFAST:
                     this.addedFoodsOnBreakfast.add(addedFood);
                     this.breakfastProgress += addedFood.totalCalories;

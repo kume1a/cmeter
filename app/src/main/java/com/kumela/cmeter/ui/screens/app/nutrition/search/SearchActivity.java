@@ -23,16 +23,16 @@ public class SearchActivity extends BaseActivity implements SearchViewModel.List
     private SearchViewModel mViewModel;
     private SearchNavController mNavController;
 
-    private String mMealType;
+    private String mMeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mMealType = getIntent().getStringExtra(EXTRA_MEAL_TYPE);
+        mMeal = getIntent().getStringExtra(EXTRA_MEAL_TYPE);
 
         mViewMvc = getViewMvcFactory().newInstance(SearchMvc.class, null);
-        mNavController = getNavControllerFactory().newInstance(SearchNavController.class, this);
+        mNavController = getNavControllerFactory().newInstance(SearchNavController.class);
         mViewModel = new ViewModelProvider(
                 this,
                 getPresentationComponent().getViewModelFactory()
@@ -92,11 +92,11 @@ public class SearchActivity extends BaseActivity implements SearchViewModel.List
 
     @Override
     public void onSearchItemAddButtonClicked(SearchItem searchItem) {
-        mViewModel.writeProduct(searchItem.foodName, mMealType);
+        mViewModel.writeProduct(searchItem.foodName, mMeal);
     }
 
     @Override
     public void onSearchItemClicked(SearchItem searchItem) {
-        mNavController.actionToFoodDetails(searchItem.foodName, mMealType);
+        mNavController.actionToFoodDetails(searchItem.foodName, mMeal);
     }
 }

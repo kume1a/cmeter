@@ -2,17 +2,13 @@ package com.kumela.cmeter.ui.screens.app.nutrition.home;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.kumela.cmeter.common.Constants;
 import com.kumela.cmeter.common.Utils;
 import com.kumela.cmeter.model.firebase.AddedFood;
@@ -30,18 +26,16 @@ public class NutritionHomeViewModel extends ViewModel {
 
     private static final String TAG = "NutritionHomeViewModel";
 
-    private DatabaseReference mDatabaseReference;
+    private FirebaseFirestore mFirebaseFirestore;
     private String mUserId;
 
     private int mGoalCaloriesInDay;
     private MutableLiveData<NutritionHomeModel> mNutritionHomeModelLiveData;
-    private boolean mAlreadyFetched = false;
 
-    private ValueEventListener mAddedFoodsEventListener;
-    private Query mAddedFoodsQuery;
+    private ListenerRegistration mProductsQueryListenerRegistration;
 
-    public NutritionHomeViewModel(String uid, FirebaseDatabase firebaseDatabase) {
-        this.mDatabaseReference = firebaseDatabase.getReference();
+    public NutritionHomeViewModel(String uid, FirebaseFirestore firebaseFirestore) {
+        this.mFirebaseFirestore = firebaseFirestore;
         this.mUserId = uid;
 
         this.mNutritionHomeModelLiveData = new MutableLiveData<>();
@@ -52,79 +46,66 @@ public class NutritionHomeViewModel extends ViewModel {
     }
 
     public void fetchNutritionHomeInfo() {
-        if (!mAlreadyFetched) fetchUserAndNotify();
+        if (mNutritionHomeModelLiveData.getValue() == null) {
+            fetchUserAndNotify();
+        }
         Log.d(TAG, "fetchNutritionHomeInfo: called");
     }
 
     private void fetchUserAndNotify() {
         // fetch user from database and pass it to added foods.
-        mDatabaseReference.child(Constants.CHILD_USERS)
-                .orderByKey()
-                .equalTo(mUserId)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.getChildrenCount() > 1) {
-                            Log.wtf(TAG, "WTF, userCount > 1");
-                        }
+        mFirebaseFirestore.collection(Constants.COLLECTION_USERS)
+                .document(mUserId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    try {
+                        User user = documentSnapshot.toObject(User.class);
 
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            User user = dataSnapshot.getValue(User.class);
-                            if (user != null) {
-                                onUserInfoFetched(user);
-                            } else {
-                                Log.e(TAG, "onDataChange: user is null");
-                            }
-                        }
+                        if (user == null) {
+                            mNutritionHomeModelLiveData.setValue(null);
+                        } else onUserInfoFetched(user);
+                    } catch (Exception e) {
+                        Log.e(TAG, "fetchUserAndNotify: ", e);
                     }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        mNutritionHomeModelLiveData.setValue(null);
-                        Log.e(getClass().getSimpleName(), "onCancelled: ", error.toException());
-                    }
+                })
+                .addOnFailureListener(e -> {
+                    mNutritionHomeModelLiveData.setValue(null);
+                    Log.e(getClass().getSimpleName(), "onCancelled: ", e);
                 });
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void onUserInfoFetched(User user) {
         mGoalCaloriesInDay = user.bmr + user.dailyExtraCalories;
 
-        mAddedFoodsQuery = mDatabaseReference.child(Constants.CHILD_PRODUCTS)
-                .orderByChild(Constants.UID_DATE)
-                .equalTo(mUserId + Utils.getDate());
+        mProductsQueryListenerRegistration = mFirebaseFirestore.collection(Constants.COLLECTION_PRODUCTS)
+                .whereEqualTo(Constants.UID, mUserId)
+                .whereEqualTo(Constants.DATE, Utils.getDate())
+                .addSnapshotListener((value, error) -> {
 
-        mAddedFoodsEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<AddedFood> addedFoods = new ArrayList<>();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    addedFoods.add(dataSnapshot.getValue(AddedFood.class));
-                }
+                    Log.d(TAG, "onUserInfoFetched: value = " + value);
 
-                mNutritionHomeModelLiveData.setValue(new NutritionHomeModel(addedFoods, user));
-            }
+                    if (value == null || error != null) {
+                        Log.e(TAG, "onCancelled: ", error);
+                        mNutritionHomeModelLiveData.setValue(null);
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(TAG, "onCancelled: ", error.toException());
-                mNutritionHomeModelLiveData.setValue(null);
-            }
-        };
+                    List<AddedFood> addedFoods = new ArrayList<>();
+                    for (DocumentSnapshot snapshot : value.getDocuments()) {
+                        addedFoods.add(snapshot.toObject(AddedFood.class));
+                    }
 
-        mAddedFoodsQuery.addValueEventListener(mAddedFoodsEventListener);
-        mAlreadyFetched = true;
+                    mNutritionHomeModelLiveData.setValue(new NutritionHomeModel(addedFoods, user));
+                });
+    }
+
+    public int getGoalCaloriesInDay() {
+        return mGoalCaloriesInDay;
     }
 
     @Override
     protected void onCleared() {
         super.onCleared();
-
-        if (mAddedFoodsQuery != null) {
-            mAddedFoodsQuery.removeEventListener(mAddedFoodsEventListener);
-        }
-    }
-
-    public int getGoalCaloriesInDay() {
-        return mGoalCaloriesInDay;
+        mProductsQueryListenerRegistration.remove();
     }
 }

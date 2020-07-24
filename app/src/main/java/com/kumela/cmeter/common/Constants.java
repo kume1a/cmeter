@@ -41,13 +41,13 @@ public class Constants {
     public static final int MAX_HEIGHT = 250;
 
     // Firebase
-    public static final String CHILD_USERS = "users";
-    public static final String CHILD_PRODUCTS = "products";
+    public static final String COLLECTION_USERS = "users";
+    public static final String COLLECTION_PRODUCTS = "products";
 
     public static final String UID = "uid";
-    public static final String UID_DATE = "uidDate";
-    public static final String UID_DATE_MEAL = "uidDateMeal";
-    public static final String UID_FAVORITE = "uidFavorite";
+    public static final String DATE = "date";
+    public static final String MEAL = "meal";
+    public static final String FAVORITE = "favorite";
 
     public static final String BREAKFAST = "BREAKFAST";
     public static final String DINNER = "DINNER";

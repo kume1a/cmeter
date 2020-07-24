@@ -44,11 +44,11 @@ public class TabViewMvcImpl extends BaseObservableViewMvc<TabViewMvc.Listener>
 
     @Override
     public void onSearchItemClicked(SearchItem searchItem) {
-
+        for (Listener listener : getListeners()) listener.onProductClicked(searchItem);
     }
 
     @Override
     public void onAddButtonClicked(SearchItem searchItem) {
-
+        for (Listener listener: getListeners()) listener.onProductAddClicked(searchItem);
     }
 }

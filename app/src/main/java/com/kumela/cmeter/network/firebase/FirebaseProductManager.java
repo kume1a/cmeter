@@ -2,11 +2,9 @@ package com.kumela.cmeter.network.firebase;
 
 import android.util.Log;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.kumela.cmeter.common.BaseObservable;
 import com.kumela.cmeter.common.Constants;
-import com.kumela.cmeter.common.Utils;
 import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
 import com.kumela.cmeter.model.firebase.AddedFood;
 
@@ -24,12 +22,12 @@ public class FirebaseProductManager extends BaseObservable<FirebaseProductManage
         void onDatabaseWriteCompleted();
     }
 
-    private DatabaseReference mDatabase;
+    private FirebaseFirestore mFirestore;
     private String mUserId;
 
     @Inject
-    public FirebaseProductManager(FirebaseDatabase firebaseDatabase, String uid) {
-        this.mDatabase = firebaseDatabase.getReference();
+    public FirebaseProductManager(FirebaseFirestore firebaseFirestore, String uid) {
+        this.mFirestore = firebaseFirestore;
         this.mUserId = uid;
     }
 
@@ -54,9 +52,8 @@ public class FirebaseProductManager extends BaseObservable<FirebaseProductManage
         );
 
         Log.d(TAG, "writeProductAndNotify: called, addedFood = " + addedFood);
-        mDatabase.child(Constants.CHILD_PRODUCTS)
-                .push()
-                .setValue(addedFood)
+        mFirestore.collection(Constants.COLLECTION_PRODUCTS)
+                .add(addedFood)
                 .addOnSuccessListener(aVoid -> {
                     for (Listener listener : getListeners()) listener.onDatabaseWriteCompleted();
                 }).

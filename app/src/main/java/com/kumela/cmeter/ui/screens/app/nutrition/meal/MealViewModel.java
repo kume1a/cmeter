@@ -5,11 +5,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.kumela.cmeter.common.Constants;
 import com.kumela.cmeter.common.Utils;
 import com.kumela.cmeter.model.firebase.AddedFood;
@@ -51,14 +48,14 @@ public class MealViewModel extends ViewModel implements NutritionInfoParser.List
     }
 
     private final String mUserId;
-    private final DatabaseReference mDatabaseReference;
+    private final FirebaseFirestore mFirebaseFirestore;
     private final NutritionInfoParser mNutritionInfoParser;
 
     private MealModel mMealModel;
 
-    public MealViewModel(String uid, FirebaseDatabase firebaseDatabase, NutritionInfoParser nutritionInfoParser) {
+    public MealViewModel(String uid, FirebaseFirestore firebaseFirestore, NutritionInfoParser nutritionInfoParser) {
         this.mUserId = uid;
-        this.mDatabaseReference = firebaseDatabase.getReference();
+        this.mFirebaseFirestore = firebaseFirestore;
         this.mNutritionInfoParser = nutritionInfoParser;
 
         mMealModel = new MealModel();
@@ -102,30 +99,27 @@ public class MealViewModel extends ViewModel implements NutritionInfoParser.List
     }
 
     private void fetchCurrentMealFoodsAndParseResult(@NonNull String meal) {
-        mDatabaseReference.child(Constants.CHILD_PRODUCTS)
-                .orderByChild(Constants.UID_DATE_MEAL)
-                .equalTo(mUserId + Utils.getDate() + meal)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        ArrayList<AddedFood> addedFoods = new ArrayList<>();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            addedFoods.add(dataSnapshot.getValue(AddedFood.class));
-                        }
-
-                        if (addedFoods.size() == 0) {
-                            for (Listener listener : mListeners) listener.noProductsAdded();
-                            return;
-                        }
-                        parseBaseNutritionAndProductModels(addedFoods);
-                        mNutritionInfoParser.parseNutritionInfoAndNotify(addedFoods);
+        mFirebaseFirestore.collection(Constants.COLLECTION_PRODUCTS)
+                .whereEqualTo(Constants.UID, mUserId)
+                .whereEqualTo(Constants.MEAL, meal)
+                .whereEqualTo(Constants.DATE, Utils.getDate())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    ArrayList<AddedFood> addedFoods = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                        addedFoods.add(documentSnapshot.toObject(AddedFood.class));
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.e(TAG, "onCancelled: ", error.toException());
-                        notifyFailure();
+                    if (addedFoods.size() == 0) {
+                        for (Listener listener : mListeners) listener.noProductsAdded();
+                        return;
                     }
+                    parseBaseNutritionAndProductModels(addedFoods);
+                    mNutritionInfoParser.parseNutritionInfoAndNotify(addedFoods);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "onCancelled: ", e);
+                    notifyFailure();
                 });
     }
 

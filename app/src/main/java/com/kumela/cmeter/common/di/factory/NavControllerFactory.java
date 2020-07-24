@@ -8,6 +8,7 @@ import com.kumela.cmeter.ui.common.nav.ActivityNavController;
 import com.kumela.cmeter.ui.common.nav.DualNavController;
 import com.kumela.cmeter.ui.common.nav.FragmentNavController;
 import com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodNavController;
+import com.kumela.cmeter.ui.screens.app.nutrition.add_food.tabs.tab_fragment.TabNavController;
 import com.kumela.cmeter.ui.screens.app.nutrition.home.NutritionHomeNavController;
 import com.kumela.cmeter.ui.screens.app.nutrition.search.SearchNavController;
 import com.kumela.cmeter.ui.screens.starter.authentication.login.LoginNavController;
@@ -24,8 +25,11 @@ import javax.inject.Inject;
 
 public class NavControllerFactory {
 
+    private Context mContext;
+
     @Inject
-    public NavControllerFactory() {
+    public NavControllerFactory(Context context) {
+        this.mContext = context;
     }
 
     /**
@@ -53,13 +57,15 @@ public class NavControllerFactory {
         return (T) controller;
     }
 
-    public <T extends ActivityNavController> T newInstance(Class<T> controllerClass, Context context) {
+    public <T extends ActivityNavController> T newInstance(Class<T> controllerClass) {
         ActivityNavController controller;
 
         if (controllerClass == SearchNavController.class) {
-            controller = new SearchNavController(context);
+            controller = new SearchNavController(mContext);
         } else if (controllerClass == AddFoodNavController.class) {
-            controller = new AddFoodNavController(context);
+            controller = new AddFoodNavController(mContext);
+        } else if (controllerClass == TabNavController.class) {
+            controller = new TabNavController(mContext);
         } else
             throw new IllegalArgumentException("Unsupported NavController class " + controllerClass);
 

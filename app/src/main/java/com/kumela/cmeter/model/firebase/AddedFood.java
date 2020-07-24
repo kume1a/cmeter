@@ -13,13 +13,12 @@ import java.util.List;
  **/
 
 public class AddedFood {
-    public String mealType;
+    public String meal;
     public String foodName;
 
     public String uid;
-    public String uidDate;
-    public String uidDateMeal;
-    public String uidFavorite;
+    public String date;
+    public boolean favorite;
 
     public float currentServingQuantity;
     public String servingUnit;
@@ -42,7 +41,7 @@ public class AddedFood {
     }
 
     public AddedFood(String uid,
-                     String mealType,
+                     String meal,
                      String foodName,
                      boolean favorite,
                      float currentServingQuantity,
@@ -59,10 +58,9 @@ public class AddedFood {
                      boolean zeroedOut
     ) {
         this.uid = uid;
-        this.uidDate = uid + Utils.getDate();
-        this.uidDateMeal = uidDate + mealType;
-        this.mealType = mealType;
-        this.uidFavorite = uid + favorite;
+        this.date = Utils.getDate();
+        this.meal = meal;
+        this.favorite = favorite;
         this.foodName = foodName;
         this.currentServingQuantity = currentServingQuantity;
         this.servingUnit = servingUnit;
@@ -82,7 +80,7 @@ public class AddedFood {
     @Override
     public String toString() {
         return "AddedFood{" + "\n" +
-                "mealType='" + mealType + '\'' + "\n" +
+                "mealType='" + meal + '\'' + "\n" +
                 "foodName='" + foodName + '\'' + "\n" +
                 "currentServingQuantity=" + currentServingQuantity + "\n" +
                 "servingUnit='" + servingUnit + '\'' + "\n" +

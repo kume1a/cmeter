@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.common.Constants;
@@ -39,10 +38,10 @@ public class AddFoodFragment extends BaseFragment {
 
         mMealType = AddFoodFragmentArgs.fromBundle(requireArguments()).getMealType();
 
-        mNavController = getNavControllerFactory().newInstance(AddFoodNavController.class, requireContext());
+        mNavController = getNavControllerFactory().newInstance(AddFoodNavController.class);
 
         mViewMvc.setupToolbar(requireActivity(), Constants.MEAL_TYPE_TO_STRING.get(mMealType));
-        mViewMvc.setupViewPager((AppCompatActivity) requireActivity());
+        mViewMvc.setupViewPager(getChildFragmentManager(), getLifecycle(), mMealType);
     }
 
     @Override
