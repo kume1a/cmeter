@@ -48,8 +48,8 @@
     <include
         android:id="@+id/nutrition_home_fab_menu"
         layout="@layout/nutrition_home_fab_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="end|bottom"
         android:visibility="gone" />
 

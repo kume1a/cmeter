@@ -3,13 +3,15 @@ package com.kumela.cmeter.ui.screens.app.nutrition.home;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
@@ -26,7 +28,9 @@ import com.kumela.cmeter.model.local.NutritionHomeModel;
 import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvc;
 import com.kumela.cmeter.ui.common.util.NutritionPieChart;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -120,11 +124,6 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
         mCvSupper = fabMenu.findViewById(R.id.cv_home_supper);
         mCvSnacks = fabMenu.findViewById(R.id.cv_home_snacks);
 
-        fabMenuText(mCvBreakfast, getResources().getString(R.string.breakfast));
-        fabMenuText(mCvDinner, getResources().getString(R.string.dinner));
-        fabMenuText(mCvSupper, getResources().getString(R.string.supper));
-        fabMenuText(mCvSnacks, getResources().getString(R.string.snacks));
-
         mFabMain.show();
 
         mFabMain.setOnClickListener(v -> {
@@ -132,20 +131,25 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
         });
         mFabBreakfast.setOnClickListener(v -> {
             for (Listener listener : getListeners())
-                listener.onMenuClick(Constants.BREAKFAST);
+                listener.onMenuClick(v, Constants.BREAKFAST);
         });
         mFabDinner.setOnClickListener(v -> {
             for (Listener listener : getListeners())
-                listener.onMenuClick(Constants.DINNER);
+                listener.onMenuClick(v, Constants.DINNER);
         });
         mFabSupper.setOnClickListener(v -> {
             for (Listener listener : getListeners())
-                listener.onMenuClick(Constants.SUPPER);
+                listener.onMenuClick(v, Constants.SUPPER);
         });
         mFabSnacks.setOnClickListener(v -> {
             for (Listener listener : getListeners())
-                listener.onMenuClick(Constants.SNACKS);
+                listener.onMenuClick(v, Constants.SNACKS);
         });
+    }
+
+    @Override
+    public void hideDimmer() {
+        mViewDim.setVisibility(View.GONE);
     }
 
     @Override
@@ -158,10 +162,6 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
             }
         });
         mViewDim.setOnClickListener(null);
-    }
-
-    private void fabMenuText(@NonNull CardView cardView, @NonNull String text) {
-        ((TextView) cardView.findViewById(R.id.tv_item_menu_fab_text)).setText(text);
     }
 
     @Override
@@ -224,6 +224,75 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
                 }).start();
     }
 
+    @Override
+    public void animateViewToCenter(@NonNull View v, @NonNull String meal) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+
+        final float centerX = (float) displayMetrics.widthPixels / 2 - (float) v.getWidth() / 2;
+        final float centerY = (float) displayMetrics.heightPixels / 2 + (float) v.getHeight() / 2 - 50;
+
+        final float startX = v.getX();
+        final float startY = v.getY();
+
+        final long duration = 400;
+
+        ValueAnimator positionAnimator = ValueAnimator.ofFloat(0, 1);
+        positionAnimator.setDuration(duration);
+        positionAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        positionAnimator.addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+
+            float x = centerX + (startX - centerX - ((startX - centerX) * value));
+            float y = centerY + (startY - centerY - ((startY - centerY) * (value * value)));
+
+            v.setX(x);
+            v.setY(y);
+
+            v.setAlpha(1 - value);
+        });
+        positionAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                for (Listener listener : getListeners())
+                    listener.onFabAnimationEnded(v, startX, meal);
+            }
+        });
+        positionAnimator.start();
+    }
+
+    /**
+     * Hides rest of menu including cards and floating action buttons
+     *
+     * @param view floating action button that is pressed
+     */
+    @Override
+    public void hideRestOfMenu(@NonNull View view) {
+        List<View> viewsToHide = new ArrayList<>(9);
+        viewsToHide.add(mFabMain);
+        viewsToHide.add(mFabBreakfast);
+        viewsToHide.add(mFabDinner);
+        viewsToHide.add(mFabSupper);
+        viewsToHide.add(mFabSnacks);
+        viewsToHide.add(mCvBreakfast);
+        viewsToHide.add(mCvDinner);
+        viewsToHide.add(mCvSupper);
+        viewsToHide.add(mCvSnacks);
+
+        viewsToHide.remove(view);
+
+        for (View v : viewsToHide) v.animate().alpha(0f).setDuration(300).start();
+    }
+
+    @Override
+    public void resetFabToInitialPosition(View v, float startX) {
+        v.setX(startX);
+        v.setTranslationY(100f);
+        v.setAlpha(0f);
+        v.setVisibility(View.GONE);
+
+        mFabMain.setRotation(0f);
+    }
+
     private void setupCalorieDashboardPie(int goalCalories, int currentCalories) {
         final int calorieProgress = (int) ((float) currentCalories / goalCalories * 100);
         Map<Float, Integer> data = new HashMap<>();
@@ -239,7 +308,7 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
         pieChart.setHoleRadius((int) (getResources().getDimension(R.dimen.pie_home_dashboard_calorie)), .35f);
         pieChart.setCenterText(getResources().getString(R.string.value_percent, calorieProgress), 18);
         pieChart.setPieData(data);
-        pieChart.animateY(1500, Easing.EaseInCubic);
+        pieChart.animateY(1200, Easing.EaseInCubic);
     }
 
     @Override

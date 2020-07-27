@@ -3,7 +3,6 @@ package com.kumela.cmeter.model.firebase;
 import androidx.annotation.NonNull;
 
 import com.kumela.cmeter.common.Utils;
-import com.kumela.cmeter.model.api.nutrition.AltMeasure;
 import com.kumela.cmeter.model.api.nutrition.FullNutrient;
 
 import java.util.List;
@@ -30,8 +29,6 @@ public class AddedFood {
     public float totalProteins;
 
     public List<FullNutrient> fullNutrients;
-    public List<AltMeasure> altMeasures;
-    public String imageUrl;
 
     public float servingQuantity;
     public boolean zeroedOut = false;
@@ -52,8 +49,6 @@ public class AddedFood {
                      float totalFats,
                      float totalProteins,
                      List<FullNutrient> fullNutrients,
-                     List<AltMeasure> altMeasures,
-                     String imageUrl,
                      float servingQuantity,
                      boolean zeroedOut
     ) {
@@ -70,8 +65,6 @@ public class AddedFood {
         this.totalFats = totalFats;
         this.totalProteins = totalProteins;
         this.fullNutrients = fullNutrients;
-        this.altMeasures = altMeasures;
-        this.imageUrl = imageUrl;
         this.servingQuantity = servingQuantity;
         this.zeroedOut = zeroedOut;
     }
@@ -90,8 +83,6 @@ public class AddedFood {
                 "totalFats=" + totalFats + "\n" +
                 "totalProteins=" + totalProteins + "\n" +
                 "fullNutrients=" + fullNutrients + "\n" +
-                "altMeasures=" + altMeasures + "\n" +
-                "imageUrl='" + imageUrl + '\'' + "\n" +
                 "servingQuantity=" + servingQuantity + "\n" +
                 "zeroedOut=" + zeroedOut + "\n" +
                 '}';

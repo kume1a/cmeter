@@ -15,11 +15,13 @@ public interface NutritionHomeMvc extends ObservableViewMvc<NutritionHomeMvc.Lis
 
     interface Listener {
 
-        void onMenuClick(@NonNull String mealType);
+        void onMenuClick(@NonNull View v, @NonNull String meal);
 
         void onFabClick(boolean isMenuOpen);
 
         void onMealClick(@NonNull String mealType);
+
+        void onFabAnimationEnded(@NonNull View v, float startX, @NonNull String meal);
     }
 
     void showFabMenu(View fabMenu, View dim);
@@ -30,6 +32,15 @@ public interface NutritionHomeMvc extends ObservableViewMvc<NutritionHomeMvc.Lis
 
     void openMenu();
 
+    // fab animation to circular reveal
+    void animateViewToCenter(@NonNull View v,@NonNull String meal);
 
+    void hideDimmer();
+
+    void hideRestOfMenu(@NonNull View view);
+
+    void resetFabToInitialPosition(View v, float startX);
+
+    // binding info to ui
     void bindHomeModelInfo(NutritionHomeModel nutritionHomeModel);
 }

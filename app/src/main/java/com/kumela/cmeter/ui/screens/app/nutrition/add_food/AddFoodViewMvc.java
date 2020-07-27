@@ -19,4 +19,8 @@ public interface AddFoodViewMvc extends ViewMvc {
     void setupViewPager(FragmentManager supportFragmentManager, Lifecycle lifecycle, String meal);
 
     void setupToolbar(FragmentActivity activity, @StringRes int title);
+
+    void startCircularRevealAnimation(int cx, int cy);
+
+    void startCircularRevealExitAnimation(int endX, int endY);
 }

@@ -23,10 +23,11 @@ public class SearchItem {
     @SerializedName("tag_id")
     public int tagId;
 
-    public SearchItem(String foodName, String servingUnit, float servingQuantity) {
+    public SearchItem(String foodName, String servingUnit, float servingQuantity, int tagId) {
         this.foodName = foodName;
         this.servingUnit = servingUnit;
         this.servingQuantity = servingQuantity;
+        this.tagId = tagId;
     }
 
     @NonNull

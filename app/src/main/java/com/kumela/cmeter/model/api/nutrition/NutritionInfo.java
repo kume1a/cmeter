@@ -54,9 +54,7 @@ public class NutritionInfo {
                           float totalCarbohydrates,
                           float totalFats,
                           float totalProteins,
-                          List<FullNutrient> fullNutrients,
-                          List<AltMeasure> altMeasures,
-                          Photo photo
+                          List<FullNutrient> fullNutrients
     ) {
         this.foodName = foodName;
         this.currentServingQuantity = currentServingQuantity;
@@ -67,15 +65,13 @@ public class NutritionInfo {
         this.totalFats = totalFats;
         this.totalProteins = totalProteins;
         this.fullNutrients = fullNutrients;
-        this.altMeasures = altMeasures;
-        this.photo = photo;
     }
 
     public NutritionInfo getZeroedOutInstance() {
         return new NutritionInfo(
                 foodName, currentServingQuantity, servingUnit, servingWeightInGrams,
                 0, 0, 0, 0,
-                null, altMeasures, photo
+                null
         );
     }
 

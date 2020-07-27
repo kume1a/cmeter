@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,7 +37,16 @@ public class AddFoodFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mMealType = AddFoodFragmentArgs.fromBundle(requireArguments()).getMealType();
+        // enable touch events on screen
+        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        AddFoodFragmentArgs args = AddFoodFragmentArgs.fromBundle(requireArguments());
+        mMealType = args.getMealType();
+
+        // play reveal animation for first time only
+        if (savedInstanceState == null) {
+            mViewMvc.startCircularRevealAnimation((int) args.getCx(), (int) args.getCy());
+        }
 
         mNavController = getNavControllerFactory().newInstance(AddFoodNavController.class);
 

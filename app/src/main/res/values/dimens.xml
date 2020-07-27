@@ -13,4 +13,6 @@
     <dimen name="card_radius_authentication">24dp</dimen>
     <dimen name="pie_meal_card">80dp</dimen>
     <dimen name="meal_goals_space">10dp</dimen>
+
+    <dimen name="fab_size_mini">40dp</dimen>
 </resources>

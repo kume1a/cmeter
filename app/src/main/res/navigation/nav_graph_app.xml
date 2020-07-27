@@ -34,6 +34,12 @@
         <argument
             android:name="mealType"
             app:argType="string" />
+        <argument
+            android:name="cx"
+            app:argType="float" />
+        <argument
+            android:name="cy"
+            app:argType="float" />
     </fragment>
     <fragment
         android:id="@+id/mealFragment"

@@ -17,7 +17,10 @@ import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
 import com.kumela.cmeter.network.firebase.FirebaseProductManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Toko on 22,July,2020
@@ -65,40 +68,44 @@ public class AddFoodViewModel extends ViewModel implements FetchNutritionInfoUse
         mFirebaseFirestore.collection(Constants.COLLECTION_PRODUCTS)
                 .whereEqualTo(Constants.UID, mUserId)
                 .limit(15)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    List<SearchItem> recentlyAdded = getSearchItemsFromSnapshot(queryDocumentSnapshots);
-                    mRecentLiveData.setValue(recentlyAdded);
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "onCancelled: ", e);
-                    mRecentLiveData.setValue(null);
+                .addSnapshotListener((value, error) -> {
+                    if (value == null || error != null) {
+                        Log.e(TAG, "onCancelled: ", error);
+                        mRecentLiveData.setValue(null);
+                        return;
+                    }
+
+                    Set<SearchItem> recentlyAdded = getSearchItemsFromSnapshot(value);
+                    Log.d(TAG, "fetchRecentlyAddedProducts: recently added = " + recentlyAdded);
+                    mRecentLiveData.setValue(new ArrayList<>(recentlyAdded));
                 });
     }
 
     public void fetchFavorites() {
         mFirebaseFirestore.collection(Constants.COLLECTION_PRODUCTS)
                 .whereEqualTo(Constants.FAVORITE, true)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    List<SearchItem> recentlyAdded = getSearchItemsFromSnapshot(queryDocumentSnapshots);
-                    mRecentLiveData.setValue(recentlyAdded);
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "onCancelled: ", e);
-                    mRecentLiveData.setValue(null);
+                .addSnapshotListener((value, error) -> {
+                    if (value == null || error != null) {
+                        Log.e(TAG, "onCancelled: ", error);
+                        mRecentLiveData.setValue(null);
+                        return;
+                    }
+
+                    Set<SearchItem> favorites = getSearchItemsFromSnapshot(value);
+                    mFavoritesLiveData.setValue(new ArrayList<>(favorites));
                 });
     }
 
     @SuppressWarnings("ConstantConditions")
-    private List<SearchItem> getSearchItemsFromSnapshot(QuerySnapshot queryDocumentSnapshots) {
-        List<SearchItem> list = new ArrayList<>();
+    private Set<SearchItem> getSearchItemsFromSnapshot(QuerySnapshot queryDocumentSnapshots) {
+        Set<SearchItem> list = new HashSet<>();
         for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
             AddedFood nutritionInfo = snapshot.toObject(AddedFood.class);
             list.add(new SearchItem(
                     nutritionInfo.foodName,
                     nutritionInfo.servingUnit,
-                    nutritionInfo.currentServingQuantity
+                    nutritionInfo.currentServingQuantity,
+                    Objects.hash(nutritionInfo.foodName)
             ));
         }
         return list;

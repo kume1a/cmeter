@@ -45,8 +45,6 @@ public class FirebaseProductManager extends BaseObservable<FirebaseProductManage
                 nutritionInfo.totalFats,
                 nutritionInfo.totalProteins,
                 nutritionInfo.fullNutrients,
-                nutritionInfo.altMeasures,
-                nutritionInfo.photo.highRes,
                 nutritionInfo.getServingQuantity(),
                 nutritionInfo.zeroedOut
         );

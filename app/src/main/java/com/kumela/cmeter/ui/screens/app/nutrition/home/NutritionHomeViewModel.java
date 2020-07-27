@@ -74,7 +74,6 @@ public class NutritionHomeViewModel extends ViewModel {
                 });
     }
 
-    @SuppressWarnings("ConstantConditions")
     private void onUserInfoFetched(User user) {
         mGoalCaloriesInDay = user.bmr + user.dailyExtraCalories;
 
@@ -88,6 +87,7 @@ public class NutritionHomeViewModel extends ViewModel {
                     if (value == null || error != null) {
                         Log.e(TAG, "onCancelled: ", error);
                         mNutritionHomeModelLiveData.setValue(null);
+                        return;
                     }
 
                     List<AddedFood> addedFoods = new ArrayList<>();

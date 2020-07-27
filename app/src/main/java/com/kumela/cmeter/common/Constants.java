@@ -10,6 +10,9 @@ import java.util.Map;
  **/
 
 public class Constants {
+    
+    // TODO: 7/25/2020 https://www.calorieking.com/us/en/developers/food-api/documentation/
+    // TODO: 7/26/2020 https://github.com/MiguelCatalan/MaterialSearchView
 
     private Constants() {
     }

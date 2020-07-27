@@ -30,6 +30,7 @@ public class AppActivity extends BaseActivity implements ToolbarHelper {
     public static final String EXTRA_UID = "EXTRA_UID";
 
     private AppBarConfiguration mAppBarConfiguration;
+
     private Toolbar mToolbar;
     private AppBarLayout mAppBarLayout;
 

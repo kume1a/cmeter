@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -67,9 +68,26 @@ public class NutritionHomeFragment extends BaseFragment implements NutritionHome
     }
 
     @Override
-    public void onMenuClick(@NonNull String mealType) {
-        mViewMvc.closeMenu();
-        mNavController.actionToAddFood(mealType);
+    public void onMenuClick(@NonNull View v, @NonNull String meal) {
+        mViewMvc.animateViewToCenter(v, meal);
+
+        // disable any touch event on screen until animation is ended
+        requireActivity().getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        );
+
+        mViewMvc.hideDimmer();
+        mViewMvc.hideRestOfMenu(v);
+    }
+
+    @Override
+    public void onFabAnimationEnded(@NonNull View v, float startX, @NonNull String meal) {
+        float cx = v.getX() + (float) v.getWidth() / 2;
+        float cy = v.getY() + (float) v.getHeight() / 2;
+        
+        mNavController.actionToAddFood(meal, cx, cy);
+        mViewMvc.resetFabToInitialPosition(v, startX);
     }
 
     @Override

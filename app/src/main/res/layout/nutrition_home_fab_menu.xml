@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    tools:background="@color/colorPrimary"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:elevation="10dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    tools:background="@color/colorPrimary">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_snacks"
@@ -104,45 +104,102 @@
         app:srcCompat="@drawable/ic_add"
         app:tint="@color/colorPrimaryDark" />
 
-    <include
+    <androidx.cardview.widget.CardView
         android:id="@+id/cv_home_breakfast"
-        layout="@layout/nutrition_home_fab_menu_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:alpha="0"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/colorAccentSecondary80"
+        app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="@id/fab_breakfast"
         app:layout_constraintEnd_toStartOf="@id/fab_breakfast"
-        app:layout_constraintTop_toTopOf="@id/fab_breakfast" />
+        app:layout_constraintTop_toTopOf="@id/fab_breakfast"
+        tools:alpha="1"
+        tools:visibility="visible">
 
-    <include
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:paddingVertical="6dp"
+            android:text="@string/breakfast" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/cv_home_dinner"
-        layout="@layout/nutrition_home_fab_menu_card"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:alpha="0"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/colorAccentSecondary80"
+        app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="@id/fab_dinner"
         app:layout_constraintEnd_toStartOf="@+id/fab_dinner"
-        app:layout_constraintTop_toTopOf="@id/fab_dinner" />
+        app:layout_constraintStart_toStartOf="@id/cv_home_breakfast"
+        app:layout_constraintTop_toTopOf="@id/fab_dinner"
+        tools:alpha="1"
+        tools:visibility="visible">
 
-    <include
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingVertical="6dp"
+            android:text="@string/dinner" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/cv_home_supper"
-        layout="@layout/nutrition_home_fab_menu_card"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="@id/cv_home_breakfast"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/colorAccentSecondary80"
+        app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="@id/fab_supper"
         app:layout_constraintEnd_toStartOf="@+id/fab_supper"
-        app:layout_constraintTop_toTopOf="@id/fab_supper" />
+        app:layout_constraintTop_toTopOf="@id/fab_supper"
+        tools:alpha="1"
+        tools:visibility="visible">
 
-    <include
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingVertical="6dp"
+            android:text="@string/supper" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/cv_home_snacks"
-        layout="@layout/nutrition_home_fab_menu_card"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="@id/cv_home_breakfast"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/colorAccentSecondary80"
+        app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="@id/fab_snacks"
         app:layout_constraintEnd_toStartOf="@+id/fab_snacks"
-        app:layout_constraintTop_toTopOf="@id/fab_snacks" />
+        app:layout_constraintTop_toTopOf="@id/fab_snacks"
+        tools:alpha="1"
+        tools:visibility="visible">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="6dp"
+            android:layout_gravity="center"
+            android:text="@string/snacks" />
 
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

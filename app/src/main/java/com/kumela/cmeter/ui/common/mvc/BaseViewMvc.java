@@ -3,6 +3,7 @@ package com.kumela.cmeter.ui.common.mvc;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
+import android.widget.Button;
 
 public abstract class BaseViewMvc implements ViewMvc {
 

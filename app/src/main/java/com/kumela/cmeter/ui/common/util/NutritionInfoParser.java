@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.kumela.cmeter.common.BaseObservable;
-import com.kumela.cmeter.model.api.Photo;
 import com.kumela.cmeter.model.api.nutrition.FullNutrient;
 import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
 import com.kumela.cmeter.model.firebase.AddedFood;
@@ -81,9 +80,7 @@ public class NutritionInfoParser extends BaseObservable<NutritionInfoParser.List
                 addedFood.totalCarbohydrates,
                 addedFood.totalFats,
                 addedFood.totalProteins,
-                addedFood.fullNutrients,
-                addedFood.altMeasures,
-                new Photo(addedFood.imageUrl)
+                addedFood.fullNutrients
         );
     }
 
