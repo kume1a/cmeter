@@ -42,21 +42,9 @@
     <style name="Tabs" parent="Widget.MaterialComponents.TabLayout">
         <item name="tabIndicatorColor">@color/colorAccent</item>
         <item name="tabIconTint">@color/colorAccent</item>
-        <item name="tabBackground">@color/colorPrimaryDark</item>
+        <item name="tabBackground">@color/colorPrimary</item>
         <item name="tabTextColor">@color/colorWhite</item>
-        <item name="elevation">8dp</item>
-    </style>
-
-    <style name="AppTheme.Search" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="elevation">12dp</item>
     </style>
 
     <style name="CTL_TextCollapsed" parent="TextAppearance.MaterialComponents.Headline6">
@@ -68,5 +56,19 @@
         <item name="colorControlNormal">@android:color/transparent</item>
         <item name="android:textColorPrimary">@color/colorWhite</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="SearchViewTheme" parent="Widget.AppCompat.SearchView.ActionBar">
+        <item name="layout">@layout/toolbar_search_view</item>
+        <item name="autoCompleteTextViewStyle">@style/AutoCompleteTextViewStyle</item>
+        <item name="android:maxWidth">9999dp</item>
+        <item name="defaultQueryHint">@string/add_food_search_hint</item>
+        <item name="closeIcon">@drawable/ic_close</item>
+
+        <item name="searchViewStyle">@null</item>
+    </style>
+
+    <style name="AutoCompleteTextViewStyle" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+        <item name="android:popupElevation">0dp</item>
     </style>
 </resources>

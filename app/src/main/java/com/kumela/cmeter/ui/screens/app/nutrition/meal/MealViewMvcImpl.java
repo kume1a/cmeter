@@ -1,6 +1,7 @@
 package com.kumela.cmeter.ui.screens.app.nutrition.meal;
 
 import android.animation.ObjectAnimator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
@@ -13,13 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textview.MaterialTextView;
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
-import com.kumela.cmeter.model.local.MealModel;
-import com.kumela.cmeter.model.local.NutritionDetailItem;
-import com.kumela.cmeter.model.local.ProductModel;
-import com.kumela.cmeter.ui.adapters.added_food.ProductAdapter;
+import com.kumela.cmeter.model.local.fragment_models.MealModel;
+import com.kumela.cmeter.model.local.list.NutritionDetailListModel;
+import com.kumela.cmeter.model.local.list.ProductHistoryListModel;
+import com.kumela.cmeter.ui.adapters.added_food.ProductHistoryAdapter;
 import com.kumela.cmeter.ui.adapters.nutrition_details.NutritionDetailsAdapter;
 import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvc;
-import com.kumela.cmeter.ui.common.util.ToolbarHelper;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ import java.util.List;
  **/
 
 public class MealViewMvcImpl extends BaseObservableViewMvc<MealViewMvc.Listener>
-        implements MealViewMvc {
+        implements MealViewMvc, ProductHistoryAdapter.Listener {
 
     private MaterialTextView mTvCarbohydratesCurrent, mTvFatsCurrent, mTvProteinsCurrent;
     private MaterialTextView mTvGoalCaloriesProgress, mTvGoalCarbohydratesProgress, mTvGoalFatsProgress, mTvGoalProteinsProgress;
@@ -58,11 +58,6 @@ public class MealViewMvcImpl extends BaseObservableViewMvc<MealViewMvc.Listener>
 
         mRecyclerProducts = findViewById(R.id.recycler_meal_products);
         mRecyclerNutritionDetails = findViewById(R.id.recycler_meal_nutrition_details);
-    }
-
-    @Override
-    public void setupToolbar(ToolbarHelper toolbarHelper, int titleResId) {
-        toolbarHelper.setTitle(getResources().getString(titleResId));
     }
 
     @Override
@@ -96,23 +91,27 @@ public class MealViewMvcImpl extends BaseObservableViewMvc<MealViewMvc.Listener>
         animateProgressBar(mPbGoalFats, (int) currentFats);
         animateProgressBar(mPbGoalProteins, (int) currentProteins);
 
-        bindNutritionDetails(mealModel.getNutritionDetailItems());
+        bindNutritionDetails(mealModel.getNutritionDetailListModels());
         bindAddedProducts(mealModel.getProducts());
     }
 
-    private void bindNutritionDetails(List<NutritionDetailItem> nutritionDetailItems) {
+    private void bindNutritionDetails(List<NutritionDetailListModel> nutritionDetailListModels) {
         NutritionDetailsAdapter nutritionDetailsAdapter = new NutritionDetailsAdapter(mViewMvcFactory);
-        nutritionDetailsAdapter.submitList(nutritionDetailItems);
+        nutritionDetailsAdapter.submitList(nutritionDetailListModels);
 
         mRecyclerNutritionDetails.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerNutritionDetails.setAdapter(nutritionDetailsAdapter);
     }
 
-    private void bindAddedProducts(List<ProductModel> products) {
-        ProductAdapter productAdapter = new ProductAdapter(products, mViewMvcFactory);
+    private void bindAddedProducts(List<ProductHistoryListModel> products) {
+        ProductHistoryAdapter productAdapter = new ProductHistoryAdapter(this, mViewMvcFactory, ProductHistoryAdapter.ADAPTER_TYPE_NONE);
 
-        mRecyclerProducts.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerProducts.setAdapter(productAdapter);
+    }
+
+    @Override
+    public void onProductClicked(ProductHistoryListModel historyListModel) {
+        Log.d(getClass().getSimpleName(), "onProductClicked: historyListModel = " + historyListModel);
     }
 
     private Interpolator overshootInterpolator = new OvershootInterpolator();
@@ -123,4 +122,6 @@ public class MealViewMvcImpl extends BaseObservableViewMvc<MealViewMvc.Listener>
         objectAnimator.setDuration(1500);
         objectAnimator.start();
     }
+
+
 }

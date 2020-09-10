@@ -1,7 +1,7 @@
 package com.kumela.cmeter.common.di.application;
 
 import com.kumela.cmeter.common.Constants;
-import com.kumela.cmeter.network.api.NutritionXService;
+import com.kumela.cmeter.network.api.EdamamApiService;
 
 import javax.inject.Singleton;
 
@@ -21,15 +21,15 @@ public abstract class NetworkingModule {
     @Provides
     static Retrofit providesRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
+                .baseUrl(Constants.API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
     @Singleton
     @Provides
-    static NutritionXService providesNutritionXService(Retrofit retrofit) {
-        return retrofit.create(NutritionXService.class);
+    static EdamamApiService providesEdamamService(Retrofit retrofit) {
+        return retrofit.create(EdamamApiService.class);
     }
 
 }

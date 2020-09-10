@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.model.firebase.User;
+import com.kumela.cmeter.model.firebase.FirebaseUser;
 import com.kumela.cmeter.ui.common.base.BaseFragment;
 
 public class OnBoardingFragment extends BaseFragment
@@ -106,7 +106,7 @@ public class OnBoardingFragment extends BaseFragment
             final int age = mViewModel.getAge();
 
             final OnBoardingFragmentArgs args = OnBoardingFragmentArgs.fromBundle(requireArguments());
-            mViewModel.createUserAndNotify(new User(
+            mViewModel.createUserAndNotify(new FirebaseUser(
                     args.getUsername(), args.getEmail(),
                     bmr, dailyExtra, waterIntake,
                     carbohydrates, fats, proteins,
@@ -116,7 +116,12 @@ public class OnBoardingFragment extends BaseFragment
     }
 
     @Override
-    public void onDatabaseWriteCompleted() {
+    public void onUserCreated() {
         mNavController.actionToApp();
+    }
+
+    @Override
+    public void onUserCreateFailed() {
+        // TODO: 8/7/2020 notify failure to user
     }
 }

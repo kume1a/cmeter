@@ -1,6 +1,7 @@
 package com.kumela.cmeter.ui.screens.app.nutrition.add_food.tabs.tab_fragment;
 
-import com.kumela.cmeter.model.api.search.SearchItem;
+import com.kumela.cmeter.model.local.list.FoodListModel;
+import com.kumela.cmeter.model.local.list.ProductHistoryListModel;
 import com.kumela.cmeter.ui.common.mvc.observanble.ObservableViewMvc;
 
 import java.util.List;
@@ -12,10 +13,8 @@ import java.util.List;
 public interface TabViewMvc extends ObservableViewMvc<TabViewMvc.Listener> {
 
     interface Listener {
-        void onProductClicked(SearchItem searchItem);
-
-        void onProductAddClicked(SearchItem searchItem);
+        void onProductClicked(ProductHistoryListModel foodListModel);
     }
 
-    void bindRecyclerViewData(List<SearchItem> searchItems);
+    void bindHistoryProducts(List<ProductHistoryListModel> productHistory, TabFragment.TabType tabType);
 }

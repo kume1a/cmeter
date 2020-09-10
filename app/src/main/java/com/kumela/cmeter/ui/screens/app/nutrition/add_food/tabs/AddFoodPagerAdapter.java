@@ -16,11 +16,8 @@ import com.kumela.cmeter.ui.screens.app.nutrition.add_food.tabs.tab_fragment.Tab
 
 public class AddFoodPagerAdapter extends FragmentStateAdapter {
 
-    private final String mMeal;
-
-    public AddFoodPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, String meal) {
+    public AddFoodPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
-        this.mMeal = meal;
     }
 
     @NonNull
@@ -40,7 +37,6 @@ public class AddFoodPagerAdapter extends FragmentStateAdapter {
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(TabFragment.EXTRA_TAB_TYPE, tabType);
-        bundle.putString(TabFragment.EXTRA_MEAL, mMeal);
 
         TabFragment tabFragment = new TabFragment();
         tabFragment.setArguments(bundle);

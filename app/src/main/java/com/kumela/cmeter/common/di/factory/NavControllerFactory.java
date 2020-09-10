@@ -4,12 +4,12 @@ package com.kumela.cmeter.common.di.factory;
 import android.content.Context;
 import android.view.View;
 
-import com.kumela.cmeter.ui.common.nav.ActivityNavController;
 import com.kumela.cmeter.ui.common.nav.DualNavController;
 import com.kumela.cmeter.ui.common.nav.FragmentNavController;
 import com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodNavController;
 import com.kumela.cmeter.ui.screens.app.nutrition.add_food.tabs.tab_fragment.TabNavController;
 import com.kumela.cmeter.ui.screens.app.nutrition.home.NutritionHomeNavController;
+import com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details.NutritionDetailsNavController;
 import com.kumela.cmeter.ui.screens.app.nutrition.search.SearchNavController;
 import com.kumela.cmeter.ui.screens.starter.authentication.login.LoginNavController;
 import com.kumela.cmeter.ui.screens.starter.authentication.register.RegisterNavController;
@@ -49,26 +49,17 @@ public class NavControllerFactory {
             controller = new NutritionHomeNavController(view);
         } else if (controllerClass == RegisterNavController.class) {
             controller = new RegisterNavController(view);
+        } else if (controllerClass == AddFoodNavController.class) {
+            controller = new AddFoodNavController(view);
+        } else if (controllerClass == SearchNavController.class) {
+            controller = new SearchNavController(view);
+        } else if (controllerClass == TabNavController.class) {
+            controller = new TabNavController(view);
+        } else if (controllerClass == NutritionDetailsNavController.class) {
+            controller = new NutritionDetailsNavController(view);
         } else {
             throw new IllegalArgumentException("Unsupported NavController class " + controllerClass);
         }
-
-        //noinspection unchecked
-        return (T) controller;
-    }
-
-    public <T extends ActivityNavController> T newInstance(Class<T> controllerClass) {
-        ActivityNavController controller;
-
-        if (controllerClass == SearchNavController.class) {
-            controller = new SearchNavController(mContext);
-        } else if (controllerClass == AddFoodNavController.class) {
-            controller = new AddFoodNavController(mContext);
-        } else if (controllerClass == TabNavController.class) {
-            controller = new TabNavController(mContext);
-        } else
-            throw new IllegalArgumentException("Unsupported NavController class " + controllerClass);
-
 
         //noinspection unchecked
         return (T) controller;
@@ -81,8 +72,7 @@ public class NavControllerFactory {
             controller = new LoginNavController(context, view);
         } else if (controllerClass == OnBoardingNavController.class) {
             controller = new OnBoardingNavController(context, view);
-        }
-        else
+        } else
             throw new IllegalArgumentException("Unsupported NavController class " + controllerClass);
 
         //noinspection unchecked

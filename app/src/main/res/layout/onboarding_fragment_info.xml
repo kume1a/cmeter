@@ -4,8 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="32dp"
     tools:background="@color/colorPrimary">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_onboarding_gender_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="18sp"
+        android:text="Gender" />
+
+    <RadioGroup
+        android:id="@+id/rg_onboarding_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:checkedButton="@id/rb_onboarding_info_male"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/bgr_accent_stroke"
+        app:layout_constraintTop_toBottomOf="@id/tv_onboarding_gender_header">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_onboarding_info_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/onboarding_info_gender_male"
+            android:textAlignment="center"
+            android:button="@null"
+            android:background="@drawable/bgr_button_toggle"
+            android:textColor="@color/colorWhite" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_onboarding_info_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:background="@drawable/bgr_button_toggle"
+            android:button="@null"
+            android:text="@string/onboarding_info_gender_female"
+            android:textColor="@color/colorWhite" />
+    </RadioGroup>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_onboarding_info_age"
@@ -19,7 +63,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".1" />
+        app:layout_constraintVertical_bias=".3" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_onboarding_info_height"
@@ -32,7 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_onboarding_info_age"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".1" />
+        app:layout_constraintVertical_bias=".3" />
 
     <NumberPicker
         android:id="@+id/np_onboarding_info_age"
@@ -53,53 +97,4 @@
         app:layout_constraintEnd_toEndOf="@id/tv_onboarding_info_height"
         app:layout_constraintStart_toStartOf="@id/tv_onboarding_info_height"
         app:layout_constraintTop_toBottomOf="@id/tv_onboarding_info_height" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_onboarding_info_choose_gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/onboarding_info_header_gender"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/np_onboarding_info_age" />
-
-    <!--        https://stackoverflow.com/questions/23358822/how-to-custom-switch-button-->
-    <!--    https://bmi-calories.com/calorie-intake-calculator.html-->
-
-    <RadioGroup
-        android:id="@+id/rg_onboarding_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:checkedButton="@id/rb_onboarding_info_male"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/bgr_accent_stroke"
-        app:layout_constraintTop_toBottomOf="@id/tv_onboarding_info_choose_gender">
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rb_onboarding_info_male"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/onboarding_info_gender_o1"
-            android:textAlignment="center"
-            android:button="@null"
-            android:minWidth="100dp"
-            android:background="@drawable/bgr_button_toggle"
-            android:textColor="@color/colorWhite" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rb_onboarding_info_female"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="100dp"
-            android:textAlignment="center"
-            android:background="@drawable/bgr_button_toggle"
-            android:button="@null"
-            android:text="@string/onboarding_info_gender_o2"
-            android:textColor="@color/colorWhite" />
-    </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

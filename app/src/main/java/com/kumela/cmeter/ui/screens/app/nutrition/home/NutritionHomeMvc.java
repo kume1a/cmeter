@@ -4,7 +4,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.kumela.cmeter.model.local.NutritionHomeModel;
+import com.kumela.cmeter.model.local.fragment_models.NutritionHomeModel;
 import com.kumela.cmeter.ui.common.mvc.observanble.ObservableViewMvc;
 
 /**
@@ -19,9 +19,13 @@ public interface NutritionHomeMvc extends ObservableViewMvc<NutritionHomeMvc.Lis
 
         void onFabClick(boolean isMenuOpen);
 
-        void onMealClick(@NonNull String mealType);
+        void onMealClick(@NonNull String meal);
 
         void onFabAnimationEnded(@NonNull View v, float startX, @NonNull String meal);
+
+        void onLoadingAnimationEnd();
+
+        void onLoadingExitAnimationEnd();
     }
 
     void showFabMenu(View fabMenu, View dim);
@@ -43,4 +47,11 @@ public interface NutritionHomeMvc extends ObservableViewMvc<NutritionHomeMvc.Lis
 
     // binding info to ui
     void bindHomeModelInfo(NutritionHomeModel nutritionHomeModel);
+
+    // loading animation
+    void startLoadingAnimation();
+
+    void startLoadingExitAnimation();
+
+    void revealHomeData();
 }

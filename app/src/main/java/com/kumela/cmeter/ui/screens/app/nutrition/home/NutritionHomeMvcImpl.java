@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,22 +18,20 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
-import androidx.core.graphics.ColorUtils;
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.common.Constants;
-import com.kumela.cmeter.model.local.NutritionHomeModel;
+import com.kumela.cmeter.model.local.fragment_models.NutritionHomeModel;
 import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvc;
-import com.kumela.cmeter.ui.common.util.NutritionPieChart;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Toko on 26,June,2020
@@ -46,6 +46,9 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
 
     private OvershootInterpolator mOvershootInterpolator = new OvershootInterpolator();
     private boolean isMenuOpen = false;
+
+    private ProgressBar mPbCalories;
+    private MaterialTextView mTvCalorieProgress;
 
     private MaterialTextView mTvCurrentCalories;
     private MaterialTextView mTvGoalCalories;
@@ -67,9 +70,36 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
     private CardView mCardDinner;
     private CardView mCardSupper;
     private CardView mCardSnacks;
+    private CardView mCardDashboard;
+    private CardView mCardWeight;
+
+    private AppCompatImageView ivLoading;
+    private AppCompatImageView ivLoadingExit;
+    private Animatable animationLoading;
 
     public NutritionHomeMvcImpl(LayoutInflater inflater, ViewGroup container) {
         setRootView(inflater.inflate(R.layout.nutrition_home_fragment, container, false));
+
+        // setting up vector drawable animation
+        ivLoading = findViewById(R.id.loading_nutrition_home);
+        ivLoadingExit = findViewById(R.id.loading_nutrition_home_exit);
+        Drawable loadingDrawable = ivLoading.getDrawable();
+        animationLoading = (Animatable) loadingDrawable;
+
+        AnimatedVectorDrawableCompat.registerAnimationCallback(
+                ivLoading.getDrawable(),
+                new Animatable2Compat.AnimationCallback() {
+                    @Override
+                    public void onAnimationEnd(Drawable drawable) {
+                        super.onAnimationEnd(drawable);
+                        for (Listener listener : getListeners()) {
+                            listener.onLoadingAnimationEnd();
+                        }
+                    }
+                });
+
+        mPbCalories = findViewById(R.id.pb_nutrition_home_dashboard_calories);
+        mTvCalorieProgress = findViewById(R.id.tv_nutrition_home_dashboard_progress_calories);
 
         mTvCurrentCalories = findViewById(R.id.tv_nutrition_home_dashboard_current_calories);
         mTvGoalCalories = findViewById(R.id.tv_nutrition_home_dashboard_goal_calories);
@@ -87,10 +117,21 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
         mBtnAddWeight = findViewById(R.id.btn_nutrition_home_weight_add);
         mBtnSubtractWeight = findViewById(R.id.btn_nutrition_home_weight_minus);
 
+        mCardDashboard = findViewById(R.id.cv_nutrition_home_calorie_dashboard);
+        mCardWeight = findViewById(R.id.cv_nutrition_home_weight);
+
         mCardBreakfast = findViewById(R.id.cv_nutrition_home_breakfast);
         mCardDinner = findViewById(R.id.cv_nutrition_home_dinner);
         mCardSupper = findViewById(R.id.cv_nutrition_home_supper);
         mCardSnacks = findViewById(R.id.cv_nutrition_home_snacks);
+
+        final float startingTranslationY = 150f;
+        mCardDashboard.setTranslationY(startingTranslationY);
+        mCardWeight.setTranslationY(startingTranslationY);
+        mCardBreakfast.setTranslationY(startingTranslationY);
+        mCardDinner.setTranslationY(startingTranslationY);
+        mCardSupper.setTranslationY(startingTranslationY);
+        mCardSnacks.setTranslationY(startingTranslationY);
 
         mCardBreakfast.setOnClickListener(v -> {
             for (Listener listener : getListeners()) listener.onMealClick(Constants.BREAKFAST);
@@ -104,6 +145,59 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
         mCardSnacks.setOnClickListener(v -> {
             for (Listener listener : getListeners()) listener.onMealClick(Constants.SNACKS);
         });
+    }
+
+    @Override
+    public void startLoadingAnimation() {
+        animationLoading.start();
+    }
+
+    @Override
+    public void startLoadingExitAnimation() {
+        ivLoading.setVisibility(View.GONE);
+        ivLoadingExit.setVisibility(View.VISIBLE);
+
+        Drawable loadingExitDrawable = ivLoadingExit.getDrawable();
+        Animatable loadingExitAnimation = (Animatable) loadingExitDrawable;
+        AnimatedVectorDrawableCompat.registerAnimationCallback(
+                loadingExitDrawable,
+                new Animatable2Compat.AnimationCallback() {
+                    @Override
+                    public void onAnimationEnd(Drawable drawable) {
+                        for (Listener listener : getListeners()) {
+                            listener.onLoadingExitAnimationEnd();
+                        }
+                    }
+                }
+        );
+        loadingExitAnimation.start();
+    }
+
+    @Override
+    public void revealHomeData() {
+        long duration = 600L;
+        animateHomeReveal(mCardDashboard, duration);
+        animateHomeReveal(mCardWeight, duration + 250L);
+        animateHomeReveal(mCardBreakfast, duration + 150L);
+        animateHomeReveal(mCardDinner, duration + 150L);
+        animateHomeReveal(mCardSupper, duration + 150L);
+        animateHomeReveal(mCardSnacks, duration + 150L);
+
+        mCardDashboard.setVisibility(View.VISIBLE);
+        mCardWeight.setVisibility(View.VISIBLE);
+        mCardBreakfast.setVisibility(View.VISIBLE);
+        mCardDinner.setVisibility(View.VISIBLE);
+        mCardSupper.setVisibility(View.VISIBLE);
+        mCardSnacks.setVisibility(View.VISIBLE);
+    }
+
+    private void animateHomeReveal(View v, long duration) {
+        v.animate()
+                .setDuration(duration)
+                .translationY(0f)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .alpha(1f)
+                .start();
     }
 
     @Override
@@ -154,14 +248,19 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
 
     @Override
     public void hideFabMenu(View fabMenu) {
-        mFabMain.hide(new FloatingActionButton.OnVisibilityChangedListener() {
-            @Override
-            public void onHidden(FloatingActionButton fab) {
-                super.onHidden(fab);
-                fabMenu.setVisibility(View.GONE);
-            }
-        });
-        mViewDim.setOnClickListener(null);
+        if (mFabMain != null) {
+            mFabMain.hide(new FloatingActionButton.OnVisibilityChangedListener() {
+                @Override
+                public void onHidden(FloatingActionButton fab) {
+                    super.onHidden(fab);
+                    fabMenu.setVisibility(View.GONE);
+                }
+            });
+        }
+
+        if (mViewDim != null) {
+            mViewDim.setOnClickListener(null);
+        }
     }
 
     @Override
@@ -248,7 +347,12 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
             v.setX(x);
             v.setY(y);
 
-            v.setAlpha(1 - value);
+            if (value > .5f) {
+                float scale = (1 - value) * 2;
+
+                v.setScaleX(scale);
+                v.setScaleY(scale);
+            }
         });
         positionAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -287,7 +391,8 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
     public void resetFabToInitialPosition(View v, float startX) {
         v.setX(startX);
         v.setTranslationY(100f);
-        v.setAlpha(0f);
+        v.setScaleX(1f);
+        v.setScaleY(1f);
         v.setVisibility(View.GONE);
 
         mFabMain.setRotation(0f);
@@ -295,20 +400,17 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
 
     private void setupCalorieDashboardPie(int goalCalories, int currentCalories) {
         final int calorieProgress = (int) ((float) currentCalories / goalCalories * 100);
-        Map<Float, Integer> data = new HashMap<>();
 
-        int colorAccent = getResources().getColor(R.color.colorAccent);
-        data.put((float) currentCalories, colorAccent);
-        if (goalCalories > calorieProgress) {
-            data.put((float) (goalCalories - currentCalories), ColorUtils.setAlphaComponent(colorAccent, 50));
-        }
+        animateProgressBar(mPbCalories, calorieProgress);
 
-        NutritionPieChart pieChart = findViewById(R.id.pie_nutrition_home_dashboard_calories);
-
-        pieChart.setHoleRadius((int) (getResources().getDimension(R.dimen.pie_home_dashboard_calorie)), .35f);
-        pieChart.setCenterText(getResources().getString(R.string.value_percent, calorieProgress), 18);
-        pieChart.setPieData(data);
-        pieChart.animateY(1200, Easing.EaseInCubic);
+        ValueAnimator valueAnimator = ValueAnimator.ofInt(0, calorieProgress);
+        valueAnimator.setDuration(1500);
+        valueAnimator.setInterpolator(mOvershootInterpolator);
+        valueAnimator.addUpdateListener(animation -> {
+            int value = (int) animation.getAnimatedValue();
+            mTvCalorieProgress.setText(getResources().getString(R.string.value_percent, value));
+        });
+        valueAnimator.start();
     }
 
     @Override
@@ -321,17 +423,17 @@ public class NutritionHomeMvcImpl extends BaseObservableViewMvc<NutritionHomeMvc
 
         mTvGoalCalories.setText(getResources().getString(R.string.nutrition_dashboard_goal_calories, info.goalCalories));
 
-        mTvCarbohydratesProgress.setText(getResources().getString(R.string.value_slash_value_g, info.currentCarbohydrates, info.goalCarbohydrates));
-        mTvFatsProgress.setText(getResources().getString(R.string.value_slash_value_g, info.currentFats, info.goalFats));
-        mTvProteinProgress.setText(getResources().getString(R.string.value_slash_value_g, info.currentProteins, info.goalProteins));
+        mTvCarbohydratesProgress.setText(getResources().getString(R.string.value_slash_value_g, info.carbohydrates, info.goalCarbohydrates));
+        mTvFatsProgress.setText(getResources().getString(R.string.value_slash_value_g, info.fats, info.goalFats));
+        mTvProteinProgress.setText(getResources().getString(R.string.value_slash_value_g, info.proteins, info.goalProteins));
 
         mPbCarbohydrates.setMax(info.goalCarbohydrates);
         mPbFats.setMax(info.goalFats);
         mPbProteins.setMax(info.goalProteins);
 
-        animateProgressBar(mPbCarbohydrates, info.currentCarbohydrates);
-        animateProgressBar(mPbFats, info.currentFats);
-        animateProgressBar(mPbProteins, info.currentProteins);
+        animateProgressBar(mPbCarbohydrates, info.carbohydrates);
+        animateProgressBar(mPbFats, info.fats);
+        animateProgressBar(mPbProteins, info.proteins);
 
         // weight
         mTvWeightGoal.setText(getResources().getString(R.string.nutrition_dashboard_goal_weight, info.goalWeight));

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fillViewport="true"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:background="@color/colorPrimary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,13 +12,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingTop="16dp"
-        android:paddingBottom="24dp"
+        android:paddingBottom="64dp"
         tools:background="@color/colorPrimary">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_nutrition_home_calorie_dashboard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:alpha="0"
+            android:translationY="100dp"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/colorPrimaryDark"
             app:cardCornerRadius="12dp"
             app:layout_constraintBottom_toTopOf="@id/cv_nutrition_home_weight"
@@ -26,21 +29,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread_inside"
-            app:layout_constraintWidth_percent=".95">
+            app:layout_constraintWidth_percent=".95"
+            tools:alpha="1"
+            tools:translationY="0dp"
+            tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="16dp"
-                android:paddingTop="32dp"
+                android:paddingTop="16dp"
                 android:paddingBottom="32dp">
 
-                <com.kumela.cmeter.ui.common.util.NutritionPieChart
-                    android:id="@+id/pie_nutrition_home_dashboard_calories"
-                    android:layout_width="@dimen/pie_home_dashboard_calorie"
-                    android:layout_height="@dimen/pie_home_dashboard_calorie"
+                <ProgressBar
+                    android:id="@+id/pb_nutrition_home_dashboard_calories"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:indeterminateOnly="false"
+                    android:progressDrawable="@drawable/bgr_determinant_progress"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:max="3500"
+                    tools:progress="1750" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_nutrition_home_dashboard_progress_calories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/pb_nutrition_home_dashboard_calories"
+                    app:layout_constraintEnd_toEndOf="@id/pb_nutrition_home_dashboard_calories"
+                    app:layout_constraintStart_toStartOf="@id/pb_nutrition_home_dashboard_calories"
+                    app:layout_constraintTop_toTopOf="@id/pb_nutrition_home_dashboard_calories"
+                    tools:text="50%" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_nutrition_home_dashboard_current_calories"
@@ -50,7 +71,7 @@
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/tv_nutrition_home_dashboard_goal_calories"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/pie_nutrition_home_dashboard_calories"
+                    app:layout_constraintTop_toTopOf="@id/pb_nutrition_home_dashboard_calories"
                     app:layout_constraintVertical_chainStyle="packed"
                     tools:text="1750" />
 
@@ -68,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/Header.Small"
-                    app:layout_constraintBottom_toBottomOf="@id/pie_nutrition_home_dashboard_calories"
+                    app:layout_constraintBottom_toBottomOf="@id/pb_nutrition_home_dashboard_calories"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_nutrition_home_dashboard_current_calories"
                     tools:text="Goal 3500" />
@@ -77,12 +98,11 @@
                     android:id="@+id/tv_nutrition_home_dashboard_carbs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:text="@string/carbs"
                     android:textAppearance="@style/Header.Small"
                     app:layout_constraintBottom_toTopOf="@id/pb_nutrition_home_dashboard_carbs"
                     app:layout_constraintStart_toStartOf="@id/pb_nutrition_home_dashboard_carbs"
-                    app:layout_constraintTop_toBottomOf="@id/pie_nutrition_home_dashboard_calories" />
+                    app:layout_constraintTop_toBottomOf="@id/pb_nutrition_home_dashboard_calories" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_nutrition_home_dashboard_progress_carbs"
@@ -186,12 +206,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:alpha="0"
+            android:translationY="100dp"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/colorPrimaryDark"
             app:cardCornerRadius="12dp"
             app:layout_constraintBottom_toTopOf="@id/cv_nutrition_home_breakfast"
             app:layout_constraintEnd_toEndOf="@id/cv_nutrition_home_calorie_dashboard"
             app:layout_constraintStart_toStartOf="@id/cv_nutrition_home_calorie_dashboard"
-            app:layout_constraintTop_toBottomOf="@id/cv_nutrition_home_calorie_dashboard">
+            app:layout_constraintTop_toBottomOf="@id/cv_nutrition_home_calorie_dashboard"
+            tools:alpha="1"
+            tools:translationY="0dp"
+            tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -297,5 +323,30 @@
             app:layout_constraintEnd_toEndOf="@id/cv_nutrition_home_calorie_dashboard"
             app:layout_constraintStart_toStartOf="@id/cv_nutrition_home_calorie_dashboard"
             app:layout_constraintTop_toBottomOf="@id/cv_nutrition_home_supper" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/loading_nutrition_home"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="200dp"
+            android:elevation="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/anim_loading" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/loading_nutrition_home_exit"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="200dp"
+            android:elevation="12dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/anim_loading_out" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

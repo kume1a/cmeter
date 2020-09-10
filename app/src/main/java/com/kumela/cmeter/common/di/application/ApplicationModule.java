@@ -1,12 +1,12 @@
 package com.kumela.cmeter.common.di.application;
 
-import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.kumela.cmeter.network.api.NutritionXService;
-import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
-import com.kumela.cmeter.network.api.search.FetchSearchResultsUseCase;
+import com.kumela.cmeter.network.api.EdamamApiService;
+import com.kumela.cmeter.network.api.food.FetchFoodUseCase;
+import com.kumela.cmeter.network.api.nutrients.FetchNutrientsUseCase;
+import com.kumela.cmeter.network.api.suggestions.FetchSearchSuggestionsUseCase;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,25 +18,24 @@ import dagger.Provides;
 @Module
 public class ApplicationModule {
 
-    private final Application mApplication;
+//    private final Application mApplication;
+//
+//    public ApplicationModule(Application application) {
+//        mApplication = application;
+//    }
 
-    public ApplicationModule(Application application) {
-        mApplication = application;
+    @Provides
+    FetchFoodUseCase providesFoodUseCase(EdamamApiService edamamApiService) {
+        return new FetchFoodUseCase(edamamApiService);
     }
 
     @Provides
-    FetchSearchResultsUseCase providesFetchQuestionsListUseCase(NutritionXService nutritionXService) {
-        return new FetchSearchResultsUseCase(nutritionXService);
+    FetchNutrientsUseCase providesFetchNutrientsUseCase(EdamamApiService edamamApiService) {
+        return new FetchNutrientsUseCase(edamamApiService);
     }
 
     @Provides
-    FetchNutritionInfoUseCase providesFetchNutritionInfoUseCase(NutritionXService nutritionXService) {
-        return new FetchNutritionInfoUseCase(nutritionXService);
+    FetchSearchSuggestionsUseCase providesFetchSearchSuggestionsUseCase(EdamamApiService edamamApiService) {
+        return new FetchSearchSuggestionsUseCase(edamamApiService);
     }
-
-    @Provides
-    Handler providesUiHandler() {
-        return new Handler(Looper.getMainLooper());
-    }
-
 }

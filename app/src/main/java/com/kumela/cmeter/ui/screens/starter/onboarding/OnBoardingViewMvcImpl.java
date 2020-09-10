@@ -14,6 +14,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvc;
+import com.kumela.cmeter.ui.common.util.ZoomOutPageTransformer;
 import com.kumela.cmeter.ui.screens.starter.onboarding.tabs.OnBoardingPagerAdapter;
 
 /**
@@ -62,6 +63,7 @@ public class OnBoardingViewMvcImpl extends BaseObservableViewMvc<OnBoardingViewM
     @Override
     public void setPagerAdapter(FragmentManager fragmentManager, Lifecycle lifecycle) {
         mViewPager.setAdapter(new OnBoardingPagerAdapter(fragmentManager, lifecycle));
+        mViewPager.setPageTransformer(new ZoomOutPageTransformer());
     }
 
     @Override

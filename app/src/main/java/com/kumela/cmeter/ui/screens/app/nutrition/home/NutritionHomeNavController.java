@@ -17,14 +17,14 @@ public class NutritionHomeNavController extends FragmentNavController {
         setNavController(view);
     }
 
-    public void actionToAddFood(@NonNull String title, float fabX, float fabY) {
-        NavDirections navDirections = NutritionHomeFragmentDirections.actionNavNutritionToAddFoodFragment(title, fabX, fabY);
+    public void actionToAddFood(@NonNull String title, @NonNull String meal, float fabX, float fabY) {
+        NavDirections navDirections = NutritionHomeFragmentDirections.actionNavNutritionToAddFoodFragment(title, meal, fabX, fabY);
         getNavController().navigate(navDirections);
     }
 
-    public void actionToMeal(@NonNull String mealType, int goalCaloriesInDay) {
+    public void actionToMeal(@NonNull String title, @NonNull String mealType, int goalCaloriesInDay) {
         NutritionHomeFragmentDirections.ActionNavNutritionToMealFragment
-                navDirections = NutritionHomeFragmentDirections.actionNavNutritionToMealFragment(mealType, goalCaloriesInDay);
+                navDirections = NutritionHomeFragmentDirections.actionNavNutritionToMealFragment(title, mealType, goalCaloriesInDay);
         getNavController().navigate(navDirections);
     }
 }

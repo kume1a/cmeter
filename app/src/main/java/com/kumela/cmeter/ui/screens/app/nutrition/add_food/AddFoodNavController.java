@@ -1,28 +1,25 @@
 package com.kumela.cmeter.ui.screens.app.nutrition.add_food;
 
-import android.content.Context;
-import android.content.Intent;
+import android.view.View;
 
-import com.kumela.cmeter.model.api.search.SearchItem;
-import com.kumela.cmeter.ui.common.nav.ActivityNavController;
-import com.kumela.cmeter.ui.screens.app.nutrition.search.SearchActivity;
+import androidx.navigation.NavDirections;
+
+import com.kumela.cmeter.ui.common.nav.FragmentNavController;
 
 /**
  * Created by Toko on 10,July,2020
  **/
 
-public class AddFoodNavController extends ActivityNavController {
+public class AddFoodNavController extends FragmentNavController {
 
-    public AddFoodNavController(Context context) {
-        setContext(context);
+    public AddFoodNavController(View v) {
+        setNavController(v);
     }
 
-    void actionToSearch(String mealType, int x, int y) {
-        Intent intent = new Intent(getContext(), SearchActivity.class);
-        intent.putExtra(SearchActivity.EXTRA_SEARCH_X, x);
-        intent.putExtra(SearchActivity.EXTRA_SEARCH_Y, y);
-        intent.putExtra(SearchActivity.EXTRA_MEAL_TYPE, mealType);
+    void actionToSearch(String title, String meal, String suggestionName) {
+        NavDirections navDirections =
+                AddFoodFragmentDirections.actionAddFoodFragmentToSearchFragment(title, meal, suggestionName);
 
-        startActivity(intent);
+        getNavController().navigate(navDirections);
     }
 }

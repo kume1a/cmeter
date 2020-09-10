@@ -1,51 +1,38 @@
 package com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details;
 
 import android.animation.ValueAnimator;
-import android.graphics.drawable.Animatable;
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.transition.AutoTransition;
-import android.transition.TransitionManager;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.ListPopupWindow;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.kumela.cmeter.R;
+import com.kumela.cmeter.common.Utils;
 import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
-import com.kumela.cmeter.model.api.Photo;
-import com.kumela.cmeter.model.api.nutrition.AltMeasure;
-import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
-import com.kumela.cmeter.model.local.BaseNutrition;
-import com.kumela.cmeter.model.local.NutritionDetailItem;
+import com.kumela.cmeter.model.api.food.Measure;
+import com.kumela.cmeter.model.api.food.Nutrients;
+import com.kumela.cmeter.model.api.nutrients.TotalNutrient;
+import com.kumela.cmeter.model.local.FoodNutrients;
+import com.kumela.cmeter.model.local.list.NutritionDetailListModel;
 import com.kumela.cmeter.ui.adapters.nutrition_details.NutritionDetailsAdapter;
 import com.kumela.cmeter.ui.common.mvc.observanble.BaseObservableViewMvc;
 import com.kumela.cmeter.ui.common.util.NutritionPieChart;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Toko on 03,July,2020
@@ -54,221 +41,107 @@ import java.util.Set;
 public class NutritionDetailsMvcImpl extends BaseObservableViewMvc<NutritionDetailsMvc.Listener>
         implements NutritionDetailsMvc {
 
-    private static final String TAG = "FoodDetailsMvcImpl";
-
     private final ViewMvcFactory mViewMvcFactory;
 
-    private MaterialTextView mTvCarbohydrates, mTvFats, mTvProteins;
-
-    private AppCompatImageButton mBtnArrowRevealMore;
-    private LinearLayout mLLNutritionDetails;
-    private FloatingActionButton mFabAdd;
+    private ListPopupWindow mListPopupWindow;
 
     private AppCompatEditText mEtServingAmount;
     private MaterialTextView mTvServingUnit;
-
-    private ListPopupWindow mListWindowPopup;
+    private MaterialTextView mTvCarbohydrates, mTvFats, mTvProteins;
+    private RecyclerView mRvNutritionDetails;
     private NutritionPieChart mPieChart;
 
-    private NutritionDetailsAdapter mNutritionDetailsAdapter, mCollapsibleNutritionDetailsAdapter;
-
     public NutritionDetailsMvcImpl(LayoutInflater inflater, ViewGroup parent, ViewMvcFactory viewMvcFactory) {
-        setRootView(inflater.inflate(R.layout.nutrition_details_activity, parent, false));
+        setRootView(inflater.inflate(R.layout.nutrition_details_fragment, parent, false));
 
         this.mViewMvcFactory = viewMvcFactory;
 
-        mLLNutritionDetails = findViewById(R.id.ll_nutrition_details);
-        mBtnArrowRevealMore = findViewById(R.id.btn_food_details_arrow);
-        mFabAdd = findViewById(R.id.fab_food_details);
-
         mEtServingAmount = findViewById(R.id.et_nutrition_details_serving_amount);
         mTvServingUnit = findViewById(R.id.tv_nutrition_details_serving_unit);
+        mRvNutritionDetails = findViewById(R.id.rv_nutrient_details);
 
-        mTvCarbohydrates = findViewById(R.id.tv_food_details_head_amount_carbs);
-        mTvFats = findViewById(R.id.tv_food_details_head_amount_fats);
-        mTvProteins = findViewById(R.id.tv_food_details_head_amount_protein);
+        mTvCarbohydrates = findViewById(R.id.tv_nutrition_details_head_amount_carbs);
+        mTvFats = findViewById(R.id.tv_nutrition_details_head_amount_fats);
+        mTvProteins = findViewById(R.id.tv_nutrition_details_head_amount_protein);
 
-        mPieChart = findViewById(R.id.pie_food_details);
-    }
-
-    @Override
-    public void showFab() {
-        mFabAdd.show();
-        mFabAdd.setOnClickListener(v -> {
-            for (Listener listener : getListeners()) listener.onFabClicked();
-        });
-    }
-
-    @Override
-    public void bindNutritionDetails(List<NutritionDetailItem> nutritionDetails) {
-        RecyclerView recyclerView = findViewById(R.id.rv_nutrient_details);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        RecyclerView collapsibleRecyclerView = findViewById(R.id.rv_nutrient_details_collapsible);
-        collapsibleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        int index = -1;
-        for (NutritionDetailItem item : nutritionDetails) {
-            if ("Protein".equals(item.getName())) {
-                index = nutritionDetails.indexOf(item);
-            } else if ("Water".equals(item.getName())) {
-                index = nutritionDetails.indexOf(item);
-                break;
-            }
-        }
-        if (index == -1)
-            throw new RuntimeException("mapping.json should include Protein or Water field inside");
-
-        List<NutritionDetailItem> nutritionDetailItems = nutritionDetails.subList(0, index);
-        List<NutritionDetailItem> collapsibleNutritionDetailItems = nutritionDetails.subList(index, nutritionDetails.size());
-
-        mNutritionDetailsAdapter = new NutritionDetailsAdapter(mViewMvcFactory);
-        mCollapsibleNutritionDetailsAdapter = new NutritionDetailsAdapter(mViewMvcFactory);
-
-        mNutritionDetailsAdapter.submitList(nutritionDetailItems);
-        mCollapsibleNutritionDetailsAdapter.submitList(collapsibleNutritionDetailItems);
-
-        recyclerView.setAdapter(mNutritionDetailsAdapter);
-        collapsibleRecyclerView.setAdapter(mCollapsibleNutritionDetailsAdapter);
-
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.recycler_top_to_bottom_fade_in));
-        collapsibleRecyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.recycler_top_to_bottom_fade_in));
-
-        mBtnArrowRevealMore.setOnClickListener(v -> {
-            if (collapsibleRecyclerView.getVisibility() == View.GONE) {
-                TransitionManager.beginDelayedTransition(mLLNutritionDetails, new AutoTransition());
-                collapsibleRecyclerView.setVisibility(View.VISIBLE);
-                mBtnArrowRevealMore.animate().rotation(180).start();
-            } else {
-                TransitionManager.beginDelayedTransition(mLLNutritionDetails, new AutoTransition());
-                collapsibleRecyclerView.setVisibility(View.GONE);
-                mBtnArrowRevealMore.animate().rotation(0).start();
+        mPieChart = findViewById(R.id.pie_nutrition_details);
+        mEtServingAmount.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
             }
         });
     }
 
     @Override
-    public void updateNutritionDetails(List<NutritionDetailItem> nutritionDetails) {
-        int index = -1;
-        for (NutritionDetailItem item : nutritionDetails) {
-            if ("Water".equals(item.getName()) || "Protein".equals(item.getName())) {
-                index = nutritionDetails.indexOf(item);
-                break;
-            }
-        }
-        if (index == -1)
-            throw new RuntimeException("mapping.json should include Protein or Water field inside");
-
-        if (mNutritionDetailsAdapter == null || mCollapsibleNutritionDetailsAdapter == null) {
-            bindNutritionDetails(nutritionDetails);
-        } else {
-            List<NutritionDetailItem> nutritionDetailItems = nutritionDetails.subList(0, index);
-            List<NutritionDetailItem> collapsibleNutritionDetailItems = nutritionDetails.subList(index, nutritionDetails.size());
-
-            mNutritionDetailsAdapter.submitList(nutritionDetailItems);
-            mCollapsibleNutritionDetailsAdapter.submitList(collapsibleNutritionDetailItems);
-        }
-    }
-
-    @Override
-    public void bindNutritionInfo(NutritionInfo nutritionInfo) {
-        bindImage(nutritionInfo.photo);
-
-        BaseNutrition baseNutrition = new BaseNutrition(
-                nutritionInfo.totalCalories,
-                nutritionInfo.totalCarbohydrates,
-                nutritionInfo.totalFats,
-                nutritionInfo.totalProteins
-        );
-
-        bindServingUnitInfo(new HashSet<>(nutritionInfo.altMeasures), nutritionInfo.servingUnit, nutritionInfo.currentServingQuantity);
-        bindBaseNutritionInfo(baseNutrition);
-        bindChartInfo(baseNutrition);
-    }
-
-    @Override
-    public void updateNutritionInfo(NutritionInfo nutritionInfo) {
-        BaseNutrition baseNutrition = new BaseNutrition(
-                nutritionInfo.totalCalories,
-                nutritionInfo.totalCarbohydrates,
-                nutritionInfo.totalFats,
-                nutritionInfo.totalProteins
-        );
-
-        updateBaseNutritionInfo(baseNutrition);
-        bindChartInfo(baseNutrition);
-    }
-
-    private void bindServingUnitInfo(Set<AltMeasure> altMeasuresSet, String defaultUnit, float defaultQuantity) {
-        // filter altMeasures
-        final ArrayList<AltMeasure> altMeasures = new ArrayList<>(altMeasuresSet);
-        float initialQuantity;
-
-        if (altMeasures.size() > 0) {
+    public void bindServingUnitInfo(List<Measure> measures) {
+        final float initialQuantity;
+        if (measures.size() != 0) {
             // populate list of serving units
-            ArrayList<String> servingUnits = new ArrayList<>();
-            for (AltMeasure altMeasure : altMeasures) {
-                servingUnits.add(altMeasure.measure);
+            String[] servingUnits = new String[measures.size()];
+            for (int i = 0; i < measures.size(); i++) {
+                servingUnits[i] = measures.get(i).label;
             }
 
             // set first serving unit as default
-            mTvServingUnit.setText(servingUnits.get(0));
+            mTvServingUnit.setText(servingUnits[0]);
 
             // setup window popup for serving unit selection
-            mListWindowPopup = new ListPopupWindow(getContext());
-            mListWindowPopup.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimaryDark)));
-            mListWindowPopup.setAdapter(new ArrayAdapter<>(
+            mListPopupWindow = new ListPopupWindow(getContext());
+            mListPopupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimaryDark)));
+            mListPopupWindow.setAdapter(new ArrayAdapter<>(
                     getContext(),
                     android.R.layout.simple_list_item_1,
                     servingUnits
             ));
-            mListWindowPopup.setAnchorView(mTvServingUnit);
-            mListWindowPopup.setModal(true);
-            mListWindowPopup.setOnItemClickListener((parent, view, position, id) -> {
-                AltMeasure altMeasure = altMeasures.get(position);
+            mListPopupWindow.setAnchorView(mTvServingUnit);
+            mListPopupWindow.setModal(true);
+            mListPopupWindow.setContentWidth(ListPopupWindow.WRAP_CONTENT);
+            mListPopupWindow.setOnItemClickListener((parent, view, position, id) -> {
+                Measure measure = measures.get(position);
+
+                mTvServingUnit.setText(measure.label);
+
+                @SuppressWarnings("ConstantConditions")
+                String value = mEtServingAmount.getText().toString();
+                float quantity;
+                if (!value.isEmpty()) {
+                    quantity = Float.parseFloat(value);
+                } else quantity = 0f;
 
                 for (Listener listener : getListeners()) {
-                    listener.onAltMeasureChanged(altMeasure);
+                    listener.onMeasureChanged(measure, quantity);
                 }
 
-                String measureUnit = (String) parent.getItemAtPosition(position);
-                mTvServingUnit.setText(measureUnit);
+                // set serving quantity for corresponding serving unit
+                // float servingQuantity = Utils.getQuantity(measure.uri);
+                // mEtServingAmount.setText(String.valueOf(servingQuantity));
 
-                float servingQuantity = altMeasure.qty;
-                mEtServingAmount.setText(String.valueOf(servingQuantity));
-                for (Listener listener : getListeners())
-                    listener.onServingQuantityChanged(servingQuantity);
-
-                mListWindowPopup.dismiss();
+                mListPopupWindow.dismiss();
             });
+            mTvServingUnit.setOnClickListener(v -> mListPopupWindow.show());
 
-            // set onClickListener on serving unit textView to show window
-            mTvServingUnit.setOnClickListener(v -> mListWindowPopup.show());
-
-            // set initial value to first serving quantity
-            initialQuantity = altMeasures.get(0).qty;
-        } else { // alt measure's size is 0
-
-            // set default serving unit and don't enable popup
-            mTvServingUnit.setText(defaultUnit);
-
-            // assign default initial quantity to local field
-            initialQuantity = defaultQuantity;
-            mTvServingUnit.setCompoundDrawables(null, null, null, null);
+            initialQuantity = Utils.getQuantity(servingUnits[0]);
+        } else {
+            mTvServingUnit.setText(getResources().getString(R.string.serving));
+            initialQuantity = 1f;
         }
 
-        float finalInitialQuantity = initialQuantity;
-        mEtServingAmount.setText(String.valueOf(finalInitialQuantity));
-
-        // set textWatcher to serving quantity edit text
+        mEtServingAmount.setText(String.valueOf((int) initialQuantity));
         mEtServingAmount.addTextChangedListener(new TextWatcher() {
-            private Float mLastValue = finalInitialQuantity;
+            private Float mLastValue = initialQuantity;
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (!s.toString().isEmpty()) {
-                    mLastValue = Float.parseFloat(s.toString());
-                } else mLastValue = 0f;
+                try {
+                    if (!s.toString().isEmpty()) {
+                        mLastValue = Float.parseFloat(s.toString());
+                    } else mLastValue = 0f;
+                } catch (NumberFormatException e) {
+                    mLastValue = 0f;
+                }
             }
 
             @Override
@@ -277,9 +150,15 @@ public class NutritionDetailsMvcImpl extends BaseObservableViewMvc<NutritionDeta
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().isEmpty()) return;
+                float newValue;
+                try {
+                    if (!s.toString().isEmpty()) {
+                        newValue = Float.parseFloat(s.toString());
+                    } else newValue = 0f;
+                } catch (NumberFormatException e) {
+                    newValue = 0f;
+                }
 
-                float newValue = Float.parseFloat(s.toString());
                 if ((newValue - mLastValue) != 0) {
                     for (Listener listener : getListeners()) {
                         listener.onServingQuantityChanged(newValue);
@@ -289,37 +168,71 @@ public class NutritionDetailsMvcImpl extends BaseObservableViewMvc<NutritionDeta
         });
     }
 
-    private void bindImage(Photo photo) {
-        if (photo.highRes != null) {
-            Log.d(TAG, "bindImage: setting image");
-            AppCompatImageView imageView = findViewById(R.id.iv_food_details_header);
+    @Override
+    public void bindNutritionInfo(FoodNutrients foodNutrients) {
+        Nutrients nutrients = foodNutrients.getNutrients(false);
 
-            Picasso.get()
-                    .load(photo.highRes)
-                    .centerCrop()
-                    .fit()
-                    .into(imageView);
-        } else {
-            // No image found set expanded title gravity to center
-            CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.ctl_nutrition_details);
-            collapsingToolbarLayout.setExpandedTitleGravity(Gravity.CENTER);
+        bindBaseNutritionInfo(nutrients);
+        bindChartInfo(nutrients);
+        bindNutritionDetailsInfo(
+                nutrients, foodNutrients.cholesterol,
+                foodNutrients.getSubCarbohydrates(false), foodNutrients.getSubFats(false),
+                foodNutrients.getMinerals(false), foodNutrients.getVitamins(false)
+        );
+    }
+
+    private void bindNutritionDetailsInfo(Nutrients nutrients,
+                                          TotalNutrient cholesterol,
+                                          List<TotalNutrient> subCarbohydrates,
+                                          List<TotalNutrient> subFats,
+                                          List<TotalNutrient> minerals,
+                                          List<TotalNutrient> vitamins) {
+        NutritionDetailsAdapter nutritionDetailsAdapter = new NutritionDetailsAdapter(mViewMvcFactory);
+
+        List<NutritionDetailListModel> nutritionDetails = new ArrayList<>();
+        String g = getResources().getString(R.string.unit_gram);
+
+        nutritionDetails.add(new NutritionDetailListModel(getResources().getString(R.string.calories), nutrients.calories, getResources().getString(R.string.cal), true));
+
+        nutritionDetails.add(new NutritionDetailListModel(getResources().getString(R.string.carbohydrates), nutrients.carbohydrates, g, true));
+        addToListModels(subCarbohydrates, nutritionDetails);
+
+        nutritionDetails.add(new NutritionDetailListModel(getResources().getString(R.string.fats), nutrients.fats, g, true));
+        addToListModels(subFats, nutritionDetails);
+
+        nutritionDetails.add(new NutritionDetailListModel(getResources().getString(R.string.proteins), nutrients.proteins, g, true));
+        if (cholesterol != null) {
+            nutritionDetails.add(new NutritionDetailListModel(cholesterol.label, cholesterol.quantity, cholesterol.unit, true));
+        }
+
+        if (minerals.size() != 0) {
+            nutritionDetails.add(new NutritionDetailListModel(getResources().getString(R.string.minerals), null, null, true));
+            addToListModels(minerals, nutritionDetails);
+        }
+        if (vitamins.size() != 0) {
+            nutritionDetails.add(new NutritionDetailListModel(getResources().getString(R.string.vitamins), null, null, true));
+            addToListModels(vitamins, nutritionDetails);
+        }
+        nutritionDetailsAdapter.submitList(nutritionDetails);
+        mRvNutritionDetails.setAdapter(nutritionDetailsAdapter);
+    }
+
+    private void addToListModels(List<TotalNutrient> totalNutrients,
+                                 List<NutritionDetailListModel> nutritionDetails) {
+        for (TotalNutrient totalNutrient : totalNutrients) {
+            nutritionDetails.add(new NutritionDetailListModel(
+                    totalNutrient.label,
+                    totalNutrient.quantity,
+                    totalNutrient.unit,
+                    false
+            ));
         }
     }
 
-    private void bindBaseNutritionInfo(BaseNutrition baseNutrition) {
-        String carbohydrates = (int) baseNutrition.getCarbohydrates() + "";
-        String fats = (int) baseNutrition.getFats() + "";
-        String proteins = (int) baseNutrition.getProteins() + "";
-
-        mTvCarbohydrates.setText(String.format(getResources().getString(R.string.value_g), carbohydrates));
-        mTvFats.setText(String.format(getResources().getString(R.string.value_g), fats));
-        mTvProteins.setText(String.format(getResources().getString(R.string.value_g), proteins));
-    }
-
-    private void updateBaseNutritionInfo(BaseNutrition baseNutrition) {
-        String carbohydrates = (int) baseNutrition.getCarbohydrates() + "";
-        String fats = (int) baseNutrition.getFats() + "";
-        String proteins = (int) baseNutrition.getProteins() + "";
+    private void bindBaseNutritionInfo(Nutrients nutrients) {
+        String carbohydrates = (int) nutrients.carbohydrates + "";
+        String fats = (int) nutrients.fats + "";
+        String proteins = (int) nutrients.proteins + "";
 
         animateBaseNutritionTextView(mTvCarbohydrates, carbohydrates);
         animateBaseNutritionTextView(mTvFats, fats);
@@ -328,11 +241,14 @@ public class NutritionDetailsMvcImpl extends BaseObservableViewMvc<NutritionDeta
 
     private void animateBaseNutritionTextView(TextView textView, String toValue) {
         String textViewValue = textView.getText().toString();
-        int fromValue = Integer.parseInt(textViewValue.substring(0, textView.length() - 1));
+        int fromValue = 0;
+        if (!textViewValue.isEmpty()) {
+            fromValue = Integer.parseInt(textViewValue.substring(0, textViewValue.length() - 1));
+        }
 
         ValueAnimator valueAnimator = ValueAnimator.ofInt(fromValue, Integer.parseInt(toValue));
-        valueAnimator.setInterpolator(new LinearInterpolator());
-        valueAnimator.setDuration(800);
+        valueAnimator.setInterpolator(new AccelerateInterpolator());
+        valueAnimator.setDuration(200);
         valueAnimator.addUpdateListener(animation -> {
             int value = (int) animation.getAnimatedValue();
             textView.setText(getResources().getString(R.string.value_g, String.valueOf(value)));
@@ -340,14 +256,14 @@ public class NutritionDetailsMvcImpl extends BaseObservableViewMvc<NutritionDeta
         valueAnimator.start();
     }
 
-    private void bindChartInfo(BaseNutrition baseNutrition) {
+    private void bindChartInfo(Nutrients nutrients) {
         Map<Float, Integer> data = new HashMap<>();
-        data.put(baseNutrition.getCarbohydrates(), getResources().getColor(R.color.colorCarbs));
-        data.put(baseNutrition.getFats(), getResources().getColor(R.color.colorFats));
-        data.put(baseNutrition.getProteins(), getResources().getColor(R.color.colorProtein));
+        data.put(nutrients.carbohydrates, getResources().getColor(R.color.colorCarbs));
+        data.put(nutrients.fats, getResources().getColor(R.color.colorFats));
+        data.put(nutrients.proteins, getResources().getColor(R.color.colorProtein));
 
         mPieChart.setHoleRadius((int) getResources().getDimension(R.dimen.pie_nutrition_details), .28f);
-        mPieChart.setCenterText(String.format(getResources().getString(R.string.value_unit), (int) baseNutrition.getCalories() + "", getResources().getString(R.string.cal)), 18);
+        mPieChart.setCenterText(String.format(getResources().getString(R.string.value_unit), (int) nutrients.calories + "", getResources().getString(R.string.cal)), 18);
         mPieChart.setPieData(data);
         mPieChart.animateY();
     }

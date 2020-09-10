@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kumela.cmeter.common.di.factory.ViewModelFactory;
-import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
-import com.kumela.cmeter.network.api.search.FetchSearchResultsUseCase;
+import com.kumela.cmeter.network.api.food.FetchFoodUseCase;
+import com.kumela.cmeter.network.api.nutrients.FetchNutrientsUseCase;
+import com.kumela.cmeter.network.api.suggestions.FetchSearchSuggestionsUseCase;
 import com.kumela.cmeter.network.firebase.FirebaseProductManager;
-import com.kumela.cmeter.ui.common.util.NutritionInfoParser;
+import com.kumela.cmeter.ui.screens.app.AppViewModel;
 import com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodViewModel;
 import com.kumela.cmeter.ui.screens.app.nutrition.home.NutritionHomeViewModel;
 import com.kumela.cmeter.ui.screens.app.nutrition.meal.MealViewModel;
@@ -43,33 +44,49 @@ public class ViewModelModule {
     }
 
     @Provides
-    ViewModelFactory providesViewModelFactory(Map<Class<? extends ViewModel>, Provider<ViewModel>> providerMap) {
+    ViewModelFactory providesViewModelFactory(
+            Map<Class<? extends ViewModel>, Provider<ViewModel>> providerMap) {
         return new ViewModelFactory(providerMap);
     }
 
     @Provides
     @IntoMap
+    @ViewModelKey(NutritionHomeViewModel.class)
+    ViewModel providesNutritionHomeViewModel(String uid, FirebaseFirestore firebaseFirestore) {
+        return new NutritionHomeViewModel(uid, firebaseFirestore);
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(AddFoodViewModel.class)
+    ViewModel providesAddFoodViewModel(String uid,
+                                       FirebaseFirestore firebaseFirestore,
+                                       FirebaseProductManager firebaseProductManager,
+                                       FetchSearchSuggestionsUseCase fetchSearchSuggestionsUseCase) {
+        return new AddFoodViewModel(
+                uid,
+                firebaseFirestore,
+                firebaseProductManager,
+                fetchSearchSuggestionsUseCase);
+    }
+
+    @Provides
+    @IntoMap
     @ViewModelKey(SearchViewModel.class)
-    ViewModel providesSearchViewModel(FetchSearchResultsUseCase fetchSearchResultsUseCase,
-                                      FetchNutritionInfoUseCase fetchNutritionInfoUseCase,
-                                      FirebaseProductManager firebaseProductManager) {
-        return new SearchViewModel(
-                fetchSearchResultsUseCase,
-                fetchNutritionInfoUseCase,
-                firebaseProductManager
-        );
+    ViewModel providesSearchViewModel(FetchFoodUseCase fetchFoodUseCase) {
+        return new SearchViewModel(fetchFoodUseCase);
     }
 
     @Provides
     @IntoMap
     @ViewModelKey(NutritionDetailsViewModel.class)
-    ViewModel providesFoodDetailsViewModel(FetchNutritionInfoUseCase fetchNutritionInfoUseCase,
-                                           NutritionInfoParser nutritionInfoParser,
-                                           FirebaseProductManager firebaseProductManager) {
+    ViewModel providesFoodDetailsViewModel(FetchNutrientsUseCase fetchNutrientsUseCase,
+                                           FirebaseProductManager firebaseProductManager,
+                                           FirebaseFirestore firebaseFirestore) {
         return new NutritionDetailsViewModel(
-                fetchNutritionInfoUseCase,
-                nutritionInfoParser,
-                firebaseProductManager
+                fetchNutrientsUseCase,
+                firebaseProductManager,
+                firebaseFirestore
         );
     }
 
@@ -82,32 +99,16 @@ public class ViewModelModule {
 
     @Provides
     @IntoMap
-    @ViewModelKey(NutritionHomeViewModel.class)
-    ViewModel providesNutritionHomeViewModel(String uid, FirebaseFirestore firebaseFirestore) {
-        return new NutritionHomeViewModel(uid, firebaseFirestore);
-    }
-
-    @Provides
-    @IntoMap
     @ViewModelKey(MealViewModel.class)
     ViewModel providesMealViewModel(String uid,
-                                    FirebaseFirestore firebaseFirestore,
-                                    NutritionInfoParser nutritionInfoParser) {
-        return new MealViewModel(uid, firebaseFirestore, nutritionInfoParser);
+                                    FirebaseFirestore firebaseFirestore) {
+        return new MealViewModel(uid, firebaseFirestore);
     }
 
     @Provides
     @IntoMap
-    @ViewModelKey(AddFoodViewModel.class)
-    ViewModel providesAddFoodViewModel(String uid,
-                                       FirebaseFirestore firebaseFirestore,
-                                       FetchNutritionInfoUseCase fetchNutritionInfoUseCase,
-                                       FirebaseProductManager firebaseProductManager) {
-        return new AddFoodViewModel(
-                uid,
-                firebaseFirestore,
-                fetchNutritionInfoUseCase,
-                firebaseProductManager
-        );
+    @ViewModelKey(AppViewModel.class)
+    ViewModel providesAppViewModel() {
+        return new AppViewModel();
     }
 }

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kumela.cmeter.R;
-import com.kumela.cmeter.model.local.NutritionDetailItem;
+import com.kumela.cmeter.model.local.list.NutritionDetailListModel;
 import com.kumela.cmeter.ui.common.mvc.BaseViewMvc;
 
 /**
@@ -28,10 +28,9 @@ public class NutritionDetailsItemMvcImpl extends BaseViewMvc implements Nutritio
     }
 
     @Override
-    public void bindDetailsItem(NutritionDetailItem item) {
+    public void bindDetailsItem(NutritionDetailListModel item) {
         if (item.isHeader()) {
-
-            if (!item.getName().equals("Energy")) topMargin20.setVisibility(View.VISIBLE);
+            topMargin20.setVisibility(View.VISIBLE);
 
             tvName.setTextSize(18);
             tvValue.setTextSize(18);
@@ -40,11 +39,11 @@ public class NutritionDetailsItemMvcImpl extends BaseViewMvc implements Nutritio
             tvValue.setTypeface(null, Typeface.BOLD);
         }
 
-        if (item.hasValue() && item.getValue() != null) {
-            Float itemValue = item.getValue();
+        Float itemValue = item.getValue();
+        if (itemValue != null) {
             String value;
             if (itemValue == 0) value = "0";
-            else if (itemValue < .1) value = "> 0.1";
+            else if (itemValue < .1) value = "< 0.1";
             else value = String.format(getResources().getString(R.string.value_1f), itemValue);
 
             tvValue.setText(String.format(

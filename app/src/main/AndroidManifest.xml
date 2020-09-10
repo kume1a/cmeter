@@ -29,23 +29,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".ui.screens.app.AppActivity" />
 
-        <activity android:name=".ui.screens.app.nutrition.nutrition_details.NutritionDetailsActivity" />
-
-        <activity
-            android:name=".ui.screens.app.nutrition.search.SearchActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.Search">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
+        <activity android:name=".ui.screens.app.nutrition.nutrition_details.NutritionDetailsFragment" />
     </application>
 
 </manifest>

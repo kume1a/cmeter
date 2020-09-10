@@ -88,6 +88,6 @@ public class NutritionPieChart extends PieChart {
     }
 
     public void animateY() {
-        super.animateY(1000, Easing.EaseInCubic);
+        super.animateY(800, Easing.EaseInCubic);
     }
 }

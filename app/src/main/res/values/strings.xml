@@ -6,10 +6,15 @@
     <string name="please_wait">Please wait…</string>
 
     <string name="cal">kcal</string>
+
+    <string name="calories">Calories</string>
     <string name="carbs">Carbs</string>
+    <string name="carbohydrates">Carbohydrates</string>
     <string name="fats">Fats</string>
     <string name="proteins">Proteins</string>
-    <string name="calories">Calories</string>
+    <string name="minerals">Minerals</string>
+    <string name="vitamins">Vitamins</string>
+
     <string name="value_unit">%s %s</string>
     <string name="value_percent">%d%%</string>
     <string name="value_slash_value_g">%d/%d g</string>
@@ -20,8 +25,12 @@
     <string name="value_cal">%d kcal</string>
     <string name="int_g">%dg</string>
 
+    <string name="unit_gram">g</string>
+
+    <string name="search">Search</string>
+    <string name="serving">Serving</string>
+
     <!-- Toolbar title -->
-    <string name="title_search">Search</string>
     <string name="title_water">Water</string>
     <string name="title_activity">Activity</string>
     <string name="title_nutrition">Nutrition</string>
@@ -47,11 +56,14 @@
     <!-- Add food-->
     <string name="tabs_recent">Recent</string>
     <string name="tabs_favorite">Favorite</string>
+    <string name="add_food_search_hint">Search for foods…</string>
 
     <!-- nutrition details -->
-    <string name="details_card_header">Nutrition Facts</string>
-    <string name="nutrition_detaails_btn_more">more</string>
-    <string name="nutrition_details_serving_size_header">Serving size</string>
+    <string name="nutrition_details_facts_header">Nutrition Facts</string>
+    <string name="nutrition_details_serving_amount_header">Serving amount</string>
+    <string name="nutrition_details_serving_unit_header">Serving unit</string>
+    <string name="menu_nutrition_details_save">Save</string>
+    <string name="menu_nutrition_details_favorite">Favorite</string>
 
     <!-- Login -->
     <string name="login_header">Login Account</string>
@@ -97,7 +109,6 @@
     <!-- Firebase database exception messages-->
     <string name="error_something_went_wrong">Something went wrong, please try again later.</string>
 
-
     <!-- OnBoarding -->
     <string name="onboarding_back">back</string>
     <string name="onboarding_next">next</string>
@@ -130,8 +141,8 @@
     <string name="onboarding_goal_weight_lose_o3">Lose 0.75 kg per week</string>
 
     <!-- Info -->
-    <string name="onboarding_info_gender_o1">Male</string>
-    <string name="onboarding_info_gender_o2">Female</string>
+    <string name="onboarding_info_gender_male">Male</string>
+    <string name="onboarding_info_gender_female">Female</string>
     <string name="onboarding_info_header_gender">Choose your gender</string>
     <string name="onboarding_info_header_height">Height</string>
     <string name="onboarding_info_header_age">Age</string>
@@ -143,4 +154,10 @@
 
     <!-- Meal -->
     <string name="meal_goal_header">Goal</string>
+    <string name="text_100g">100g</string>
+
+    <!-- Search -->
+    <string name="search_header">Search results</string>
+    <string name="search_filter_btn_text">Filter</string>
+    <string name="cholesterol">Cholesterol</string>
 </resources>

@@ -8,17 +8,44 @@
     android:paddingVertical="8dp">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_item_product_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:lines="1"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/tv_item_product_food_serving_unit"
-        app:layout_constraintEnd_toStartOf="@id/tv_item_product_calories"
+        android:id="@+id/tv_item_product_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:paddingTop="4dp"
+        android:paddingBottom="16dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_height="wrap_content"
+        tools:text="6/7/2020" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_item_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:ellipsize="end"
+        app:layout_constraintWidth_max="0dp"
+        android:layout_marginEnd="48dp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/tv_item_product_calories"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintBottom_toTopOf="@id/tv_item_product_food_serving_unit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_item_product_date"
         tools:text="White bread" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_item_product_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_favorite_filled"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintTop_toTopOf="@id/tv_item_product_name"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/tv_item_product_name" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_item_product_food_serving_unit"
@@ -40,7 +67,7 @@
         android:padding="4dp"
         tools:text="120 kcal"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_item_product_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/tv_item_product_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

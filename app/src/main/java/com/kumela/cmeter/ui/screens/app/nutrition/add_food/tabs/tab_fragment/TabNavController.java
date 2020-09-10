@@ -1,25 +1,24 @@
 package com.kumela.cmeter.ui.screens.app.nutrition.add_food.tabs.tab_fragment;
 
-import android.content.Context;
-import android.content.Intent;
+import android.view.View;
+import android.widget.Toast;
 
-import com.kumela.cmeter.ui.common.nav.ActivityNavController;
-import com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details.NutritionDetailsActivity;
+import com.kumela.cmeter.ui.common.nav.FragmentNavController;
 
 /**
  * Created by Toko on 23,July,2020
  **/
 
-public class TabNavController extends ActivityNavController {
+public class TabNavController extends FragmentNavController {
 
-    public TabNavController(Context context) {
-        setContext(context);
+    private View v;
+
+    public TabNavController(View v) {
+        setNavController(v);
+        this.v = v;
     }
 
     public void actionToFoodDetails(String foodName, String mealType) {
-        Intent intent = new Intent(getContext(), NutritionDetailsActivity.class);
-        intent.putExtra(NutritionDetailsActivity.EXTRA_FOOD_NAME, foodName);
-        intent.putExtra(NutritionDetailsActivity.EXTRA_MEAL_TYPE, mealType);
-        startActivity(intent);
+        Toast.makeText(v.getContext(), "TODO IMPLEMENT NAVIGATION", Toast.LENGTH_LONG).show();
     }
 }

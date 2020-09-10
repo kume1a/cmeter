@@ -5,22 +5,32 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 import com.kumela.cmeter.common.Constants;
-import com.kumela.cmeter.model.firebase.User;
+import com.kumela.cmeter.model.firebase.FirebaseProductHistory;
+import com.kumela.cmeter.model.firebase.FirebaseSearchHistory;
+import com.kumela.cmeter.model.firebase.FirebaseUser;
+import com.kumela.cmeter.ui.common.mvc.observanble.ObservableViewModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Toko on 09,July,2020
  **/
 
-public class OnBoardingViewModel extends ViewModel {
+public class OnBoardingViewModel extends ObservableViewModel<OnBoardingViewModel.Listener> {
+
+    // Firebase create user
+    public interface Listener {
+        void onUserCreated();
+
+        void onUserCreateFailed();
+    }
 
     public enum Goal {
         LOSE_WEIGHT, MAINTAIN_WEIGHT, GAIN_WEIGHT
@@ -194,31 +204,39 @@ public class OnBoardingViewModel extends ViewModel {
         return (int) (goalCalories * .25f / 4f);
     }
 
-    // Firebase create user
-    public interface Listener {
-        void onDatabaseWriteCompleted();
-    }
+    public void createUserAndNotify(FirebaseUser firebaseUser) {
+        Log.d(getClass().getSimpleName(), "createUserAndNotify: called, user = " + firebaseUser);
 
-    private Set<Listener> mListeners = new HashSet<>(1);
+        // create batch to write atomically in firebase
+        WriteBatch batch = mFirebaseFirestore.batch();
 
-    public void registerListener(Listener listener) {
-        mListeners.add(listener);
-    }
+        // get references to documents
+        DocumentReference userRef = mFirebaseFirestore
+                .collection(Constants.COLLECTION_USERS)
+                .document(mUserId);
 
-    public void unregisterListener(Listener listener) {
-        mListeners.remove(listener);
-    }
+        DocumentReference searchHistoryRef = mFirebaseFirestore
+                .collection(Constants.COLLECTION_SEARCH_HISTORY)
+                .document(mUserId);
 
-    public void createUserAndNotify(User user) {
-        Log.d(getClass().getSimpleName(), "createUserAndNotify: called, user = " + user);
+        DocumentReference productHistoryRef = mFirebaseFirestore
+                .collection(Constants.COLLECTION_PRODUCT_HISTORY)
+                .document(mUserId);
 
-        mFirebaseFirestore.collection(Constants.COLLECTION_USERS)
-                .document(mUserId)
-                .set(user)
-                .addOnSuccessListener(aVoid -> {
-                    for (Listener listener : mListeners) listener.onDatabaseWriteCompleted();
-                })
-                .addOnFailureListener(e -> Log.e(getClass().getSimpleName(), "createUserAndNotify: ", e));
+        batch.set(userRef, firebaseUser);
+        batch.set(searchHistoryRef, new FirebaseSearchHistory(new ArrayList<>()));
+        batch.set(productHistoryRef, new FirebaseProductHistory(new ArrayList<>()));
+
+        batch.commit().addOnSuccessListener(aVoid -> {
+            for (Listener listener : getListeners()) {
+                listener.onUserCreated();
+            }
+        }).addOnFailureListener(e -> {
+            for (Listener listener : getListeners()) {
+                listener.onUserCreateFailed();
+            }
+            Log.e(getClass().getSimpleName(), "createUserAndNotify: ", e);
+        });
     }
 
     @NonNull

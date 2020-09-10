@@ -8,25 +8,25 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kumela.cmeter.common.di.factory.ViewMvcFactory;
-import com.kumela.cmeter.model.local.NutritionDetailItem;
+import com.kumela.cmeter.model.local.list.NutritionDetailListModel;
 
 /**
  * Created by Toko on 03,July,2020
  **/
 
 public class NutritionDetailsAdapter
-        extends ListAdapter<NutritionDetailItem, NutritionDetailsAdapter.NutritionDetailsViewHolder> {
+        extends ListAdapter<NutritionDetailListModel, NutritionDetailsAdapter.NutritionDetailsViewHolder> {
 
     private ViewMvcFactory mViewMvcFactory;
 
-    private static final DiffUtil.ItemCallback<NutritionDetailItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<NutritionDetailItem>() {
+    private static final DiffUtil.ItemCallback<NutritionDetailListModel> DIFF_CALLBACK = new DiffUtil.ItemCallback<NutritionDetailListModel>() {
         @Override
-        public boolean areItemsTheSame(@NonNull NutritionDetailItem oldItem, @NonNull NutritionDetailItem newItem) {
+        public boolean areItemsTheSame(@NonNull NutritionDetailListModel oldItem, @NonNull NutritionDetailListModel newItem) {
             return oldItem.equals(newItem);
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull NutritionDetailItem oldItem, @NonNull NutritionDetailItem newItem) {
+        public boolean areContentsTheSame(@NonNull NutritionDetailListModel oldItem, @NonNull NutritionDetailListModel newItem) {
             return oldItem.getName().equals(newItem.getName()) &&
                     oldItem.getValue().equals(newItem.getValue());
         }

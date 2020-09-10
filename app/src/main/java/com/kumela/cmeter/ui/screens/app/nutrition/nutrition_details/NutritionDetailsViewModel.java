@@ -2,150 +2,174 @@ package com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details;
 
 import android.util.Log;
 
-import androidx.lifecycle.ViewModel;
-
-import com.kumela.cmeter.model.api.nutrition.AltMeasure;
-import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
-import com.kumela.cmeter.model.local.NutritionDetailItem;
-import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.kumela.cmeter.common.Constants;
+import com.kumela.cmeter.model.api.food.Measure;
+import com.kumela.cmeter.model.firebase.FirebaseFoodNutrients;
+import com.kumela.cmeter.model.firebase.FirebaseProduct;
+import com.kumela.cmeter.model.local.FoodNutrients;
+import com.kumela.cmeter.network.api.nutrients.FetchNutrientsUseCase;
 import com.kumela.cmeter.network.firebase.FirebaseProductManager;
-import com.kumela.cmeter.ui.common.util.NutritionInfoParser;
+import com.kumela.cmeter.ui.common.mvc.observanble.ObservableViewModel;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Toko on 03,July,2020
  **/
 
-public class NutritionDetailsViewModel extends ViewModel
-        implements FetchNutritionInfoUseCase.Listener, NutritionInfoParser.Listener, FirebaseProductManager.Listener {
+public class NutritionDetailsViewModel extends ObservableViewModel<NutritionDetailsViewModel.Listener>
+        implements FirebaseProductManager.Listener, FetchNutrientsUseCase.Listener {
 
-    private static final String TAG = "FoodDetailsViewModel";
+    private static final String TAG = "NutritionDetailsViewMod";
 
-    interface Listener {
-        void onProvideNutritionDetails(List<NutritionDetailItem> nutritionDetails);
+    public interface Listener {
+        void onProvideFoodNutrients(FoodNutrients foodNutrients);
 
-        void onProvideNutritionInfo(NutritionInfo nutritionInfo);
+        void onProvideFoodNutrientsFailed();
 
-        void onProvideNutritionInfoFailed();
+        void onAddFoodSucceeded();
 
-        void onNutritionInfoUpdated(NutritionInfo nutritionInfo);
-
-        void onNutritionDetailsUpdated(List<NutritionDetailItem> nutritionDetails);
-
-        void onWriteProductCompleted();
+        void onAddFoodFailed();
     }
 
-    private Set<Listener> mListeners = new HashSet<>(1);
+    // cached food nutrients model
+    private FoodNutrients mFoodNutrients;
+    private String cachedMeasureUri;
 
-    private List<NutritionDetailItem> mNutritionDetails;
-
-    private NutritionInfo mNutritionInfo;
-
-    private final FetchNutritionInfoUseCase mFetchNutritionInfoUseCase;
-    private final NutritionInfoParser mNutritionInfoParser;
+    private final FetchNutrientsUseCase mFetchNutrientsUseCase;
     private final FirebaseProductManager mFirebaseProductManager;
+    private final FirebaseFirestore mFirestore;
 
-    public NutritionDetailsViewModel(FetchNutritionInfoUseCase fetchSearchResultsUseCase,
-                                     NutritionInfoParser parser,
-                                     FirebaseProductManager firebaseProductManager) {
-        this.mFetchNutritionInfoUseCase = fetchSearchResultsUseCase;
-        this.mNutritionInfoParser = parser;
+    public NutritionDetailsViewModel(FetchNutrientsUseCase fetchNutrientsUseCase,
+                                     FirebaseProductManager firebaseProductManager,
+                                     FirebaseFirestore firebaseFirestore) {
+        this.mFetchNutrientsUseCase = fetchNutrientsUseCase;
         this.mFirebaseProductManager = firebaseProductManager;
+        this.mFirestore = firebaseFirestore;
 
-        mFetchNutritionInfoUseCase.registerListener(this);
-        mNutritionInfoParser.registerListener(this);
+        mFetchNutrientsUseCase.registerListener(this);
         mFirebaseProductManager.registerListener(this);
     }
 
-    void fetchNutritionInfoAndNotify(String foodName) {
-        if (mNutritionDetails == null) {
-            Log.d(TAG, "fetchNutritionInfoAndNotify: fetching from use case");
-            mFetchNutritionInfoUseCase.fetchNutritionInfoAndNotify(foodName);
+    private void notifySuccess(FoodNutrients foodNutrients) {
+        for (Listener listener : getListeners()) {
+            listener.onProvideFoodNutrients(foodNutrients);
+        }
+    }
+
+    private void notifyFailure() {
+        for (Listener listener : getListeners()) {
+            listener.onProvideFoodNutrientsFailed();
+        }
+    }
+
+    void fetchNutritionInfoAndNotify(String foodId, float quantity, String measureUri) {
+        if (!measureUri.equals(cachedMeasureUri)) {
+            fetchNutrientsAndNotify(foodId, quantity, measureUri);
         } else {
-            Log.d(TAG, "fetchNutritionInfoAndNotify: providing from view model");
-            for (Listener listener : mListeners) listener.onProvideNutritionInfo(mNutritionInfo);
-            onNutritionInfoParsed(mNutritionDetails);
+            if (mFoodNutrients != null) {
+                notifySuccess(mFoodNutrients);
+            } else fetchNutrientsAndNotify(foodId, quantity, measureUri);
+        }
+
+        this.cachedMeasureUri = measureUri;
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    void writeProduct(List<Measure> measures, String meal, boolean favorite) {
+        FoodNutrients foodNutrients = mFoodNutrients;
+
+        Log.d(TAG, "writeProduct: called, foodNutrients = " + foodNutrients);
+        if (foodNutrients != null) {
+            mFirebaseProductManager.writeProductAndNotify(
+                    foodNutrients.foodId, foodNutrients.quantity,
+                    measures, foodNutrients.measureUri,
+                    meal, favorite
+            );
+        }
+    }
+
+    private void fetchNutrientsAndNotify(String foodId, float quantity, String measureUri) {
+        mFirestore.collection(Constants.COLLECTION_PRODUCTS)
+                .whereEqualTo(FirebaseFoodNutrients.FOOD_ID, foodId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        DocumentSnapshot snapshot = queryDocumentSnapshots.getDocuments().get(0);
+                        getFoodNutrientsFromSnapshotAndNotify(snapshot, foodId, quantity, measureUri);
+                    } else {
+                        mFetchNutrientsUseCase.fetchNutrientsAndNotify(foodId, quantity, measureUri);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "fetchNutrientsAndNotify: ", e);
+                    mFetchNutrientsUseCase.fetchNutrientsAndNotify(foodId, quantity, measureUri);
+                });
+    }
+
+    private void getFoodNutrientsFromSnapshotAndNotify(DocumentSnapshot snapshot,
+                                                       String foodId,
+                                                       float quantity,
+                                                       String measureUri) {
+        snapshot.getReference()
+                .collection(Constants.COLLECTION_PRODUCT_MEASURES)
+                .whereEqualTo(FirebaseProduct.MEASURE_URI, measureUri)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    @SuppressWarnings("ConstantConditions")
+                    FoodNutrients foodNutrients = queryDocumentSnapshots
+                            .getDocuments()
+                            .get(0)
+                            .toObject(FirebaseProduct.class)
+                            .foodNutrients;
+
+                    Log.d(TAG, "getFoodNutrientsFromSnapshotAndNotify: notifying from firebase info");
+                    mFoodNutrients = foodNutrients;
+                    notifySuccess(mFoodNutrients);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "getFoodNutrientsFromSnapshotAndNotify: ", e);
+                    mFetchNutrientsUseCase.fetchNutrientsAndNotify(foodId, quantity, measureUri);
+                });
+    }
+
+    @Override
+    public void onNutritionFetched(FoodNutrients foodNutrients) {
+        mFoodNutrients = foodNutrients;
+        notifySuccess(mFoodNutrients);
+    }
+
+    @Override
+    public void onNutritionFetchFailed() {
+        notifyFailure();
+    }
+
+    @Override
+    public void onAddFoodSucceeded() {
+        for (Listener listener : getListeners()) {
+            listener.onAddFoodSucceeded();
         }
     }
 
     @Override
-    public void onNutritionInfoFetched(NutritionInfo nutritionInfo) {
-        mNutritionInfo = nutritionInfo;
-        for (Listener listener: mListeners) listener.onProvideNutritionInfo(nutritionInfo);
-
-        mNutritionInfoParser.parseNutritionInfoAndNotify(nutritionInfo);
-    }
-
-    @Override
-    public void onNutritionInfoFetchFailed() {
-        for (Listener listener : mListeners) {
-            listener.onProvideNutritionInfoFailed();
+    public void onAddFoodFailed() {
+        for (Listener listener : getListeners()) {
+            listener.onAddFoodFailed();
         }
     }
 
-    void writeProduct(String mealType) {
-        mFirebaseProductManager.writeProductAndNotify(mNutritionInfo, mealType);
+    public void onServingQuantityChanged(float servingQuantity) {
+        mFoodNutrients.setServingQuantity(servingQuantity);
+        notifySuccess(mFoodNutrients);
     }
 
-    @Override
-    public void onDatabaseWriteCompleted() {
-        for (Listener listener: mListeners) listener.onWriteProductCompleted();
-    }
-
-    void registerListener(Listener listener) {
-        mListeners.add(listener);
-    }
-
-    void unregisterListener(Listener listener) {
-        mListeners.remove(listener);
-    }
 
     @Override
     protected void onCleared() {
         super.onCleared();
-        mFetchNutritionInfoUseCase.unregisterListener(this);
-        mNutritionInfoParser.unregisterListener(this);
+        mFetchNutrientsUseCase.unregisterListener(this);
         mFirebaseProductManager.unregisterListener(this);
-    }
-
-    @Override
-    public void onNutritionInfoParsed(List<NutritionDetailItem> nutritionDetails) {
-        if (mNutritionDetails == null) {
-            for (Listener listener : mListeners) {
-                listener.onProvideNutritionDetails(nutritionDetails);
-            }
-        } else {
-            for (Listener listener: mListeners) {
-                listener.onNutritionDetailsUpdated(nutritionDetails);
-            }
-        }
-        mNutritionDetails = nutritionDetails;
-    }
-
-    @Override
-    public void onNutritionInfoParseFailed() {
-        for (Listener listener : mListeners) {
-            listener.onProvideNutritionInfoFailed();
-        }
-    }
-
-    // Serving unit and serving quantity changer functions
-    public void setAltMeasure(AltMeasure altMeasure) {
-        boolean valuesChanged = this.mNutritionInfo.setAltMeasure(altMeasure);
-
-        if (valuesChanged) {
-            for (Listener listener : mListeners) listener.onNutritionInfoUpdated(mNutritionInfo);
-            mNutritionInfoParser.parseNutritionInfoAndNotify(mNutritionInfo);
-        }
-    }
-
-    public void setQuantity(float servingQuantity) {
-        this.mNutritionInfo.setCurrentServingQuantity(servingQuantity);
-
-        for (Listener listener : mListeners) listener.onNutritionInfoUpdated(mNutritionInfo);
-        mNutritionInfoParser.parseNutritionInfoAndNotify(mNutritionInfo);
     }
 }

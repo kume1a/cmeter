@@ -9,7 +9,7 @@
         android:id="@+id/nav_nutrition"
         android:name="com.kumela.cmeter.ui.screens.app.nutrition.home.NutritionHomeFragment"
         android:label="@string/title_nutrition"
-        tools:layout="@layout/nutrition_home_fragment" >
+        tools:layout="@layout/nutrition_home_fragment">
         <action
             android:id="@+id/action_nav_nutrition_to_addFoodFragment"
             app:destination="@id/addFoodFragment" />
@@ -30,9 +30,13 @@
     <fragment
         android:id="@+id/addFoodFragment"
         android:name="com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodFragment"
-        tools:layout="@layout/add_food_fragment" >
+        android:label="{title}"
+        tools:layout="@layout/add_food_fragment">
         <argument
-            android:name="mealType"
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="meal"
             app:argType="string" />
         <argument
             android:name="cx"
@@ -40,18 +44,64 @@
         <argument
             android:name="cy"
             app:argType="float" />
+        <action
+            android:id="@+id/action_addFoodFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/mealFragment"
         android:name="com.kumela.cmeter.ui.screens.app.nutrition.meal.MealFragment"
+        android:label="{title}"
         tools:layout="@layout/meal_fragment">
         <argument
-            android:name="mealType"
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="meal"
             app:argType="string" />
         <argument
             android:name="goalCaloriesInDay"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.kumela.cmeter.ui.screens.app.nutrition.search.SearchFragment"
+        android:label="{title}"
+        tools:layout="@layout/search_fragment">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="meal"
+            app:argType="string" />
+        <argument
+            android:name="foodName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchFragment_to_nutritionDetailsFragment"
+            app:destination="@id/nutritionDetailsFragment"
 
-
+            app:enterAnim="@anim/slide_top"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@anim/slide_bottom"/>
+    </fragment>
+    <fragment
+        android:id="@+id/nutritionDetailsFragment"
+        android:name="com.kumela.cmeter.ui.screens.app.nutrition.nutrition_details.NutritionDetailsFragment"
+        android:label="Add Food"
+        tools:layout="@layout/nutrition_details_fragment">
+        <argument
+            android:name="foodId"
+            app:argType="string" />
+        <argument
+            android:name="foodName"
+            app:argType="string" />
+        <argument
+            android:name="meal"
+            app:argType="string" />
+        <argument
+            android:name="measures"
+            app:argType="com.kumela.cmeter.model.api.food.Measure[]" />
+    </fragment>
 </navigation>

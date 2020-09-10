@@ -1,17 +1,17 @@
 package com.kumela.cmeter.ui.screens.app.nutrition.add_food.tabs.tab_fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.kumela.cmeter.model.api.search.SearchItem;
+import com.kumela.cmeter.model.local.list.ProductHistoryListModel;
 import com.kumela.cmeter.ui.common.base.BaseFragment;
 import com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodViewModel;
 
@@ -21,7 +21,8 @@ import java.util.List;
  * Created by Toko on 30,June,2020
  **/
 
-public class TabFragment extends BaseFragment implements TabViewMvc.Listener {
+public class TabFragment extends BaseFragment
+        implements TabViewMvc.Listener, AddFoodViewModel.Listener {
 
     public static final String EXTRA_TAB_TYPE = "EXTRA_TAB_TYPE";
     public static final String EXTRA_MEAL = "EXTRA_MEAL";
@@ -31,11 +32,10 @@ public class TabFragment extends BaseFragment implements TabViewMvc.Listener {
     }
 
     private TabType mTabType;
-    private String mMeal;
 
     private AddFoodViewModel mViewModel;
     private TabViewMvc mViewMvc;
-    private TabNavController mNavController;
+//    private TabNavController mNavController;
 
     @Nullable
     @Override
@@ -48,52 +48,46 @@ public class TabFragment extends BaseFragment implements TabViewMvc.Listener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mTabType = (TabType) requireArguments().getSerializable(EXTRA_TAB_TYPE);
-        mMeal = requireArguments().getString(EXTRA_MEAL);
-
         mViewModel = new ViewModelProvider(this, getViewModelFactory()).get(AddFoodViewModel.class);
-        mNavController = getNavControllerFactory().newInstance(TabNavController.class);
+//        mNavController = getNavControllerFactory().newInstance(TabNavController.class, mViewMvc.getRootView());
 
-        Observer<? super List<SearchItem>> binder = searchItems -> mViewMvc.bindRecyclerViewData(searchItems);
-        LifecycleOwner lifecycleOwner = getViewLifecycleOwner();
-        switch (mTabType) {
-            case RECENT:
-                mViewModel.getRecentLiveData().observe(lifecycleOwner, binder);
-                break;
-            case FAVORITES:
-                mViewModel.getFavoritesLiveData().observe(lifecycleOwner, binder);
-                break;
-        }
+        // get arguments from intent
+        Bundle args = requireArguments();
+        mTabType = (TabType) args.getSerializable(EXTRA_TAB_TYPE);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mViewMvc.registerListener(this);
 
-        switch (mTabType) {
-            case RECENT:
-                mViewModel.fetchRecentlyAddedProducts();
-                break;
-            case FAVORITES:
-                mViewModel.fetchFavorites();
-                break;
-        }
+        mViewMvc.registerListener(this);
+        mViewModel.registerListener(this);
+
+        mViewModel.fetchProductHistoryAndNotify();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+
         mViewMvc.unregisterListener(this);
+        mViewModel.unregisterListener(this);
     }
 
     @Override
-    public void onProductClicked(SearchItem searchItem) {
-        mNavController.actionToFoodDetails(searchItem.foodName, mMeal);
+    public void onProvideProductHistory(List<ProductHistoryListModel> productHistory) {
+        mViewMvc.bindHistoryProducts(productHistory, mTabType);
     }
 
     @Override
-    public void onProductAddClicked(SearchItem searchItem) {
-        mViewModel.writeProduct(searchItem.foodName, mMeal);
+    public void onProvideProductHistoryFailed() {
+        Toast.makeText(getContext(), "FAILED", Toast.LENGTH_SHORT).show();
+        // TODO: 8/4/2020 implement
+    }
+
+    @Override
+    public void onProductClicked(ProductHistoryListModel foodListModel) {
+        // TODO: 8/7/2020 implement navigation
+        Log.d(getClass().getSimpleName(), "onProductClicked: foodListModel = " + foodListModel);
     }
 }

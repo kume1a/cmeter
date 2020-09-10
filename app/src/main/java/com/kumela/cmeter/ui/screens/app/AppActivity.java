@@ -1,14 +1,13 @@
 package com.kumela.cmeter.ui.screens.app;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,20 +17,18 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.kumela.cmeter.R;
 import com.kumela.cmeter.ui.common.base.BaseActivity;
-import com.kumela.cmeter.ui.common.util.ToolbarHelper;
 import com.kumela.cmeter.ui.screens.starter.StarterActivity;
 
 /**
  * Created by Toko on 10,July,2020
  **/
 // git reset --hard <commidId> && git clean -f
-public class AppActivity extends BaseActivity implements ToolbarHelper {
+public class AppActivity extends BaseActivity {
 
     public static final String EXTRA_UID = "EXTRA_UID";
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    private Toolbar mToolbar;
     private AppBarLayout mAppBarLayout;
 
     @Override
@@ -40,8 +37,8 @@ public class AppActivity extends BaseActivity implements ToolbarHelper {
         setContentView(R.layout.app_activity);
 
         mAppBarLayout = findViewById(R.id.abl_main_nav);
-        mToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -67,13 +64,13 @@ public class AppActivity extends BaseActivity implements ToolbarHelper {
             return true;
         });
 
+        AppViewModel appViewModel = new ViewModelProvider(this, getViewModelFactory()).get(AppViewModel.class);
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            if (destination.getId() == R.id.addFoodFragment) {
-                mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                mAppBarLayout.setExpanded(true, true);
-            } else {
-                resetToolbar();
+            int id = destination.getId();
+            if (id != R.id.addFoodFragment && id != R.id.searchFragment && id != R.id.nutritionDetailsFragment) {
+                appViewModel.setPlayAddFoodAnimation(true);
             }
+            resetToolbar();
         });
     }
 
@@ -84,22 +81,7 @@ public class AppActivity extends BaseActivity implements ToolbarHelper {
                 || super.onSupportNavigateUp();
     }
 
-    @Override
-    public void setTitle(String title) {
-        mToolbar.setTitle(title);
-    }
-
-    @Override
-    public <T extends View> T findMenuView(int id) {
-        return mToolbar.findViewById(id);
-    }
-
     private void resetToolbar() {
-        if (mToolbar.getBackground() != null && ((ColorDrawable) mToolbar.getBackground()).getColor() !=
-                getResources().getColor(R.color.colorPrimaryDark)) {
-            mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        }
-
         mAppBarLayout.setExpanded(true, true);
     }
 }

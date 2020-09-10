@@ -2,18 +2,15 @@ package com.kumela.cmeter.ui.screens.app.nutrition.home;
 
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.kumela.cmeter.common.Constants;
 import com.kumela.cmeter.common.Utils;
-import com.kumela.cmeter.model.firebase.AddedFood;
-import com.kumela.cmeter.model.firebase.User;
-import com.kumela.cmeter.model.local.NutritionHomeModel;
+import com.kumela.cmeter.model.firebase.FirebaseUserAddedFood;
+import com.kumela.cmeter.model.firebase.FirebaseUser;
+import com.kumela.cmeter.model.local.fragment_models.NutritionHomeModel;
+import com.kumela.cmeter.ui.common.mvc.observanble.ObservableViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +19,13 @@ import java.util.List;
  * Created by Toko on 15,July,2020
  **/
 
-public class NutritionHomeViewModel extends ViewModel {
+public class NutritionHomeViewModel extends ObservableViewModel<NutritionHomeViewModel.Listener> {
+
+    public interface Listener {
+        void onProvideNutritionHomeModel(NutritionHomeModel nutritionHomeModel);
+
+        void onProvideNutritionHomeModelFailed();
+    }
 
     private static final String TAG = "NutritionHomeViewModel";
 
@@ -30,82 +33,85 @@ public class NutritionHomeViewModel extends ViewModel {
     private String mUserId;
 
     private int mGoalCaloriesInDay;
-    private MutableLiveData<NutritionHomeModel> mNutritionHomeModelLiveData;
 
-    private ListenerRegistration mProductsQueryListenerRegistration;
+    private NutritionHomeModel mNutritionHomeModel;
 
     public NutritionHomeViewModel(String uid, FirebaseFirestore firebaseFirestore) {
         this.mFirebaseFirestore = firebaseFirestore;
         this.mUserId = uid;
-
-        this.mNutritionHomeModelLiveData = new MutableLiveData<>();
-    }
-
-    public LiveData<NutritionHomeModel> getNutritionHomeModelLiveData() {
-        return mNutritionHomeModelLiveData;
     }
 
     public void fetchNutritionHomeInfo() {
-        if (mNutritionHomeModelLiveData.getValue() == null) {
-            fetchUserAndNotify();
-        }
-        Log.d(TAG, "fetchNutritionHomeInfo: called");
+        if (mNutritionHomeModel == null) {
+            startNutritionHomeModelFetch();
+        } else notifySuccess(mNutritionHomeModel);
     }
 
-    private void fetchUserAndNotify() {
+    private void notifySuccess(NutritionHomeModel nutritionHomeModel) {
+        for (Listener listener : getListeners()) {
+            listener.onProvideNutritionHomeModel(nutritionHomeModel);
+        }
+    }
+
+    private void notifyFailure() {
+        for (Listener listener : getListeners()) {
+            listener.onProvideNutritionHomeModelFailed();
+        }
+    }
+
+    private void startNutritionHomeModelFetch() {
         // fetch user from database and pass it to added foods.
         mFirebaseFirestore.collection(Constants.COLLECTION_USERS)
                 .document(mUserId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     try {
-                        User user = documentSnapshot.toObject(User.class);
+                        FirebaseUser firebaseUser = documentSnapshot.toObject(FirebaseUser.class);
 
-                        if (user == null) {
-                            mNutritionHomeModelLiveData.setValue(null);
-                        } else onUserInfoFetched(user);
+                        if (firebaseUser == null) {
+                            Log.e(TAG, "fetchUserAndNotify: user = null", new NullPointerException());
+                            notifyFailure();
+                        } else onUserInfoFetched(firebaseUser); // SUCCESS
                     } catch (Exception e) {
+                        notifyFailure();
                         Log.e(TAG, "fetchUserAndNotify: ", e);
                     }
                 })
                 .addOnFailureListener(e -> {
-                    mNutritionHomeModelLiveData.setValue(null);
+                    notifyFailure();
                     Log.e(getClass().getSimpleName(), "onCancelled: ", e);
                 });
     }
 
-    private void onUserInfoFetched(User user) {
-        mGoalCaloriesInDay = user.bmr + user.dailyExtraCalories;
+    private void onUserInfoFetched(FirebaseUser firebaseUser) {
+        mGoalCaloriesInDay = firebaseUser.bmr + firebaseUser.dailyExtraCalories;
 
-        mProductsQueryListenerRegistration = mFirebaseFirestore.collection(Constants.COLLECTION_PRODUCTS)
-                .whereEqualTo(Constants.UID, mUserId)
-                .whereEqualTo(Constants.DATE, Utils.getDate())
-                .addSnapshotListener((value, error) -> {
+        // TODO: 8/4/2020 change implementation to only read and add food nutrients that changed
+        //                docs from https://firebase.google.com/docs/firestore/query-data/listen
+        ListenerRegistration listenerRegistration =
+                mFirebaseFirestore.collection(Constants.COLLECTION_USER_ADDED_FOODS)
+                        .whereEqualTo(FirebaseUserAddedFood.UID, mUserId)
+                        .whereEqualTo(FirebaseUserAddedFood.DATE, Utils.getDate())
+                        .addSnapshotListener((value, error) -> {
+                            if (value == null || error != null) {
+                                Log.e(TAG, "onCancelled: ", error);
+                                notifyFailure();
+                                return;
+                            }
+                            List<FirebaseUserAddedFood> firebaseUserAddedFoods = new ArrayList<>();
+                            for (DocumentSnapshot snapshot : value.getDocuments()) {
+                                firebaseUserAddedFoods.add(snapshot.toObject(FirebaseUserAddedFood.class));
+                            }
 
-                    Log.d(TAG, "onUserInfoFetched: value = " + value);
+                            Log.d(TAG, "onUserInfoFetched: firebaseAddedFoods " + firebaseUserAddedFoods);
 
-                    if (value == null || error != null) {
-                        Log.e(TAG, "onCancelled: ", error);
-                        mNutritionHomeModelLiveData.setValue(null);
-                        return;
-                    }
-
-                    List<AddedFood> addedFoods = new ArrayList<>();
-                    for (DocumentSnapshot snapshot : value.getDocuments()) {
-                        addedFoods.add(snapshot.toObject(AddedFood.class));
-                    }
-
-                    mNutritionHomeModelLiveData.setValue(new NutritionHomeModel(addedFoods, user));
-                });
+                            mNutritionHomeModel = new NutritionHomeModel(firebaseUserAddedFoods, firebaseUser);
+                            notifySuccess(mNutritionHomeModel);
+                        });
+        registerSnapshotListener(listenerRegistration);
     }
 
     public int getGoalCaloriesInDay() {
         return mGoalCaloriesInDay;
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        mProductsQueryListenerRegistration.remove();
     }
 }

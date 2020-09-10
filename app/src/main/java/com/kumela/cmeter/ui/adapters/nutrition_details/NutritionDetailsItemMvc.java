@@ -1,6 +1,6 @@
 package com.kumela.cmeter.ui.adapters.nutrition_details;
 
-import com.kumela.cmeter.model.local.NutritionDetailItem;
+import com.kumela.cmeter.model.local.list.NutritionDetailListModel;
 import com.kumela.cmeter.ui.common.mvc.ViewMvc;
 
 /**
@@ -9,5 +9,5 @@ import com.kumela.cmeter.ui.common.mvc.ViewMvc;
 
 public interface NutritionDetailsItemMvc extends ViewMvc {
 
-    void bindDetailsItem(NutritionDetailItem item);
+    void bindDetailsItem(NutritionDetailListModel item);
 }

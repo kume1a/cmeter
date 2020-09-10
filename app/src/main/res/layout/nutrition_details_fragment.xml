@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/colorPrimary">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingEnd="16dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nutrition_details_serving_amount_header"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/et_nutrition_details_serving_amount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_nutrition_details_serving_amount" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_nutrition_details_serving_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLength="6"
+            android:hint="1"
+            android:imeOptions="actionDone"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/divider_serving_amount"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/colorDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_nutrition_details_serving_amount" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nutrition_details_serving_unit_header"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_nutrition_details_serving_unit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_nutrition_details_serving_unit" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_nutrition_details_serving_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:lines="1"
+            android:paddingStart="@dimen/list_popup_width"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@id/divider_serving_unit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_serving_amount"
+            tools:ignore="RtlSymmetry"
+            tools:text="Gram" />
+
+        <View
+            android:id="@+id/divider_serving_unit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/colorDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_nutrition_details_serving_unit" />
+
+        <!-- nutrient quantities -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_nutrition_details_head_amount_carbs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/pie_nutrition_details"
+            app:layout_constraintEnd_toStartOf="@id/tv_nutrition_details_head_amount_fats"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@id/pie_nutrition_details"
+            app:layout_constraintTop_toTopOf="@id/pie_nutrition_details"
+            tools:text="23g" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_nutrition_details_head_amount_fats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@id/tv_nutrition_details_head_amount_protein"
+            app:layout_constraintStart_toEndOf="@id/tv_nutrition_details_head_amount_carbs"
+            app:layout_constraintTop_toTopOf="@id/tv_nutrition_details_head_amount_carbs"
+            tools:text="1.1g" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_nutrition_details_head_amount_protein"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_nutrition_details_head_amount_fats"
+            app:layout_constraintTop_toTopOf="@id/tv_nutrition_details_head_amount_fats"
+            tools:text="3.5g" />
+
+        <!-- Nutrient names -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_nutrition_details_head_carbs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/carbs"
+            android:textColor="@color/colorCarbs"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_nutrition_details_head_amount_carbs"
+            app:layout_constraintStart_toStartOf="@id/tv_nutrition_details_head_amount_carbs"
+            app:layout_constraintTop_toBottomOf="@id/tv_nutrition_details_head_amount_carbs" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_nutrition_details_head_fats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fats"
+            android:textColor="@color/colorFats"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_nutrition_details_head_amount_fats"
+            app:layout_constraintStart_toStartOf="@id/tv_nutrition_details_head_amount_fats"
+            app:layout_constraintTop_toBottomOf="@id/tv_nutrition_details_head_amount_fats" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_nutrition_details_head_protein"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/proteins"
+            android:textColor="@color/colorProtein"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_nutrition_details_head_amount_protein"
+            app:layout_constraintStart_toStartOf="@id/tv_nutrition_details_head_amount_protein"
+            app:layout_constraintTop_toBottomOf="@id/tv_nutrition_details_head_amount_protein" />
+
+        <!-- pie chart-->
+        <com.kumela.cmeter.ui.common.util.NutritionPieChart
+            android:id="@+id/pie_nutrition_details"
+            android:layout_width="@dimen/pie_nutrition_details"
+            android:layout_height="@dimen/pie_nutrition_details"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_serving_unit"
+            tools:background="@color/colorPrimaryDark" />
+
+        <include
+            android:id="@+id/facts_nutrition_details"
+            layout="@layout/nutrition_details_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pie_nutrition_details" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

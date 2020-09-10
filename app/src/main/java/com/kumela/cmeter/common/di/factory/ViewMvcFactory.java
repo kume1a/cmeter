@@ -9,8 +9,10 @@ import com.kumela.cmeter.ui.adapters.added_food.ProductItemMvc;
 import com.kumela.cmeter.ui.adapters.added_food.ProductItemMvcImpl;
 import com.kumela.cmeter.ui.adapters.nutrition_details.NutritionDetailsItemMvc;
 import com.kumela.cmeter.ui.adapters.nutrition_details.NutritionDetailsItemMvcImpl;
-import com.kumela.cmeter.ui.adapters.search.SearchItemMvc;
-import com.kumela.cmeter.ui.adapters.search.SearchItemMvcImpl;
+import com.kumela.cmeter.ui.adapters.food.FoodListItemMvc;
+import com.kumela.cmeter.ui.adapters.food.FoodListItemMvcImpl;
+import com.kumela.cmeter.ui.adapters.search.SearchSuggestionItemViewMvc;
+import com.kumela.cmeter.ui.adapters.search.SearchSuggestionItemViewMvcImpl;
 import com.kumela.cmeter.ui.common.mvc.ViewMvc;
 import com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodViewMvc;
 import com.kumela.cmeter.ui.screens.app.nutrition.add_food.AddFoodViewMvcImpl;
@@ -66,11 +68,11 @@ public class ViewMvcFactory {
         if (mvcClass == NutritionHomeMvc.class) {
             viewMvc = new NutritionHomeMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == AddFoodViewMvc.class) {
-            viewMvc = new AddFoodViewMvcImpl(mLayoutInflater, container);
+            viewMvc = new AddFoodViewMvcImpl(mLayoutInflater, container, this);
         } else if (mvcClass == SearchMvc.class) {
             viewMvc = new SearchMvcImpl(mLayoutInflater, container, this);
-        } else if (mvcClass == SearchItemMvc.class) {
-            viewMvc = new SearchItemMvcImpl(mLayoutInflater, container);
+        } else if (mvcClass == FoodListItemMvc.class) {
+            viewMvc = new FoodListItemMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == NutritionDetailsItemMvc.class) {
             viewMvc = new NutritionDetailsItemMvcImpl(mLayoutInflater, container);
         } else if (mvcClass == NutritionDetailsMvc.class) {
@@ -95,7 +97,10 @@ public class ViewMvcFactory {
             viewMvc = new MealViewMvcImpl(mLayoutInflater, container, this);
         } else if (mvcClass == TabViewMvc.class) {
             viewMvc = new TabViewMvcImpl(mLayoutInflater, container, this);
-        } else {
+        } else if (mvcClass == SearchSuggestionItemViewMvc.class) {
+            viewMvc = new SearchSuggestionItemViewMvcImpl(mLayoutInflater, container);
+        }
+        else {
             throw new IllegalArgumentException("unsupported MVC view class " + mvcClass);
         }
 

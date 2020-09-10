@@ -3,117 +3,86 @@ package com.kumela.cmeter.ui.screens.app.nutrition.search;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.kumela.cmeter.model.api.nutrition.NutritionInfo;
-import com.kumela.cmeter.model.api.search.SearchItem;
-import com.kumela.cmeter.network.api.nutrition.FetchNutritionInfoUseCase;
-import com.kumela.cmeter.network.api.search.FetchSearchResultsUseCase;
-import com.kumela.cmeter.network.firebase.FirebaseProductManager;
+import com.kumela.cmeter.model.api.food.Hint;
+import com.kumela.cmeter.model.api.food.Measure;
+import com.kumela.cmeter.model.local.list.FoodListModel;
+import com.kumela.cmeter.network.api.food.FetchFoodUseCase;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Toko on 01,July,2020
  **/
 
-public class SearchViewModel extends ViewModel
-        implements FetchSearchResultsUseCase.Listener, FetchNutritionInfoUseCase.Listener {
+public class SearchViewModel extends ViewModel implements FetchFoodUseCase.Listener {
 
     private static final String TAG = "SearchViewModel";
 
-    interface Listener {
-        void onSearchItemsFetched(Set<SearchItem> searchItems);
+    private MutableLiveData<List<FoodListModel>> mSearchItems;
 
-        void onSearchItemsFetchFailed();
-    }
-
-    private Set<Listener> mListeners = new HashSet<>(1);
-    private Set<SearchItem> mSearchItems = new HashSet<>();
-
-    private String mQuery = "";
-
-    private final FetchSearchResultsUseCase mFetchSearchResultsUseCase;
-    private final FetchNutritionInfoUseCase mFetchNutritionInfoUseCase;
-    private final FirebaseProductManager mFirebaseProductManager;
-
-    private String mMeal;
-
-    public SearchViewModel(FetchSearchResultsUseCase fetchSearchResultsUseCase,
-                           FetchNutritionInfoUseCase fetchNutritionInfoUseCase,
-                           FirebaseProductManager firebaseProductManager) {
-        this.mFetchSearchResultsUseCase = fetchSearchResultsUseCase;
-        this.mFetchNutritionInfoUseCase = fetchNutritionInfoUseCase;
-
-        this.mFirebaseProductManager = firebaseProductManager;
-
-        mFetchSearchResultsUseCase.registerListener(this);
-        mFetchNutritionInfoUseCase.registerListener(this);
-    }
-
-    void fetchSearchResultsAndNotify(@NonNull String query) {
-        Log.d(TAG, "fetchSearchResultsAndNotify: called, query = " + query + ", mQuery = " + mQuery);
-        if (!query.equals(mQuery)) {
-            Log.d(TAG, "fetchSearchResultsAndNotify: fetching from use case");
-            mFetchSearchResultsUseCase.fetchSearchItemsAndNotify(query);
-        } else {
-            Log.d(TAG, "fetchSearchResultsAndNotify: getting list from view model");
-            onSearchItemsFetched(mSearchItems);
-        }
-        mQuery = query;
-    }
-
-    void writeProduct(String foodName, String meal) {
-        mFetchNutritionInfoUseCase.fetchNutritionInfoAndNotify(foodName);
-        mMeal = meal;
-    }
-
-    String getQuery() {
-        return mQuery;
-    }
-
-    public Set<SearchItem> getSearchItems() {
+    LiveData<List<FoodListModel>> getSearchItemsLiveData() {
         return mSearchItems;
     }
 
-    @Override
-    public void onSearchItemsFetched(Set<SearchItem> searchItems) {
-        mSearchItems = searchItems;
-        for (Listener listener : mListeners) {
-            listener.onSearchItemsFetched(searchItems);
+    private final FetchFoodUseCase mFetchFoodUseCase;
+
+    public SearchViewModel(FetchFoodUseCase fetchFoodUseCase) {
+        this.mFetchFoodUseCase = fetchFoodUseCase;
+
+        mSearchItems = new MutableLiveData<>();
+
+        mFetchFoodUseCase.registerListener(this);
+    }
+
+    void fetchSearchResultsAndNotify(@NonNull String query) {
+        if (mSearchItems.getValue() == null) {
+            mFetchFoodUseCase.fetchFoodAndNotify(query);
         }
     }
 
     @Override
-    public void onSearchItemsFetchFailed() {
-        for (Listener listener : mListeners) {
-            listener.onSearchItemsFetchFailed();
+    public void onFoodFetched(List<Hint> hints) {
+        List<FoodListModel> foodListModels = new ArrayList<>();
+        for (Hint hint : hints) {
+            Measure[] measures = new Measure[hint.measures.size()];
+            hint.measures.toArray(measures);
+            foodListModels.add(new FoodListModel(
+                    hint.food.foodId,
+                    hint.food.label,
+                    hint.food.nutrients.calories,
+                    measures
+            ));
         }
+
+        // filtering list for unique names
+        List<String> uniqueNames = new ArrayList<>(foodListModels.size());
+        FoodListModel currentItem;
+        Iterator<FoodListModel> iterator = foodListModels.iterator();
+        while (iterator.hasNext()) {
+            currentItem = iterator.next();
+            if (uniqueNames.contains(currentItem.label.toLowerCase())) {
+                iterator.remove();
+            } else uniqueNames.add(currentItem.label.toLowerCase());
+        }
+
+        mSearchItems.setValue(foodListModels);
     }
 
     @Override
-    public void onNutritionInfoFetched(NutritionInfo nutritionInfo) {
-        mFirebaseProductManager.writeProductAndNotify(nutritionInfo, mMeal);
-    }
-
-    @Override
-    public void onNutritionInfoFetchFailed() {
-        // TODO: 7/14/2020 Failed is ignored implement notify mechanism in UI
-    }
-
-    void registerListener(Listener listener) {
-        mListeners.add(listener);
-    }
-
-    void unregisterListener(Listener listener) {
-        mListeners.remove(listener);
+    public void onFoodFetchFailed() {
+        Log.d(TAG, "onFoodFetchFailed: called");
+        mSearchItems.setValue(null);
     }
 
     @Override
     protected void onCleared() {
+        mFetchFoodUseCase.unregisterListener(this);
         super.onCleared();
-        mFetchSearchResultsUseCase.unregisterListener(this);
-        mFetchNutritionInfoUseCase.unregisterListener(this);
     }
 }

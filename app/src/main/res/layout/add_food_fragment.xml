@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    tools:background="@color/colorPrimary"
     tools:context=".ui.screens.app.nutrition.add_food.AddFoodFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -24,6 +24,15 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_add_food"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_add_food_search"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:background="@color/colorPrimaryDark"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

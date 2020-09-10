@@ -4,8 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:alpha="0"
+    android:translationY="100dp"
+    android:visibility="gone"
     app:cardBackgroundColor="@color/colorPrimaryDark"
-    app:cardCornerRadius="12dp">
+    app:cardCornerRadius="12dp"
+    tools:alpha="1"
+    tools:translationY="0dp"
+    tools:visibility="visible">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -49,8 +55,8 @@
             android:background="@drawable/bgr_round"
             android:backgroundTint="@color/colorCarbs"
             app:layout_constraintEnd_toStartOf="@id/tv_meal_card_carbs"
-            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_meal_card_header" />
 
@@ -61,8 +67,8 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="28dp"
             app:layout_constraintBottom_toBottomOf="@id/iv_meal_card_carbs"
-            app:layout_constraintStart_toEndOf="@id/iv_meal_card_carbs"
             app:layout_constraintEnd_toStartOf="@id/iv_meal_card_fats"
+            app:layout_constraintStart_toEndOf="@id/iv_meal_card_carbs"
             tools:text="40g" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -82,8 +88,8 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="28dp"
             app:layout_constraintBottom_toBottomOf="@id/iv_meal_card_fats"
-            app:layout_constraintStart_toEndOf="@id/iv_meal_card_fats"
             app:layout_constraintEnd_toStartOf="@id/iv_meal_card_proteins"
+            app:layout_constraintStart_toEndOf="@id/iv_meal_card_fats"
             tools:text="10g" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -100,9 +106,9 @@
             android:id="@+id/tv_meal_card_proteins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             app:layout_constraintBottom_toBottomOf="@id/iv_meal_card_proteins"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="4dp"
             app:layout_constraintStart_toEndOf="@id/iv_meal_card_proteins"
             tools:text="25g" />
     </androidx.constraintlayout.widget.ConstraintLayout>

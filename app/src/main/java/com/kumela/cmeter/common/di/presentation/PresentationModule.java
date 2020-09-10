@@ -1,15 +1,10 @@
 package com.kumela.cmeter.common.di.presentation;
 
-import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
 
 import dagger.Module;
 import dagger.Provides;
@@ -41,6 +36,11 @@ public class PresentationModule {
     @Provides
     Context providesContext(AppCompatActivity activity) {
         return activity;
+    }
+
+    @Provides
+    Handler providesUiHandler(Context context) {
+        return new Handler(context.getMainLooper());
     }
 }
 
